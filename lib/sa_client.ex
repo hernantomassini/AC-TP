@@ -5,7 +5,7 @@ defmodule SaClient do
     :crear_subasta
   end
 
-  def participar_subasta do
-    :participar_subasta
+  def participar_en_subasta do
+    :participar_en_subasta
   end
 end
