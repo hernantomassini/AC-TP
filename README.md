@@ -1,7 +1,5 @@
 # SubastaAutomatica
 
-**Los test se ejecutan con: mix test**
-
 ## Tips
 
 Lo principal es entender que en la funcion cast se defino las funcionas que luego se va a usar en la interfaz. Esas funciones son implementan con call.
@@ -19,7 +17,7 @@ Ejemplo:
 ```elixir
 def init(_) do
   supervise(
-    [ worker(CalcServer, [0]) ],
+    [ worker(SubastaAutomatica, [0]) ],
     max_restarts: 5,
     max_seconds: 6,
     strategy: :one_for_one
@@ -30,5 +28,5 @@ end
 
 ## Comando importantes, se ejecutan AC-TP
 
-- mix test- ejecuta los tests
-- iex -S mix- entrar en elixir y ya esta configurado el supervisor, cuando se le manda una división por 0, este se cae pero vuelve a levantar.
+- **mix test**: ejecuta los tests
+- **iex -S mix** : entrar en elixir y ya esta configurado el supervisor, cuando se le manda una división por 0, este se cae pero vuelve a levantar.
