@@ -1,4 +1,4 @@
-defmodule CalcServer do
+defmodule SubastaAutomatica do
   use GenServer
  
   def start(initial_value) do
@@ -68,8 +68,8 @@ end
 
 
 ##Sin el PID, se le pone un nombre al proceso
-CalcServer.start(100)
-CalcServer.sqrt
-CalcServer.multiply(2)
-CalcServer.suma(8)
-CalcServer.result |> IO.puts
+##CalcServer.start(100)
+##CalcServer.sqrt
+##CalcServer.multiply(2)
+##CalcServer.suma(8)
+##CalcServer.result |> IO.puts
