@@ -1,10 +1,16 @@
 defmodule SubastaAutomatica do
+  use Application
   use GenServer
- 
-  def start(initial_value) do
-    GenServer.start(CalcServer, initial_value, name: __MODULE__)
-  end
 
+  def start(_type, _args) do
+    SubastaAutomaticaSupervisor.start_link
+  end
+ 
+  ##arma un enlase al supervisor
+  def start_link(initial_value) do
+    GenServer.start_link(__MODULE__, initial_value, name: __MODULE__)
+  end
+  
   def init(initial_value) when is_number(initial_value) do
     {:ok, initial_value}
   end
@@ -18,6 +24,7 @@ defmodule SubastaAutomatica do
       :sqrt -> {:noreply, :math.sqrt(state)}
       {:multiply, multiplier} -> {:noreply, state * multiplier}
       {:suma, operador} -> {:noreply, state + operador}
+      {:div, number} -> {:noreply, state / number}
       _ -> {:stop, "No existe implementacion", state}
     end
   end
@@ -26,6 +33,7 @@ defmodule SubastaAutomatica do
     {:reply, state, state}
   end
 
+  #Interfaz, operaciones que entiende el Server
   def result do
     GenServer.call( __MODULE__, :result)
   end
@@ -48,6 +56,10 @@ defmodule SubastaAutomatica do
     ##GenServer.cast(pid, {:suma, add})
     GenServer.cast( __MODULE__, {:suma, operador})
   end
+
+  def div(number) do
+    GenServer.cast(__MODULE__, {:div, number})
+  end
 end
 
 
@@ -67,9 +79,3 @@ end
 ##CalcServer.result(pid)|> IO.puts
 
 
-##Sin el PID, se le pone un nombre al proceso
-##CalcServer.start(100)
-##CalcServer.sqrt
-##CalcServer.multiply(2)
-##CalcServer.suma(8)
-##CalcServer.result |> IO.puts

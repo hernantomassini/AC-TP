@@ -13,8 +13,10 @@ defmodule SubastaAutomatica.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
+    # Specify extra applications you'll use from Erlang/Elixir
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      mod: {SubastaAutomatica, []} # <== add this line
     ]
   end
 
