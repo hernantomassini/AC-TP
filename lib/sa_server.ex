@@ -1,6 +1,6 @@
-defmodule SubastaAutomatica do
+defmodule SAServer do
   @moduledoc """
-  Documentation for SubastaAutomatica.
+  Documentation for SAServer.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule SubastaAutomatica do
 
   ## Examples
 
-      iex> SubastaAutomatica.hello
+      iex> SAServer.hello
       :world
 
   """
