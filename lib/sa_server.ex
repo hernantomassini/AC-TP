@@ -1,17 +1,6 @@
-defmodule SAServer do
-  @moduledoc """
-  Documentation for SAServer.
-  """
+defmodule SaServer do
+  @moduledoc false
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> SAServer.hello
-      :world
-
-  """
   def hello do
     :world
   end

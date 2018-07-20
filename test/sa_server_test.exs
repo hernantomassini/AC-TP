@@ -1,8 +1,8 @@
-defmodule SubastaAutomaticaTest do
+defmodule SaServerTest do
   use ExUnit.Case
-  doctest SubastaAutomatica
+  doctest SaServer
 
   test "greets the world" do
-    assert SubastaAutomatica.hello() == :world
+    assert SaServer.hello() == :world
   end
 end

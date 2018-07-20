@@ -1,18 +1,12 @@
-defmodule SAClient do
-  @moduledoc """
-  Documentation for SAClient.
-  """
+defmodule SaClient do
+  @moduledoc false
+  import SaHttp, only: [post: 2]
 
-  @doc """
-  Hello world.
+  def crear_subasta do
+    :crear_subasta
+  end
 
-  ## Examples
-
-      iex> SAClient.hello
-      :world
-
-  """
-  def hello do
-    :world
+  def participar_subasta do
+    :participar_subasta
   end
 end

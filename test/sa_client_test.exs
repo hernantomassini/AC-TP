@@ -1,8 +1,12 @@
-defmodule SubastaAutomaticaTest do
+defmodule SaClientTest do
   use ExUnit.Case
-  doctest SubastaAutomatica
+  doctest SaClient
 
-  test "greets the world" do
-    assert SubastaAutomatica.hello() == :world
+  test "crear una subata" do
+    assert SaClient.crear_subasta() == :crear_subasta
+  end
+
+  test "participar en las subastas" do
+    assert SaClient.participar_subasta() == :participar_subasta
   end
 end

@@ -1,21 +1,11 @@
 # SubastaAutomatica
 
-**TODO: Add description**
-
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `subastaautomatica` to your list of dependencies in `mix.exs`:
+First, if not installed, install Hex.
+> mix local.hex
 
-```elixir
-def deps do
-  [
-    {:subastaautomatica, "~> 0.1.0"}
-  ]
-end
-```
+Install dependencies
+> mix deps.get
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/subastaautomatica](https://hexdocs.pm/subastaautomatica).
 
