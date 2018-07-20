@@ -1,6 +1,5 @@
 defmodule SaClient do
   @moduledoc false
-  import SaHttp, only: [post: 2]
 
   def crear_subasta do
     :crear_subasta

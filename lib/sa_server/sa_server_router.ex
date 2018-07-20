@@ -8,16 +8,17 @@ defmodule SaServer.Router do
   plug(:match)
   plug(:dispatch)
 
-  # Basic example to handle POST requests wiht a JSON body
-
-  get "/hello" do
-    send_resp(conn, 200, "world")
-  end
-
-  post "/post" do
+  post "/bids" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body)
-    IO.inspect(body)
+    SaServer.crear_subasta(body)
+    send_resp(conn, 201, "created: #{get_in(body, ["message"])}")
+  end
+
+  post "/buyers" do
+    {:ok, body, conn} = read_body(conn)
+    body = Poison.decode!(body)
+    SaServer.agregar_cliente(body)
     send_resp(conn, 201, "created: #{get_in(body, ["message"])}")
   end
 
