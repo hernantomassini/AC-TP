@@ -8,4 +8,8 @@ defmodule SaClient do
   def participar_en_subasta do
     :participar_en_subasta
   end
+
+  def cancelar_subasta do
+    :cancelar_subasta
+  end
 end
