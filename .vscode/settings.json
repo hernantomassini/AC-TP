@@ -1,6 +1,5 @@
 // .vscode/settings.json
 // Place your settings in this file to overwrite default and user settings.
 {
-  "elixirLS.dialyzerEnabled": false,
-  "editor.formatOnSave": true,
+  "elixirLS.dialyzerEnabled": false
 }
