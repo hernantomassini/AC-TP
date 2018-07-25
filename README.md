@@ -38,6 +38,7 @@ end
 - curl -H 'Content-Type: application/json' "http://localhost:8085/buyers" -d '{"message": "hello world" }'
 - curl -H 'Content-Type: application/json' "http://localhost:8085/bids" -d '{"message": "Test Subasta" }'
 - curl "http://localhost:8085/hello"
+- curl -H 'Content-Type: application/json' "http://localhost:8085/buyers" -d '{"idComprador": "hernan", "ip": "192.168.1.101", "puerto": 8090, "tags": "hola"}'
 
 ## Comando importantes, se ejecutan AC-TP
 
