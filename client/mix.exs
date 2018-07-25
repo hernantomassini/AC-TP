@@ -14,12 +14,12 @@ defmodule SubastaAutomatica.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger, :httpoison, :poison]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    []
+    [{:httpoison, "~> 1.0"}, {:poison, "~> 3.1"}]
   end
 end
