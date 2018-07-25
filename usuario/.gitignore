@@ -20,5 +20,22 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
+subastaautomatica-*.tar
+
+# Ignore VSCode ElixirLS Extension
+/.elixir_ls/
+
+# Ignore package tarball (built via "mix hex.build").
 kv-*.tar
+
+# Ignore VSCode Custom configuration
+/.vscode/
+
+.idea
+
+.idea/
+
+/.idea/
+
+/.idea/**
 
