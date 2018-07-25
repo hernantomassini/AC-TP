@@ -3,8 +3,8 @@ defmodule Usuario.RegistryTest do
   use ExUnit.Case, async: true
 
   test "Crear usuario" do
-    usuario1=%Usuario.Struct{}
-    usuario2=%Usuario.Struct{}
+    usuario1=%Modelo.Usuario{}
+    usuario2=%Modelo.Usuario{}
     usuario1=%{usuario1 | id: 'idUsuario1',ip: "127.0.0.1",puerto: "80"}
     usuario2=%{usuario2 | id: 'idUsuario2',ip: "127.0.33.1",puerto: "80"}
     Usuario.Registry.create(usuario1)

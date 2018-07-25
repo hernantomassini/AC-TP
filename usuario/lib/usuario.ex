@@ -1,4 +1,4 @@
-defmodule Usuario.Struct do
+defmodule Modelo.Usuario do
   @moduledoc false
   @derive [Poison.Encoder]
   defstruct [:id,:ip,:puerto,:tags]
