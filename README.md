@@ -33,6 +33,12 @@ def init(_) do
 end
 ```
 
+## Comandos de curl:
+
+- curl -H 'Content-Type: application/json' "http://localhost:8085/buyers" -d '{"message": "hello world" }'
+- curl -H 'Content-Type: application/json' "http://localhost:8085/bids" -d '{"message": "Test Subasta" }'
+- curl "http://localhost:8085/hello"
+
 ## Comando importantes, se ejecutan AC-TP
 
 - **iex -S mix** : entrar en elixir y ya esta configurado el supervisor, cuando se le manda una división por 0, este se cae pero vuelve a levantar.

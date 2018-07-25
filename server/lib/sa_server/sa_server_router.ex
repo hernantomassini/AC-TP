@@ -10,9 +10,9 @@ defmodule SaServer.Router do
 
   post "/bids" do
     {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body)
-    SaServer.crear_subasta(body)
-    send_resp(conn, 201, "created: #{get_in(body, ["message"])}")
+    body = Poison.decode!(body, as: %Subasta{})
+    response =  SaServer.crear_subasta(body)
+    send_resp(conn, 201, response)
   end
 
   post "/buyers" do
