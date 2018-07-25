@@ -1,4 +1,4 @@
 defmodule Comprador do
   @derive [Poison.Encoder]
-  defstruct [:idComprador, :ip, :puerto, :tags]
+  defstruct [:id, :ip, :puerto, :tags]
 end

@@ -6,7 +6,7 @@ defmodule SaServer do
     "Se a creado una subasta correctamente."
   end
 
-  # def agregar_comprador(x = %Comprador{idComprador: id, ip: ip, puerto: puerto, tags: tags}) do
+  # def agregar_comprador(x = %Comprador{id: id, ip: ip, puerto: puerto, tags: tags}) do
   def agregar_comprador(x = %Comprador{}) do
     IO.inspect(x, label: "Success!")
 
