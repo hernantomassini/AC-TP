@@ -10,10 +10,10 @@ Install dependencies
 
 ##  Cliente - Para enviar un POST de ejemplo.
 
-u1 = %Usuario.Struct{ id: "hola", ip: "189.1.2.4", puerto: 87, tags: nil }
-Usuario.Registry.create(u1)
-pidu1 = Usuario.Registry.get_pid_usuario("hola")
-Usuario.State.crear_subasta(pidu1)
+- u1 = %Usuario.Struct{ id: "hola", ip: "189.1.2.4", puerto: 87, tags: nil }
+- Usuario.Registry.create(u1)
+- pidu1 = Usuario.Registry.get_pid_usuario("hola")
+- Usuario.State.crear_subasta(pidu1)
 
 
 ## Tips - GenServer
