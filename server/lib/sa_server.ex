@@ -6,6 +6,22 @@ defmodule SaServer do
     "Se a creado una subasta correctamente."
   end
 
+   def postSubastaBy(id, x = %SubastaById{}) do
+    IO.puts(id)
+    IO.inspect(x, label: "Success!")
+    "Oferta aplicada."
+  end
+
+  def deteleSubasta (id) do
+    IO.puts(id)
+    "Se elimina una subasta"
+  end
+
+  def getByBuyer(id) do
+    IO.puts(id)
+    "El comprador es #{id}"
+  end
+
   # def agregar_comprador(x = %Comprador{id: id, ip: ip, puerto: puerto, tags: tags}) do
   def agregar_comprador(x = %Comprador{}) do
     IO.inspect(x, label: "Success!")
