@@ -4,7 +4,7 @@ defmodule Usuario.Struct do
   defstruct [:id,:ip,:puerto,:tags]
 end
 
-defmodule Usuario.State do
+defmodule Usuario do
   @moduledoc false
   use HTTPoison.Base
 
@@ -33,8 +33,8 @@ defmodule Usuario.State do
   end
 
   def crear_subasta(instance) do
-      body=Poison.encode!(Usuario.State.get(instance))
-     {:ok, Usuario.State.post("/buyers",body)}
+      body=Poison.encode!(Usuario.get(instance))
+     {:ok,Usuario.post("/buyers",body)}
      IO.puts("ejecutado post")
   end
 

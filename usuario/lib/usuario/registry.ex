@@ -26,7 +26,7 @@ defmodule Usuario.Registry do
 
     @doc """
     Ensures there is a bucket associated with the given `usuario` in `server`.
-    usuario es de tipo %Usuario.State{}
+    usuario es de tipo %Usuario.Struct{}
     """
     def create(usuario) do
       GenServer.cast(__MODULE__, {:create, usuario})
@@ -49,7 +49,7 @@ defmodule Usuario.Registry do
 
     def handle_call({:get_estado, id_usuario}, _from, usuarios) do
       {:ok,usuario_pid}= Map.fetch(usuarios, id_usuario)
-      {:reply, Usuario.State.get(usuario_pid), usuarios}
+      {:reply,Usuario.get(usuario_pid), usuarios}
     end
 
     def handle_call({:get_usuarios}, _from, usuarios) do
@@ -65,8 +65,8 @@ defmodule Usuario.Registry do
       if Map.has_key?(usuarios, usuario.id) do
         {:noreply, usuarios}
       else
-        {:ok, instance} = Usuario.State.start_link([])
-        Usuario.State.save(instance,usuario)
+        {:ok, instance} =Usuario.start_link([])
+       Usuario.save(instance,usuario)
         {:noreply, Map.put(usuarios, usuario.id, instance)}
       end
     end
