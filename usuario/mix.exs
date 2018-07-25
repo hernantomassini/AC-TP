@@ -14,7 +14,8 @@ defmodule Usuario.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger,:httpoison,:poison]
+      extra_applications: [:logger, :httpoison, :poison],
+      mod: {Usuario.Registry, []}
     ]
   end
 

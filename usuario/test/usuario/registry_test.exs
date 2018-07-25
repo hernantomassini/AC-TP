@@ -25,7 +25,7 @@ defmodule Usuario.RegistryTest do
 
    pidUsuario1=Usuario.Registry.getPidUsuario(registry,'idUsuario1')
    IO.inspect(pidUsuario1,label: "PID")
-    Usuario.State.crearSubasta(pidUsuario1)
+    Usuario.State.crear_subasta(pidUsuario1)
 
     #    data |> inspect |> Logger.debug
 

@@ -2,10 +2,10 @@ defmodule Usuario.Struct do
   @moduledoc false
   @derive [Poison.Encoder]
   defstruct [:id,:ip,:puerto,:tags]
-
 end
 
 defmodule Usuario.State do
+  @moduledoc false
   use HTTPoison.Base
 
   @endpoint "http://127.0.0.1:8085"
@@ -32,7 +32,7 @@ defmodule Usuario.State do
     Agent.update(instance, &Map.put(&1, "state", value))
   end
 
-  def crearSubasta(instance) do
+  def crear_subasta(instance) do
       body=Poison.encode!(Usuario.State.get(instance))
      {:ok, Usuario.State.post("/buyers",body)}
      IO.puts("ejecutado post")

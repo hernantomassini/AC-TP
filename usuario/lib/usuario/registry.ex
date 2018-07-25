@@ -7,8 +7,8 @@ defmodule Usuario.Registry do
     @doc """
     Starts the registry.
     """
-    def start_link(opts) do
-      GenServer.start_link(__MODULE__, :ok, opts)
+    def start(_type, _args) do
+      GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
     end
 
     @doc """
@@ -16,27 +16,29 @@ defmodule Usuario.Registry do
 
     Returns `{:ok, pid}` if the bucket exists, `:error` otherwise.
     """
-    def getEstado(server, idUsuario) do
-      GenServer.call(server, {:getEstado, idUsuario})
+    def get_estado(id_usuario) do
+      GenServer.call(__MODULE__, {:get_estado, id_usuario})
     end
 
-  def getPidUsuario(server, idUsuario) do
-    GenServer.call(server, {:getPidUsuario, idUsuario})
-  end
+    def get_pid_usuario(id_usuario) do
+      GenServer.call(__MODULE__, {:get_pid_usuario, id_usuario})
+    end
 
     @doc """
     Ensures there is a bucket associated with the given `usuario` in `server`.
     usuario es de tipo %Usuario.State{}
     """
-    def create(server, usuario) do
-      GenServer.cast(server, {:create, usuario})
+    def create(usuario) do
+      GenServer.cast(__MODULE__, {:create, usuario})
     end
 
-    def getUsuarios(server) do
-      GenServer.call(server, {:getUsuarios})
+    def get_usuarios() do
+      GenServer.call(__MODULE__, {:get_usuarios})
     end
 
-
+    def crear_usuario() do
+      GenServer.call(__MODULE__, {:get_usuarios})
+    end
 
 
     ## Server Callbacks
@@ -45,18 +47,18 @@ defmodule Usuario.Registry do
       {:ok, %{}}
     end
 
-    def handle_call({:getEstado, idUsuario}, _from, usuarios) do
-      {:ok,usuarioPid}= Map.fetch(usuarios, idUsuario)
-      {:reply, Usuario.State.get(usuarioPid), usuarios}
+    def handle_call({:get_estado, id_usuario}, _from, usuarios) do
+      {:ok,usuario_pid}= Map.fetch(usuarios, id_usuario)
+      {:reply, Usuario.State.get(usuario_pid), usuarios}
     end
 
-    def handle_call({:getUsuarios}, _from, usuarios) do
+    def handle_call({:get_usuarios}, _from, usuarios) do
       {:reply, Map.keys(usuarios), usuarios}
     end
 
-    def handle_call({:getPidUsuario, idUsuario}, _from, usuarios) do
-      {:ok,usuarioPid}= Map.fetch(usuarios, idUsuario)
-      {:reply, usuarioPid, usuarios}
+    def handle_call({:get_pid_usuario, id_usuario}, _from, usuarios) do
+      {:ok,usuario_pid}= Map.fetch(usuarios, id_usuario)
+      {:reply, usuario_pid, usuarios}
     end
 
     def handle_cast({:create, usuario}, usuarios) do
@@ -68,4 +70,4 @@ defmodule Usuario.Registry do
         {:noreply, Map.put(usuarios, usuario.id, instance)}
       end
     end
-  end  
+  end
