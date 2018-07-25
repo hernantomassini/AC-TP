@@ -8,6 +8,14 @@ First, if not installed, install Hex.
 Install dependencies
 > mix deps.get
 
+##  Cliente - Para enviar un POST de ejemplo.
+
+u1 = %Usuario.Struct{ id: "hola", ip: "189.1.2.4", puerto: 87, tags: nil }
+Registry.create(u1)
+pidu1 = Registry.get_pid_usuario("hola")
+Usuario.State.crear_subasta(pidu1)
+
+
 ## Tips - GenServer
 
 Lo principal es entender que en la funcion cast se defino las funcionas que luego se va a usar en la interfaz. Esas funciones son implementan con call.
