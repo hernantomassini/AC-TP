@@ -17,9 +17,9 @@ defmodule SaServer.Router do
 
   post "/buyers" do
     {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body)
-    SaServer.agregar_cliente(body)
-    send_resp(conn, 201, "created: #{get_in(body, ["message"])}")
+    body = Poison.decode!(body, as: %Comprador{})
+    response = SaServer.agregar_comprador(body)
+    send_resp(conn, 201, response)
   end
 
   # "Default" route that will get called when no other route is matched
