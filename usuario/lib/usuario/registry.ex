@@ -16,9 +16,13 @@ defmodule Usuario.Registry do
 
     Returns `{:ok, pid}` if the bucket exists, `:error` otherwise.
     """
-    def lookup(server, idUsuario) do
-      GenServer.call(server, {:lookup, idUsuario})
+    def getEstado(server, idUsuario) do
+      GenServer.call(server, {:getEstado, idUsuario})
     end
+
+  def getPidUsuario(server, idUsuario) do
+    GenServer.call(server, {:getPidUsuario, idUsuario})
+  end
 
     @doc """
     Ensures there is a bucket associated with the given `usuario` in `server`.
@@ -32,20 +36,27 @@ defmodule Usuario.Registry do
       GenServer.call(server, {:getUsuarios})
     end
 
+
+
+
     ## Server Callbacks
 
     def init(:ok) do
       {:ok, %{}}
     end
 
-    def handle_call({:lookup, usuario}, _from, usuarios) do
-    {:ok,usuarioPid}= Map.fetch(usuarios, usuario)
-
+    def handle_call({:getEstado, idUsuario}, _from, usuarios) do
+      {:ok,usuarioPid}= Map.fetch(usuarios, idUsuario)
       {:reply, Usuario.State.get(usuarioPid), usuarios}
     end
 
     def handle_call({:getUsuarios}, _from, usuarios) do
       {:reply, Map.keys(usuarios), usuarios}
+    end
+
+    def handle_call({:getPidUsuario, idUsuario}, _from, usuarios) do
+      {:ok,usuarioPid}= Map.fetch(usuarios, idUsuario)
+      {:reply, usuarioPid, usuarios}
     end
 
     def handle_cast({:create, usuario}, usuarios) do

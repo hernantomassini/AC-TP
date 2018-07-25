@@ -15,14 +15,17 @@ defmodule Usuario.RegistryTest do
     Usuario.Registry.create(registry,usuario1)
     Usuario.Registry.create(registry,usuario2)
 
-    dataUsuario1=Usuario.Registry.lookup(registry,'idUsuario1')
-    dataUsuario2=Usuario.Registry.lookup(registry,'idUsuario2')
-    assert usuario1 = Usuario.Registry.lookup(registry,'idUsuario1')
-    assert usuario2 = Usuario.Registry.lookup(registry,'idUsuario2')
-
+    dataUsuario1=Usuario.Registry.getEstado(registry,'idUsuario1')
+    dataUsuario2=Usuario.Registry.getEstado(registry,'idUsuario2')
+    assert usuario1 = Usuario.Registry.getEstado(registry,'idUsuario1')
+    assert usuario2 = Usuario.Registry.getEstado(registry,'idUsuario2')
 
     IO.puts(inspect(dataUsuario1))
     IO.puts(inspect(dataUsuario2))
+
+   pidUsuario1=Usuario.Registry.getPidUsuario(registry,'idUsuario1')
+   IO.inspect(pidUsuario1,label: "PID")
+    Usuario.State.crearSubasta(pidUsuario1)
 
     #    data |> inspect |> Logger.debug
 
