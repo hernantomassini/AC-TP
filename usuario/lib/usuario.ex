@@ -7,6 +7,7 @@ end
 defmodule Usuario do
   @moduledoc false
   use HTTPoison.Base
+  import Usuario.Registry, only: [get_pid_usuario: 1]
 
   @endpoint "http://127.0.0.1:8085"
 
@@ -32,26 +33,36 @@ defmodule Usuario do
     Agent.update(instance, &Map.put(&1, "state", value))
   end
 
-  def registrar_usuario(instance) do
-      body=Poison.encode!(Usuario.get(instance))
-     response=Usuario.post("/buyers",body)
-     IO.inspect(response)
+  def registrar_usuario(usuario) when is_pid(usuario) do
+    body=Poison.encode!(Usuario.get(usuario))
+    response=Usuario.post("/buyers",body)
+    IO.inspect(response)
   end
 
-  def crear_usuario(instance) do
-    body=Poison.encode!(Usuario.get(instance))
+  def registrar_usuario(usuario) when is_bitstring(usuario) do
+    pid = get_pid_usuario(usuario)
+    registrar_usuario(pid)
+  end
+
+  def crear_usuario(usuario) when is_pid(usuario) do
+    body=Poison.encode!(Usuario.get(usuario))
     response=Usuario.post("/bids",body)
     IO.inspect(response)
   end
 
+  def crear_usuario(usuario) when is_bitstring(usuario) do
+    pid = get_pid_usuario(usuario)
+    crear_usuario(pid)
+  end
 
-  def obtener_subasta(instance) do
-    body=Poison.encode!(Usuario.get(instance))
+  def obtener_subasta(usuario) when is_pid(usuario) do
+    body=Poison.encode!(Usuario.get(usuario))
     {:ok,Usuario.post("/buyers",body)}
     IO.puts("ejecutado post")
   end
 
-
-
-
+  def obtener_subasta(usuario) when is_bitstring(usuario) do
+    pid = get_pid_usuario(usuario)
+    obtener_subasta(pid)
+  end
 end
