@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a86d852-a4ad-4945-a285-b1895e8b0bf2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lib/sa_server.ex" afterPath="$PROJECT_DIR$/server/lib/sa_server.ex" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lib/sa_server/sa_server_router.ex" afterPath="$PROJECT_DIR$/server/lib/sa_server/sa_server_router.ex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/usuario/lib/usuario.ex" afterPath="$PROJECT_DIR$/usuario/lib/usuario.ex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/usuario/test/usuario/registry_test.exs" afterPath="$PROJECT_DIR$/usuario/test/usuario/registry_test.exs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +19,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="usuario.ex" pinned="false" current-in-tab="false">
+      <file leaf-file-name="usuario.ex" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/usuario/lib/usuario.ex">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="35" column="34" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="34" />
+            <state relative-caret-position="322">
+              <caret line="40" column="21" lean-forward="false" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -44,16 +44,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mix.lock" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/usuario/mix.lock">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="mix.exs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/usuario/mix.exs">
           <provider selected="true" editor-type-id="text-editor">
@@ -66,21 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="registry_test.exs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="registry_test.exs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/usuario/test/usuario/registry_test.exs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="10" column="37" lean-forward="true" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="application.ex" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/lib/sa_server/application.ex">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+            <state relative-caret-position="136">
+              <caret line="8" column="73" lean-forward="true" selection-start-line="8" selection-start-column="73" selection-end-line="8" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -89,28 +69,61 @@
       <file leaf-file-name="sa_server_router.ex" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/lib/sa_server/sa_server_router.ex">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="49" />
+            <state relative-caret-position="289">
+              <caret line="20" column="12" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="comprador.ex" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/lib/comprador.ex">
+      <file leaf-file-name="application.ex" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/lib/sa_server/application.ex">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="26" />
+            <state relative-caret-position="119">
+              <caret line="7" column="26" lean-forward="false" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="26" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sa_server.ex" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/lib/sa_server.ex">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="15" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="response.ex" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/lib/response.ex">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="27" lean-forward="true" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Elixir.SaServer.beam" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/_build/dev/lib/subastaautomatica/ebin/Elixir.SaServer.beam">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="6" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="BEAM">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="registry.ex" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/usuario/lib/usuario/registry.ex">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="45" lean-forward="false" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="45" />
+            <state relative-caret-position="272">
+              <caret line="34" column="25" lean-forward="true" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -141,10 +154,10 @@
       <find>bucket</find>
       <find>.</find>
       <find>.State</find>
-      <find>state</find>
       <find>Usuario.State</find>
-      <find>create</find>
       <find>Usuario.Stru</find>
+      <find>create</find>
+      <find>state</find>
     </findStrings>
     <replaceStrings>
       <replace>usuario</replace>
@@ -190,8 +203,11 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/usuario/lib/usuario/registry.ex" />
         <option value="$PROJECT_DIR$/usuario/lib/modelo/usuario.ex" />
-        <option value="$PROJECT_DIR$/usuario/lib/usuario.ex" />
         <option value="$PROJECT_DIR$/usuario/test/usuario/registry_test.exs" />
+        <option value="$PROJECT_DIR$/server/lib/sa_server/sa_server_router.ex" />
+        <option value="$PROJECT_DIR$/server/lib/sa_server.ex" />
+        <option value="$PROJECT_DIR$/server/lib/response.ex" />
+        <option value="$PROJECT_DIR$/usuario/lib/usuario.ex" />
       </list>
     </option>
   </component>
@@ -344,6 +360,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AC-TP" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AC-TP" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -822,12 +856,12 @@
       <workItem from="1532388437118" duration="1217000" />
       <workItem from="1532473860958" duration="15076000" />
       <workItem from="1532491749816" duration="2753000" />
-      <workItem from="1532561371620" duration="1516000" />
+      <workItem from="1532561371620" duration="4701000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24765000" />
+    <option name="totallyTimeSpent" value="27950000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
@@ -888,8 +922,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/sa_server_test.exs" />
-    <entry file="file://$PROJECT_DIR$/lib/sa_server/sa_server_router.ex" />
     <entry file="file://$PROJECT_DIR$/lib/sa_client.ex" />
     <entry file="file://$PROJECT_DIR$/lib/sa_server.ex" />
     <entry file="file://$PROJECT_DIR$/test/sa_client_test.exs" />
@@ -918,13 +950,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/test/sa_server_test.exs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/lib/sa_server.ex">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1034,26 +1059,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lib/sa_server/application.ex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/usuario/test/k_v/registry_test.exs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="36" lean-forward="false" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/lib/sa_server/sa_server_router.ex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="49" />
           <folding />
         </state>
       </provider>
@@ -1105,14 +1114,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/usuario/lib/usuario/registry.ex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="45" lean-forward="false" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/usuario/lib/modelo/usuario.ex">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1121,18 +1122,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/usuario/lib/usuario.ex">
+    <entry file="file://$PROJECT_DIR$/server/_build/dev/lib/subastaautomatica/ebin/Elixir.SaServer.beam">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="34" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="34" />
+        <state relative-caret-position="153">
+          <caret line="9" column="6" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="BEAM">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lib/sa_server/application.ex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="26" lean-forward="false" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lib/sa_server/sa_server_router.ex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="20" column="12" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usuario/lib/usuario/registry.ex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="34" column="25" lean-forward="true" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lib/sa_server.ex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="15" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lib/response.ex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="27" lean-forward="true" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/usuario/test/usuario/registry_test.exs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="10" column="37" lean-forward="true" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
+        <state relative-caret-position="136">
+          <caret line="8" column="73" lean-forward="true" selection-start-line="8" selection-start-column="73" selection-end-line="8" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usuario/lib/usuario.ex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="40" column="21" lean-forward="false" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="21" />
           <folding />
         </state>
       </provider>

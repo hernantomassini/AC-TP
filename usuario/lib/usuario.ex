@@ -34,8 +34,17 @@ defmodule Usuario do
 
   def crear_subasta(instance) do
       body=Poison.encode!(Usuario.get(instance))
-     {:ok,Usuario.post("/buyers",body)}
-     IO.puts("ejecutado post")
+     response=Usuario.post("/buyers",body)
+     IO.inspect(response)
   end
+
+  def obtener_subasta(instance) do
+    body=Poison.encode!(Usuario.get(instance))
+    {:ok,Usuario.post("/buyers",body)}
+    IO.puts("ejecutado post")
+  end
+
+
+
 
 end

@@ -15,7 +15,7 @@ defmodule SaServer.Router do
     send_resp(conn, 201, response)
   end
 
-  post "/bids/:id" do
+  get "/bids/:id" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %SubastaById{})
     response = SaServer.postSubastaBy(id, body)
