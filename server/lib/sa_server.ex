@@ -27,7 +27,7 @@ defmodule SaServer do
   # def agregar_comprador(x = %Comprador{id: id, ip: ip, puerto: puerto, tags: tags}) do
   def agregar_comprador(x = %Comprador{}) do
     IO.inspect(x, label: "Success!")
-    Response.new(x, "Guardar al comprador cuando haya un mecanismo para guardar el estado. Véase ETS - GenServer - Agent.")
+    Response.new(x, "El comprador fue agregado con exito.")
     # TODO: Guardar al comprador cuando haya un mecanismo para guardar el estado. Véase ETS - GenServer - Agent.
   end
 

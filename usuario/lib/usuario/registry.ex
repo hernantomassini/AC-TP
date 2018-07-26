@@ -28,15 +28,11 @@ defmodule Usuario.Registry do
     Ensures there is a bucket associated with the given `usuario` in `server`.
     usuario es de tipo %Usuario.Struct{}
     """
-    def create(usuario) do
+    def crear_usuario(usuario) do
       GenServer.cast(__MODULE__, {:create, usuario})
     end
 
     def get_usuarios() do
-      GenServer.call(__MODULE__, {:get_usuarios})
-    end
-
-    def crear_usuario() do
       GenServer.call(__MODULE__, {:get_usuarios})
     end
 

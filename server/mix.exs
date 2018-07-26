@@ -14,7 +14,7 @@ defmodule SubastaAutomatica.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :cowboy, :plug, :poison],
+      extra_applications: [:logger, :cowboy, :plug, :poison, :elixir_uuid],
       mod: {SaServer.Application, []}
     ]
   end
@@ -24,7 +24,8 @@ defmodule SubastaAutomatica.MixProject do
     [
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 1.5"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      { :elixir_uuid, "~> 1.2" }
     ]
   end
 end

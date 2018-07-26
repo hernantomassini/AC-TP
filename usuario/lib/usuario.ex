@@ -32,11 +32,18 @@ defmodule Usuario do
     Agent.update(instance, &Map.put(&1, "state", value))
   end
 
-  def crear_subasta(instance) do
+  def registrar_usuario(instance) do
       body=Poison.encode!(Usuario.get(instance))
      response=Usuario.post("/buyers",body)
      IO.inspect(response)
   end
+
+  def crear_usuario(instance) do
+    body=Poison.encode!(Usuario.get(instance))
+    response=Usuario.post("/bids",body)
+    IO.inspect(response)
+  end
+
 
   def obtener_subasta(instance) do
     body=Poison.encode!(Usuario.get(instance))
