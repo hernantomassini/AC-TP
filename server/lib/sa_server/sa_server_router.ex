@@ -18,23 +18,23 @@ defmodule SaServer.Router do
   get "/bids/:id" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %SubastaById{})
-    response = SaServer.postSubastaBy(id, body)
+    response = SaServer.post_subasta_by(id, body)
     send_resp(conn, 200, response)
   end
 
   delete "/bids/:id" do
-    response = SaServer.deteleSubasta(id)
+    response = SaServer.delete_subasta(id)
     send_resp(conn, 200, response)
   end
 
   get "/buyers/:id" do
-    response = SaServer.getByBuyer(id)
+    response = SaServer.get_by_buyer(id)
     send_resp(conn, 200, response)
   end
 
   post "/buyers" do
     {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body, as: %Comprador{})
+    body = Poison.decode!(body, as: %Usuario{})
     response = SaServer.agregar_comprador(body)
     send_resp(conn, 201, response)
   end
