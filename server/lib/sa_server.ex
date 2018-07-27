@@ -44,10 +44,8 @@ defmodule SaServer do
     put(:usuarios, usuario)
     IO.inspect(get(:usuarios), label: "Lista de usuarios")
 
+    # subastas_de_interes = Usuario.subastas_de_interes(usuario.tags, subastas)
+
     Response.new(usuario, "El usuario fue agregado con exito.")
-  end
-
-  def get_subastas_interesantes(userID) do
-
   end
 end
