@@ -21,7 +21,7 @@ defmodule Usuario do
   @doc """
   Gets a value from the `instance` by `key`.
   """
-  def get(instance) do
+  def state(instance) do
     Agent.get(instance, &Map.get(&1, "state"))
   end
 
@@ -32,24 +32,44 @@ defmodule Usuario do
     Agent.update(instance, &Map.put(&1, "state", value))
   end
 
+
+
+
+  @doc """
+    COMPORTAMIEOT  DE ITERACCION CON SERVIDOR
+  """
+
   def registrar_usuario(instance) do
-      body=Poison.encode!(Usuario.get(instance))
+     body=Poison.encode!(Usuario.state(instance))
      response=Usuario.post("/buyers",body)
      IO.inspect(response)
   end
 
-  def crear_usuario(instance) do
-    body=Poison.encode!(Usuario.get(instance))
-    response=Usuario.post("/bids",body)
+  def consultar_usuario(instance) do
+    usuario=Usuario.state(instance)
+    response=Usuario.get("/buyers/" <> usuario.id)
     IO.inspect(response)
   end
 
 
-  def obtener_subasta(instance) do
-    body=Poison.encode!(Usuario.get(instance))
-    {:ok,Usuario.post("/buyers",body)}
-    IO.puts("ejecutado post")
+  def crear_subasta(instance,subasta) do
+    usuario=Usuario.state(instance)
+    body=Poison.encode!(%{idUsuario: usuario.id, subasta: subasta})
+    Usuario.post("/bids",body)
   end
+
+  def ofertar_subasta(instance,oferta) do
+    usuario=Usuario.state(instance)
+    body=Poison.encode!(%{idUsuario: usuario.id, oferta: oferta})
+    Usuario.put("/bids",body)
+  end
+
+  def cancelar_subasta(instance,idSubasta) do
+    usuario=Usuario.state(instance)
+    Usuario.delete("/bids/" <> usuario.id <> "/" <> idSubasta)
+  end
+
+
 
 
 
