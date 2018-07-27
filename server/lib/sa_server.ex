@@ -17,8 +17,10 @@ defmodule SaServer do
 
   #-------------------------
 
-  def crear_subasta(x = %Subasta{}) do
-    IO.inspect(x, label: "Success!")
+  def crear_subasta(subasta) do
+    put(:subastas, subasta)
+    IO.inspect(get(:usuarios), label: "Lista de usuarios")
+
     "Se a creado una subasta correctamente."
   end
 
@@ -30,7 +32,7 @@ defmodule SaServer do
 
   def delete_subasta(id) do
     IO.puts(id)
-    Response.new(id,"Se elimina una subasta")
+    Response.new(id, "Se elimina una subasta")
   end
 
   def get_by_buyer(id) do
@@ -39,7 +41,6 @@ defmodule SaServer do
     # "El comprador es #{id}"
   end
 
-  # usario es %Usuario
   def agregar_usuario(usuario = %Usuario{tags: tags}) do
     put(:usuarios, usuario)
     IO.inspect(get(:usuarios), label: "Lista de usuarios")
