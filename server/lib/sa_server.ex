@@ -12,7 +12,7 @@ defmodule SaServer do
   end
 
   defp put(type, value) when is_atom(type) do
-    Agent.update(__MODULE__, fn listMapSet -> put_in(listMapSet[type], MapSet.put(listMapSet[type], value)) end)
+    Agent.update(__MODULE__, fn list -> put_in(list[type], MapSet.put(list[type], value)) end)
   end
 
   #-------------------------
@@ -35,18 +35,31 @@ defmodule SaServer do
     Response.new(id, "Se elimina una subasta")
   end
 
-  def get_by_buyer(id) do
-    IO.puts(id)
-    Response.new(id, "El comprador es #{id}")
-    # "El comprador es #{id}"
-  end
-
   def agregar_usuario(usuario = %Usuario{tags: tags}) do
+    # TODO: Validar si el usuario ya existía o no?
+
     put(:usuarios, usuario)
     IO.inspect(get(:usuarios), label: "Lista de usuarios")
 
-    subastas_de_interes = Usuario.subastas_de_interes(tags, get(:subastas))
+    send_subastas_de_interes(tags)
+  end
 
+  def get_by_buyer(id) do
+    user = get_user_by_id(id)
+
+    if user do
+      send_subastas_de_interes(user.tags)
+    else
+      Response.error("El ID provisto no existe.", "Método get_by_buyer con id " <> id)
+    end
+  end
+
+  defp send_subastas_de_interes(tags) do
+    subastas_de_interes = Usuario.subastas_de_interes(tags, get(:subastas))
     Response.new(subastas_de_interes, "El usuario fue agregado con éxito.")
+  end
+
+  defp get_user_by_id(id) do
+    Enum.find(get(:usuarios), fn u -> String.downcase(u.id) === String.downcase(id) end)
   end
 end

@@ -9,7 +9,7 @@ defmodule Response do
     Poison.encode!(instance)
   end
 
-  def newError(error, mensaje) do
+  def error(error, mensaje) do
     instance = %Response{error: error, mensaje: mensaje}
     IO.inspect(instance)
     Poison.encode!(instance)
