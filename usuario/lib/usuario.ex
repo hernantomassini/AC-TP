@@ -52,15 +52,17 @@ defmodule Usuario do
   end
 
 
-  def crear_subasta(instance,subasta) do
+  def crear_subasta(instance,tags,precioBase,tiempoFinalizacion,articuloNombre,articuloDescripcion) do
     usuario=Usuario.state(instance)
-    body=Poison.encode!(%{idUsuario: usuario.id, subasta: subasta})
+    subasta= Modelo.Subasta.new(usuario.id, tags,precioBase,tiempoFinalizacion,articuloNombre,articuloDescripcion)
+    body=Poison.encode!(subasta)
     Usuario.post("/bids",body)
   end
 
-  def ofertar_subasta(instance,oferta) do
+  def ofertar_subasta(instance,idSubasta,idUsuario,precioOfertado) do
     usuario=Usuario.state(instance)
-    body=Poison.encode!(%{idUsuario: usuario.id, oferta: oferta})
+    oferta= Modelo.OfertarSubasta.new(idSubasta,usuario.id,precioOfertado)
+    body=Poison.encode!(oferta)
     Usuario.put("/bids",body)
   end
 

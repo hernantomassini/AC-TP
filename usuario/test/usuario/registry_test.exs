@@ -32,7 +32,19 @@ defmodule Usuario.RegistryTest do
   end
 
   test "crear_subasta",  %{pidUsuarioTest: pidUsuarioTest} do
-#    Usuario.ofertar_subasta(pidUsuarioTest,subasta)
+   Usuario.crear_subasta(pidUsuarioTest,"perritos, videjuegos",45,33,"Articulo1","Compralo que esta buenisimo")
+  end
+
+  test "ofertar_subasta",  %{pidUsuarioTest: pidUsuarioTest} do
+    usuarioTest=Usuario.state(pidUsuarioTest)
+    subasta= Modelo.Subasta.new(usuarioTest.id,"perritos, videjuegos",45,33,"Articulo1","Compralo que esta buenisimo")
+    Usuario.ofertar_subasta(pidUsuarioTest,subasta.id,usuarioTest.id,66)
+  end
+
+  test "cancelar_subasta",  %{pidUsuarioTest: pidUsuarioTest} do
+    usuarioTest=Usuario.state(pidUsuarioTest)
+    subasta= Modelo.Subasta.new(usuarioTest.id,"perritos, videjuegos",45,33,"Articulo1","Compralo que esta buenisimo")
+    Usuario.cancelar_subasta(pidUsuarioTest,subasta.id)
   end
 
 end

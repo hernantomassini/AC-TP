@@ -1,7 +1,7 @@
 defmodule SaServer do
   @moduledoc false
 
-  def crear_subasta(x = %Subasta{}) do
+  def crear_subasta(x = %Modelo.Subasta{}) do
     IO.inspect(x, label: "Success!")
     "Se a creado una subasta correctamente."
   end
@@ -12,9 +12,10 @@ defmodule SaServer do
     "Oferta aplicada."
   end
 
-  def deteleSubasta (id) do
-    IO.puts(id)
-    Response.new(id,"Se elimina una subasta")
+  def deteleSubasta(idUsuario,idSubsata) do
+    mensaje="Se elimina la sbasta id: #{idSubsata} del usuario: #{idUsuario}"
+    IO.puts(mensaje)
+    Response.new(%{idUsuario: idUsuario, idSubsata: idSubsata},mensaje)
 
   end
 

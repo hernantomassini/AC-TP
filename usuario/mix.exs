@@ -14,7 +14,7 @@ defmodule Usuario.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :httpoison, :poison],
+      extra_applications: [:logger, :httpoison, :poison, :elixir_uuid],
       mod: {Usuario.Registry, []}
     ]
   end
@@ -23,7 +23,8 @@ defmodule Usuario.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.0"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+       { :elixir_uuid, "~> 1.2" }
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
     ]

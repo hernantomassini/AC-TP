@@ -10,7 +10,7 @@ defmodule SaServer.Router do
 
   post "/bids" do
     {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body, as: %Subasta{})
+    body = Poison.decode!(body, as: %Modelo.Subasta{})
     response =  SaServer.crear_subasta(body)
     send_resp(conn, 201, response)
   end
@@ -22,8 +22,8 @@ defmodule SaServer.Router do
     send_resp(conn, 200, response)
   end
 
-  delete "/bids/:id" do
-    response = SaServer.deteleSubasta(id)
+  delete "/bids/:idUsuario/:idSubsata" do
+    response = SaServer.deteleSubasta(idUsuario,idSubsata)
     send_resp(conn, 200, response)
   end
 
