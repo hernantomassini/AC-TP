@@ -17,11 +17,11 @@ defmodule SaServer do
 
   #-------------------------
 
-  def crear_subasta(subasta) do
+
+  def crear_subasta(subasta = %Modelo.Subasta{}) do
     put(:subastas, subasta)
     IO.inspect(get(:subastas), label: "Lista de usuarios")
-
-    "Se a creado una subasta correctamente."
+    Response.new(subasta, "Se a creado una subasta correctamente.")
   end
 
   def post_subasta_by(id, x = %SubastaById{}) do
@@ -30,32 +30,32 @@ defmodule SaServer do
     "Oferta aplicada."
   end
 
-  def delete_subasta(id) do
-    IO.puts(id)
-    Response.new(id, "Se elimina una subasta")
-  end
 
-  def agregar_usuario(usuario = %Usuario{tags: tags}) do
+  def agregar_usuario(usuario = %Modelo.Usuario{tags: tags}) do
     # TODO: Validar si el usuario ya existía o no?
-
     put(:usuarios, usuario)
     IO.inspect(get(:usuarios), label: "Lista de usuarios")
-
     send_subastas_de_interes(tags)
+    end
+
+
+  def delete_subasta(idUsuario,idSubsata) do
+    mensaje="Se elimina la sbasta id: #{idSubsata} del usuario: #{idUsuario}"
+    IO.puts(mensaje)
+    Response.new(%{idUsuario: idUsuario, idSubsata: idSubsata},mensaje)
   end
 
   def get_by_buyer(id) do
     user = get_user_by_id(id)
-
     if user do
       send_subastas_de_interes(user.tags)
     else
-      Response.error("El ID provisto no existe.", "Método get_by_buyer con id " <> id)
+      Response.error(true, "El ID provisto no existe. Método get_by_buyer con id #{id}")
     end
   end
 
   defp send_subastas_de_interes(tags) do
-    subastas_de_interes = Usuario.subastas_de_interes(tags, get(:subastas))
+    subastas_de_interes = Modelo.Usuario.subastas_de_interes(tags, get(:subastas))
     Response.new(subastas_de_interes, "El usuario fue agregado con éxito.")
   end
 

@@ -37,7 +37,7 @@ defmodule Usuario.Registry do
     end
 
 
-    ## Server Callbacks
+   ## Server Callbacks
 
     def init(:ok) do
       {:ok, %{}}
@@ -45,7 +45,7 @@ defmodule Usuario.Registry do
 
     def handle_call({:get_estado, id_usuario}, _from, usuarios) do
       {:ok,usuario_pid}= Map.fetch(usuarios, id_usuario)
-      {:reply,Usuario.get(usuario_pid), usuarios}
+      {:reply,Usuario.state(usuario_pid), usuarios}
     end
 
     def handle_call({:get_usuarios}, _from, usuarios) do
