@@ -3,14 +3,13 @@
 ## Para enviar un POST
 
 u1 = %Modelo.Usuario{ id: "idUsuario", ip: "189.1.2.4", puerto: 87, tags: nil }
+u2 = %Modelo.Usuario{ id: "hernan", ip: "1.1.1.1", puerto: 90, tags: nil }
 Usuario.Registry.crear_usuario(u1)
-
-pidu1 = Usuario.Registry.get_pid_usuario("idUsuario")
+Usuario.Registry.crear_usuario(u2)
 
 Luego
-> Usuario.crear_subasta(pidu1)
-> Usuario.obtener_subasta(pidu1)
+> Usuario.obtener_subasta("idUsuario")
 
 Alternativamente:
-> Usuario.crear_subasta(idUsuario)
-> Usuario.obtener_subasta("idUsuario")
+pidu1 = Usuario.Registry.get_pid_usuario("idUsuario")
+> Usuario.obtener_subasta(pidu1)

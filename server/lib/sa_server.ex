@@ -3,15 +3,16 @@ defmodule SaServer do
   use Agent
 
   def start_link(_opts) do
-    Agent.start_link(fn -> [] end, name: __MODULE__)
+    Agent.start_link(fn -> [subastas: MapSet.new(), usuarios: MapSet.new()] end, name: __MODULE__)
   end
 
-  defp get() do
-    Agent.get(__MODULE__, fn list -> list end)
+  # type es un átomo :subastas o :usuarios
+  defp get(type) when is_atom(type) do
+    Agent.get(__MODULE__, fn list -> Keyword.get(list, type) end)
   end
 
-  defp put(value) do
-    Agent.update(__MODULE__, fn list -> [ value | list ] end)
+  defp put(type, value) when is_atom(type) do
+    Agent.update(__MODULE__, fn listMapSet -> put_in(listMapSet[type], MapSet.put(listMapSet[type], value)) end)
   end
 
   #-------------------------
@@ -39,9 +40,14 @@ defmodule SaServer do
   end
 
   # usario es %Usuario
-  def agregar_comprador(usuario) do
-    put(usuario)
-    IO.inspect(get(), label: "Lista de usuarios")
+  def agregar_usuario(usuario) do
+    put(:usuarios, usuario)
+    IO.inspect(get(:usuarios), label: "Lista de usuarios")
+
     Response.new(usuario, "El usuario fue agregado con exito.")
+  end
+
+  def get_subastas_interesantes(userID) do
+
   end
 end
