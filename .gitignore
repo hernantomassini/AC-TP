@@ -27,4 +27,8 @@ subastaautomatica-*.tar
 
 # Ignore VSCode Custom configuration
 /.vscode/
+.vscode
+.vscode/**
+.idea
+.idea/**
 
