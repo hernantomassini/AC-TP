@@ -4,15 +4,14 @@ defmodule Response do
   defstruct [:data,:error,:mensaje]
 
   def new(data,mensaje) do
-    instance=%Response{data: data, mensaje: mensaje}
+    instance = %Response{data: data, mensaje: mensaje}
     IO.inspect(instance)
     Poison.encode!(instance)
   end
 
   def newError(error, mensaje) do
-    instance=%Response{error: error, mensaje: mensaje}
+    instance = %Response{error: error, mensaje: mensaje}
     IO.inspect(instance)
-   Poison.encode!(instance)
+    Poison.encode!(instance)
   end
-
 end
