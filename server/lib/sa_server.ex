@@ -19,7 +19,7 @@ defmodule SaServer do
 
   def crear_subasta(subasta) do
     put(:subastas, subasta)
-    IO.inspect(get(:usuarios), label: "Lista de usuarios")
+    IO.inspect(get(:subastas), label: "Lista de usuarios")
 
     "Se a creado una subasta correctamente."
   end
