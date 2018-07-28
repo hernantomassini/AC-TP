@@ -23,22 +23,6 @@ defmodule Usuario do
   #Interacción con el Servidor
 
   @doc """
-    Registra al usuario en el Servidor. El usuario estará interesado en las subastas que tengan al menos 1 tag del usuario.
-    POST /buyers
-    Return: Subastas de interés
-  """
-  def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
-    body = Poison.encode!(Usuario.state(pidUsuario))
-    response = Usuario.post("/buyers", body)
-    IO.inspect(response.body,label: "registrar_usuario")
-  end
-
-  def registrar_usuario(idUsuario) when is_bitstring(idUsuario) do
-    pid = get_pid_usuario(idUsuario)
-    registrar_usuario(pid)
-  end
-
-  @doc """
     Muestra subastas que el usuario encontrará de interes.
     GET /buyers/interests/:idUsuario
     Return: Subastas de interés
@@ -85,6 +69,22 @@ defmodule Usuario do
   def crear_subasta(idUser, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
     crear_subasta(pid, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion)
+  end
+
+  @doc """
+    Registra al usuario en el Servidor. El usuario estará interesado en las subastas que tengan al menos 1 tag del usuario.
+    POST /buyers
+    Return: Subastas de interés
+  """
+  def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
+    body = Poison.encode!(Usuario.state(pidUsuario))
+    response = Usuario.post("/buyers", body)
+    IO.inspect(response.body,label: "registrar_usuario")
+  end
+
+  def registrar_usuario(idUsuario) when is_bitstring(idUsuario) do
+    pid = get_pid_usuario(idUsuario)
+    registrar_usuario(pid)
   end
 
   @doc """

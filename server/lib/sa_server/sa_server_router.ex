@@ -8,42 +8,55 @@ defmodule Server.Router do
   plug(:match)
   plug(:dispatch)
 
-  post "/buyers" do
-    {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body, as: %Modelo.Usuario{})
-    response = Server.agregar_usuario(body)
-    send_resp(conn, 201, response)
+  get "/buyers/interests/:idUsuario" do
+    {httpCode , response} = Server.obtener_subastas_de_interes(idUsuario)
+    send_resp(conn, httpCode, response)
   end
 
-  get "/buyers/:id" do
-    response = Server.get_by_buyer(id)
-    send_resp(conn, 200, response)
+  get "/buyers/owns/:idUsuario" do
+    # {:ok, body, conn} = read_body(conn)
+    # body = Poison.decode!(body, as: %SubastaById{})
+    # response = Server.todo_function_not_implemented(id, body)
+    send_resp(conn, 200, "")
   end
 
-  delete "/bids/:idUsuario/:idSubsata" do
-    response = Server.delete_subasta(idUsuario,idSubsata)
-    send_resp(conn, 200, response)
+  get "/replicar" do
+    # {:ok, body, conn} = read_body(conn)
+    # body = Poison.decode!(body)
+    # response = Server.todo_function_not_implemented(id, body)
+    send_resp(conn, 200, "")
   end
 
   post "/bids" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %Modelo.Subasta{})
-    response =  Server.crear_subasta(body)
+    response = Server.crear_subasta(body)
     send_resp(conn, 201, response)
   end
 
-  get "/bids/:id" do
+  post "/buyers" do
     {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body, as: %SubastaById{})
-    response = Server.post_subasta_by(id, body)
-    send_resp(conn, 200, response)
+    body = Poison.decode!(body, as: %Modelo.Usuario{})
+    response = Server.registrar_usuario(body)
+    send_resp(conn, 201, response)
+  end
+
+  put "/bids" do
+    {:ok, body, conn} = read_body(conn)
+    # body = Poison.decode!(body, as: %Modelo.Usuario{})
+    # response = Server.todo_function_not_implemented(id, body)
+    send_resp(conn, 201, "")
+  end
+
+  delete "/bids/:idUsuario/:idSubasta" do
+    # response = Server.todo_function_not_implemented(id, body)
+    send_resp(conn, 200, "")
   end
 
   match "/" do
     send_resp(conn, 200, "")
   end
 
-  # "Default" route that will get called when no other route is matched
   match _ do
     send_resp(conn, 404, "not found")
   end
