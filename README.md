@@ -50,8 +50,11 @@ end
 - curl -i -H 'Content-Type: application/json' "http://localhost:8085/bids/250" -d '{"id": 250, "precioOfertado": 1100}'
 - curl -i -X DELETE http://localhost:8085/bids/250
 - curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8085/buyers/250
+- curl -H 'Content-Type: application/json' "http://localhost:1234/buyers" -d '{"id": "hernan", "ip": "192.168.1.101", "puerto": 8090, "tags": ["hola"]}'
 
 ## Comando importantes, se ejecutan AC-TP
 
 - **iex -S mix** : entrar en elixir y ya esta configurado el supervisor, cuando se le manda una división por 0, este se cae pero vuelve a levantar.
 - **mix test**: ejecuta los tests
+
+
