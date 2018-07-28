@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mix local.hex --force --root
+sudo iex -S mix >> cacaguate.txt
