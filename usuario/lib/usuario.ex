@@ -1,18 +1,12 @@
-defmodule Modelo.Usuario do
-  @moduledoc false
-  @derive [Poison.Encoder]
-  defstruct [:id,:ip,:puerto,:tags]
-end
+
 
 defmodule Usuario do
   @moduledoc false
   use HTTPoison.Base
   import Usuario.Registry, only: [get_pid_usuario: 1]
 
-  @endpoint "http://127.0.0.1:8085"
-
   def process_url(url) do
-    @endpoint <> url
+    GlobalContext.get_server_endpoint() <> url
   end
 
   def start_link(_opts) do
@@ -37,7 +31,7 @@ defmodule Usuario do
   def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
     body = Poison.encode!(Usuario.state(pidUsuario))
     response = Usuario.post("/buyers", body)
-    IO.inspect(response)
+    IO.inspect(response.body,label: "registrar_usuario")
   end
 
   def registrar_usuario(idUsuario) when is_bitstring(idUsuario) do
@@ -61,8 +55,8 @@ defmodule Usuario do
   end
 
   @doc """
-    Muestra subastas a las cuales el usuario ha ofertado.
-    GET /buyers/:idUsuario
+    TODO: METER ALGO INTELIGENTE AAAAAAAAAAAAAA
+    POST /bids
   """
   def crear_subasta(pidUser, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
@@ -76,13 +70,22 @@ defmodule Usuario do
     crear_subasta(pid, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion)
   end
 
+  @doc """
+    TODO: METER ALGO INTELIGENTE AAAAAAAAAAAAAA
+    PUT /bids
+  """
   def ofertar_subasta(instance, idSubasta, precioOfertado) do
     usuario = Usuario.state(instance)
-    oferta = Modelo.OfertarSubasta.new(idSubasta,usuario.id,precioOfertado)
+    oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, precioOfertado)
     body = Poison.encode!(oferta)
-    Usuario.put("/bids",body)
+    Usuario.put("/bids", body)
   end
 
+
+  @doc """
+    TODO: METER ALGO INTELIGENTE AAAAAAAAAAAAAA
+    DELETE /bids/:idUsuario/:idSubasta
+  """
   def cancelar_subasta(instance,idSubasta) do
     usuario = Usuario.state(instance)
     Usuario.delete("/bids/#{usuario.id}/#{idSubasta}")
