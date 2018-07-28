@@ -18,18 +18,34 @@ defmodule Estrategia.Reintentos do
   end
 
 
-  def ejecutar(pidStrategia,idUsuario,subasta = %Modelo.Subasta{}) do
-    GenServer.cast(pidStrategia, {:ejecutar_estrategia_ganar, idUsuario,subasta})
+#  def ejecutar(pidStrategia,idUsuario,subasta) do
+#    GenServer.cast(pidStrategia, {:ejecutar_estrategia_ganar, idUsuario,subasta})
+#  end
+
+  def handle_cast({:ejecutar, idUsuario,subasta}, estado) do
+    datos=estado.datos
+    cant_reinttos_realizados_subasta=3
+    if(cant_reinttos_realizados_subasta <= datos.cant_cant_reintentos) do
+      IO.puts("USUAROI: #{idUsuario} Estrategia_Reintentos_num: #{cant_reinttos_realizados_subasta} para subasta: #{subasta.id}")
+      response=Usuario.ofertar_subasta(idUsuario, subasta.id, obtener_precio_a_ofertar(subasta)+datos.sumar_al_precio)
+      if(!response.error) do
+        #aumentar cantida de reintentos de la subaasta
+      end
+    end
   end
 
-  def handle_cast({:ejecutar_estrategia_ganar, idUsuario,subasta}, estado) do
-    precioOfertado=subasta.precioBase
+  def obtener_precio_a_ofertar(subasta) do
     if(subasta.precioActual !=nil) do
-      precioOfertado=subasta.precioActual
+      subasta.precioActual
+    else
+      subasta.precioBase
     end
 
-    Usuario.ofertar_subasta(idUsuario, subasta.id, precioOfertado)
+  end
 
+
+  def set_datos_estrategia(pidStrategia, datos) do
+    set_estado(pidStrategia,%{datos: datos, ofertasRealizadas: []})
   end
 
   def set_estado(pidStrategia, estado) do

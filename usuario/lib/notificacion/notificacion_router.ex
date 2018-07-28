@@ -17,8 +17,9 @@ defmodule Notificacion.Router do
 
   #RECIBE UN Modelo.Subasta
   post "/subasta/interes/:idUsuario" do
-#    {:ok, body, conn} = read_body(conn)
-#    body = Poison.decode!(body, as: %Modelo.Subasta{})
+    {:ok, body, conn} = read_body(conn)
+    subasta = Poison.decode!(body, as: %Modelo.Subasta{})
+    Usuario.ejecutar_estrategia(idUsuario,subasta)
     send_resp(conn, 200, Response.new("","Me puede interesar"))
   end
 

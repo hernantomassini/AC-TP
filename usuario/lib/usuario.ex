@@ -130,8 +130,9 @@ defmodule Usuario do
   end
 
 
-  def ejecutar_estrategia(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
-    pid = get_pid_usuario(idUser)
-    ofertar_subasta(pid, idSubasta, precioOfertado)
+  def ejecutar_estrategia(idUser, subasta) when is_bitstring(idUser) do
+    pidUser = get_pid_usuario(idUser)
+    usuario = Usuario.state(pidUser)
+    GenServer.cast(usuario.pid_estrategia, {:ejecutar, idUser,subasta})
   end
 end
