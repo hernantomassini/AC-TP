@@ -3,7 +3,7 @@ defmodule Usuario.RegistryTest do
   use ExUnit.Case, async: true
 
   setup do
-    usuarioTest= Modelo.Usuario.new("usuarioTest","tags,44")
+    usuarioTest= Modelo.Usuario.new("usuarioTest",["tags","22"])
     Usuario.Registry.crear_usuario(usuarioTest)
     pidUsuarioTest=Usuario.Registry.get_pid_usuario(usuarioTest.id)
     %{pidUsuarioTest: pidUsuarioTest}

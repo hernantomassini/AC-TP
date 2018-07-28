@@ -47,7 +47,7 @@ defmodule Usuario do
   def consultar_usuario(instance) do
     usuario=Usuario.state(instance)
     response=Usuario.get("/buyers/#{usuario.id}"  )
-    IO.inspect(response.body,label: "consultar_usuario")
+    IO.inspect(response,label: "consultar_usuario")
   end
 
   def crear_usuario(usuario) when is_bitstring(usuario) do
@@ -58,7 +58,7 @@ defmodule Usuario do
   def crear_usuario(usuario) when is_pid(usuario) do
     body=Poison.encode!(Usuario.get(usuario))
     response=Usuario.post("/bids",body)
-    IO.inspect(response.body, label: "crear_usuario")
+    IO.inspect(response, label: "crear_usuario")
   end
 
 
@@ -79,7 +79,7 @@ defmodule Usuario do
     subasta= Modelo.Subasta.new(usuario.id, tags,precioBase,tiempoFinalizacion,articuloNombre,articuloDescripcion)
     body=Poison.encode!(subasta)
     response=Usuario.post("/bids",body)
-    IO.inspect(response.body, label: "crear_subasta")
+    IO.inspect(response, label: "crear_subasta")
 
   end
 
@@ -88,14 +88,14 @@ defmodule Usuario do
     oferta= Modelo.OfertarSubasta.new(idSubasta,usuario.id,precioOfertado)
     body=Poison.encode!(oferta)
     response=Usuario.put("/bids",body)
-    IO.inspect(response.body, label: "ofertar_subasta")
+    IO.inspect(response, label: "ofertar_subasta")
 
   end
 
   def cancelar_subasta(instance,idSubasta) do
     usuario=Usuario.state(instance)
     response=Usuario.delete("/bids/#{usuario.id}/#{idSubasta}")
-    IO.inspect(response.body, label: "cancelar_subasta")
+    IO.inspect(response, label: "cancelar_subasta")
 
   end
 
