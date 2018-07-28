@@ -1,4 +1,4 @@
-defmodule Personas.Miguel do
+defmodule Persona.Miguel do
   @moduledoc false
 
 
@@ -11,6 +11,6 @@ defmodule Personas.Miguel do
     pidUsuario = Usuario.Registry.get_pid_usuario(usaurio.id)
     #Se registra
     Usuario.registrar_usuario(pidUsuario)
-    usaurio
+    pidUsuario
   end
 end

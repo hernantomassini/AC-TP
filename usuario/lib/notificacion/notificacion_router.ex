@@ -17,10 +17,15 @@ defmodule Notificacion.Router do
 
   #RECIBE UN Modelo.Subasta
   post "/subasta/interes/:idUsuario" do
+    if(Usuario.Registry.existe_usuario(idUsuario)) do
+
     {:ok, body, conn} = read_body(conn)
     subasta = Poison.decode!(body, as: %Modelo.Subasta{})
     Usuario.ejecutar_estrategia(idUsuario,subasta)
     send_resp(conn, 200, Response.new("","Me puede interesar"))
+    else
+      send_resp(conn, 200, Response.new("","No poseo usuarios interesados"))
+    end
   end
 
   #RECIBE UN Modelo.Subasta

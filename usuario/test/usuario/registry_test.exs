@@ -3,7 +3,7 @@ defmodule Usuario.RegistryTest do
   use ExUnit.Case, async: true
 
   setup do
-    pid_test_user=Personas.Test.get_pid()
+    pid_test_user=Persona.Test.get_pid()
     %{pidUsuarioTest: pid_test_user}
   end
 
@@ -14,8 +14,8 @@ defmodule Usuario.RegistryTest do
 #
 #    assert usuario1 = Usuario.Registry.get_estado("idUsuario1")
 #    assert usuario2 = Usuario.Registry.get_estado("idUsuario2")
-    usuarioMiguel= Personas.Miguel.start()
-    assert usuarioMiguel = Usuario.Registry.get_estado(usuarioMiguel.id)
+    Persona.Miguel.start()
+    assert usuarioMiguel = Usuario.Registry.get_estado("miguel")
   end
 
   test "registrar_usuario", %{pidUsuarioTest: pidUsuarioTest} do

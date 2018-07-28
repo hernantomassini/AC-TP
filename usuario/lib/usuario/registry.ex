@@ -24,12 +24,23 @@ defmodule Usuario.Registry do
       GenServer.call(__MODULE__, {:get_usuarios})
     end
 
+    def existe_usuario(id_usuario) do
+#    Process.alive?(
+      user_pid=Usuario.Registry.get_pid_usuario(id_usuario)
+      if user_pid == nil do
+        false
+      else
+        Process.alive?(user_pid)
+      end
+    end
 
    ## Server Callbacks
 
     def init(:ok) do
       {:ok, %{}}
     end
+
+
 
     def handle_call({:get_estado, id_usuario}, _from, usuarios) do
       {:ok,usuario_pid}= Map.fetch(usuarios, id_usuario)
@@ -41,8 +52,14 @@ defmodule Usuario.Registry do
     end
 
     def handle_call({:get_pid_usuario, id_usuario}, _from, usuarios) do
-      {:ok, usuario_pid} = Map.fetch(usuarios, id_usuario)
-      {:reply, usuario_pid, usuarios}
+      if Map.has_key?(usuarios, id_usuario) do
+        {:ok, usuario_pid} = Map.fetch(usuarios, id_usuario)
+        {:reply, usuario_pid, usuarios}
+      else
+        {:reply, nil, usuarios}
+      end
+
+
     end
 
     def handle_cast({:create, usuario}, usuarios) do

@@ -3,9 +3,6 @@ defmodule Estrategia.Reintentos do
   @moduledoc false
   use GenServer
 
-  @derive [Poison.Encoder]
-
-
 
   def init(:ok) do
     {:ok, %{}}
@@ -22,23 +19,29 @@ defmodule Estrategia.Reintentos do
 #    GenServer.cast(pidStrategia, {:ejecutar_estrategia_ganar, idUsuario,subasta})
 #  end
 
-  def handle_cast({:ejecutar, idUsuario,subasta}, estado) do
-    datos=estado.datos
+  def handle_cast({:ejecutar, idUsuario,subasta}, estado_actual) do
+    datos=estado_actual.datos
     cant_reinttos_realizados_subasta=3
-    if(cant_reinttos_realizados_subasta <= datos.cant_cant_reintentos) do
+    if(cant_reinttos_realizados_subasta <= datos.cant_reintentos) do
       IO.puts("USUAROI: #{idUsuario} Estrategia_Reintentos_num: #{cant_reinttos_realizados_subasta} para subasta: #{subasta.id}")
-      response=Usuario.ofertar_subasta(idUsuario, subasta.id, obtener_precio_a_ofertar(subasta)+datos.sumar_al_precio)
+      precio_ofertado=obtener_precio_a_ofertar(subasta, datos.sumar_al_precio)
+      IO.inspect(precio_ofertado,label: "precio_ofertado")
+      response=Usuario.ofertar_subasta(idUsuario, subasta.id, precio_ofertado)
       if(!response.error) do
         #aumentar cantida de reintentos de la subaasta
+        {:noreply, estado_actual}
       end
     end
   end
 
-  def obtener_precio_a_ofertar(subasta) do
+  def obtener_precio_a_ofertar(subasta, aumentar_precio) do
+    IO.inspect(subasta.precioActual,label: "precio_aqctual")
+    IO.inspect(subasta.precioBase,label: "subasta.precio_base")
+    IO.inspect(aumentar_precio,label: "aumentar_precio")
     if(subasta.precioActual !=nil) do
-      subasta.precioActual
+      subasta.precioActual+aumentar_precio
     else
-      subasta.precioBase
+      subasta.precioBase+aumentar_precio
     end
 
   end
@@ -57,7 +60,7 @@ defmodule Estrategia.Reintentos do
       GenServer.call(pidStrategia, {:get_estado})
     end
 
-  def handle_call({:set_estado, estado}, _from, estado_actual) do
+  def handle_call({:set_estado, estado}, _from, _) do
     {:reply,estado, estado}
   end
 
