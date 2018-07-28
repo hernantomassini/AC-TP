@@ -1,31 +1,17 @@
 defmodule Server do
   @moduledoc false
-  use Agent
 
-  def start_link(_opts) do
-    Agent.start_link(fn -> [subastas: MapSet.new(), usuarios: MapSet.new()] end, name: __MODULE__)
-  end
+  def crear_subasta(subasta) do
+    subasta = Modelo.Subasta.initialize(subasta)
+    IO.inspect(subasta, label: "Subasta inicializada.")
 
-  # type es un átomo :subastas o :usuarios
-  defp get(type) when is_atom(type) do
-    Agent.get(__MODULE__, fn list -> Keyword.get(list, type) end)
-  end
-
-  defp put(type, value) when is_atom(type) do
-    Agent.update(__MODULE__, fn list -> put_in(list[type], MapSet.put(list[type], value)) end)
-  end
-
-  #-------------------------
-
-  def crear_subasta(subasta = %Modelo.Subasta{}) do
-    put(:subastas, subasta)
-    IO.inspect(get(:subastas), label: "Lista de usuarios")
+    GlobalContext.crear_subasta(subasta)
+    Task.async(SubastaTask, :monitorear_subasta, [10])
     Response.new(subasta, "Se a creado una subasta correctamente.")
   end
 
   def registrar_usuario(usuario = %Modelo.Usuario{tags: tags}) do
-    put(:usuarios, usuario)
-    IO.inspect(get(:usuarios), label: "Lista de usuarios")
+    GlobalContext.registrar_usuario(usuario)
     send_subastas_de_interes(tags, "El usuario fue agregado con éxito.")
   end
 
@@ -41,11 +27,13 @@ defmodule Server do
   end
 
   defp send_subastas_de_interes(tags, msg) do
-    subastas_de_interes = Modelo.Usuario.subastas_de_interes(tags, get(:subastas))
+    subastas = GlobalContext.get_subastas()
+    subastas_de_interes = Modelo.Usuario.subastas_de_interes(tags, subastas)
     Response.new(subastas_de_interes, msg)
   end
 
   defp get_user_by_id(id) do
-    Enum.find(get(:usuarios), fn u -> String.downcase(u.id) === String.downcase(id) end)
+    usuarios = GlobalContext.get_usuarios()
+    Enum.find(usuarios, fn u -> String.downcase(u.id) === String.downcase(id) end)
   end
 end
