@@ -7,7 +7,7 @@ defmodule GlobalContext do
   end
 
   @doc """
-    Guarda un elemnto clave valro en el contexto
+    Guarda un elemnto clave valor en el contexto
   """
   def put(key, value) do
     Agent.update(__MODULE__, &Map.put(&1, key, value))

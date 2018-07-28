@@ -77,7 +77,9 @@ defmodule Usuario do
     Return: Subastas de interés
   """
   def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
-    body = Poison.encode!(Usuario.state(pidUsuario))
+    estado_usuario=Usuario.state(pidUsuario)
+    estado_usuario= %Modelo.Usuario{estado_usuario | pid_estrategia: nil} #No se debe evinar el objetivo #PID
+    body = Poison.encode!(estado_usuario)
     response = Usuario.post("/buyers", body)
     IO.inspect(response, label: "registrar_usuario")
   end
@@ -96,7 +98,8 @@ defmodule Usuario do
     usuario = Usuario.state(pidUser)
     oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, precioOfertado)
     body = Poison.encode!(oferta)
-    Usuario.put("/bids", body)
+    response=Usuario.put("/bids", body)
+    get_response_body(response)
   end
 
   def ofertar_subasta(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
@@ -119,4 +122,16 @@ defmodule Usuario do
     cancelar_subasta(pid, idSubasta)
   end
 
+
+  def get_response_body(response) do
+    {:ok,httpPoinson}=response
+#    IO.inspect(httpPoinson.body, label: "sarasra")#
+    Poison.decode!(httpPoinson.body, as: %Response{})
+  end
+
+
+  def ejecutar_estrategia(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
+    pid = get_pid_usuario(idUser)
+    ofertar_subasta(pid, idSubasta, precioOfertado)
+  end
 end

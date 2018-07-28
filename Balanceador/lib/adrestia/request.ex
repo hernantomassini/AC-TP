@@ -53,6 +53,8 @@ defmodule Adrestia.Request do
         endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
         endpointFirst = hd(endpointsFiltered)
         IO.inspect(endpointFirst, label: "First")
+
+
       end
     end
 
