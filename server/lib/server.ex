@@ -26,23 +26,23 @@ defmodule Server do
   def registrar_usuario(usuario = %Modelo.Usuario{tags: tags}) do
     put(:usuarios, usuario)
     IO.inspect(get(:usuarios), label: "Lista de usuarios")
-    send_subastas_de_interes(tags)
+    send_subastas_de_interes(tags, "El usuario fue agregado con éxito.")
   end
 
   def obtener_subastas_de_interes(idUsuario) do
     user = get_user_by_id(idUsuario)
 
     if user do
-      {200, send_subastas_de_interes(user.tags)}
+      {200, send_subastas_de_interes(user.tags, "Subastas de interes.")}
     else
       {404, Response.error(true, "El ID provisto no existe. Método get_by_buyer con id #{idUsuario}")}
     end
 
   end
 
-  defp send_subastas_de_interes(tags) do
+  defp send_subastas_de_interes(tags, msg) do
     subastas_de_interes = Modelo.Usuario.subastas_de_interes(tags, get(:subastas))
-    Response.new(subastas_de_interes, "El usuario fue agregado con éxito.")
+    Response.new(subastas_de_interes, msg)
   end
 
   defp get_user_by_id(id) do

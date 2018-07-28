@@ -79,7 +79,7 @@ defmodule Usuario do
   def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
     body = Poison.encode!(Usuario.state(pidUsuario))
     response = Usuario.post("/buyers", body)
-    IO.inspect(response.body,label: "registrar_usuario")
+    IO.inspect(response, label: "registrar_usuario")
   end
 
   def registrar_usuario(idUsuario) when is_bitstring(idUsuario) do
