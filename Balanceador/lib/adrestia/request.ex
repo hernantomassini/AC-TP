@@ -42,12 +42,37 @@ defmodule Adrestia.Request do
       |> put_in_extras(:body, request.body)
 
     IO.puts "Se envia un request #{request.verb} al: #{url}"
+
+
+    replicacion(request, request_extras)
+
+    if request.verb == :post and request.path =="buyers" do
+      endpoints = GlobalContext.get_endpoints()
+
+      if !is_nil(endpoints) do
+        endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
+        endpointFirst = hd(endpointsFiltered)
+        IO.inspect(endpointFirst, label: "First")
+      end
+    end
+
     response = HTTPotion.request(request.verb, url, request_extras)
-
-    endpoints = GlobalContext.get_endpoints()
-    IO.inspect(endpoints, label: "Endpoints Activos:")
-
     put_response(request, response)
+  end
+
+
+  def replicacion(request, request_extras) do
+    endpoints = GlobalContext.get_endpoints()
+    #IO.inspect(endpoints, label: "Endpoints Activos")
+
+    if request.verb != :get and !is_nil(endpoints) do
+      endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
+      #IO.inspect(endpointsFiltered, label: "Endpoints para replicacion")
+      Enum.map(endpointsFiltered, fn endpoint ->
+        urlPost = endpoint.host  <> "/"  <> request.path
+        HTTPotion.request(request.verb, urlPost, request_extras)
+      end)
+    end
   end
 
   defp put_in_extras(extras, _, nil), do: extras
