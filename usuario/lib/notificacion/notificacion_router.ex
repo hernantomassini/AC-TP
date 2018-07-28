@@ -9,23 +9,23 @@ defmodule Notificacion.Router do
   plug(:dispatch)
 
   #RECIBE UN Modelo.Subasta
-  post "/subasta/ganador" do
-    {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body, as: %Modelo.Subasta{})
+  post "/subasta/ganador/" do
+#    {:ok, body, conn} = read_body(conn)
+#    body = Poison.decode!(body, as: %Modelo.Subasta{})
     send_resp(conn, 200, Response.new("","Muchas gracias por el articulo! :D"))
   end
 
   #RECIBE UN Modelo.Subasta
-  post "/subasta/interesado" do
-    {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body, as: %Modelo.Subasta{})
+  post "/subasta/interes/:idUsuario" do
+#    {:ok, body, conn} = read_body(conn)
+#    body = Poison.decode!(body, as: %Modelo.Subasta{})
     send_resp(conn, 200, Response.new("","Me puede interesar"))
   end
 
   #RECIBE UN Modelo.Subasta
-  post "/subasta/cancelacion" do
-    {:ok, body, conn} = read_body(conn)
-    body = Poison.decode!(body, as: %Modelo.Subasta{})
+  post "/subasta/cancelacion/:idUsuario" do
+#    {:ok, body, conn} = read_body(conn)
+#    body = Poison.decode!(body, as: %Modelo.Subasta{})
     send_resp(conn, 200, Response.new("","Muchas gracias por el articulo! :D"))
   end
 

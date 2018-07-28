@@ -96,7 +96,8 @@ defmodule Usuario do
     usuario = Usuario.state(pidUser)
     oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, precioOfertado)
     body = Poison.encode!(oferta)
-    Usuario.put("/bids", body)
+    response=Usuario.put("/bids", body)
+    get_response_body(response)
   end
 
   def ofertar_subasta(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
@@ -119,4 +120,14 @@ defmodule Usuario do
     cancelar_subasta(pid, idSubasta)
   end
 
+
+  def get_response_body(response) do
+    Poison.decode!(response.body, as: %Response{})
+  end
+
+
+  def ejecutar_estrategia(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
+    pid = get_pid_usuario(idUser)
+    ofertar_subasta(pid, idSubasta, precioOfertado)
+  end
 end
