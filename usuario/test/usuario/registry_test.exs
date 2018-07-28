@@ -23,8 +23,8 @@ defmodule Usuario.RegistryTest do
     Usuario.registrar_usuario(pidUsuarioTest)
   end
 
-  test "consultar_usuario", %{pidUsuarioTest: pidUsuarioTest} do
-    Usuario.consultar_usuario(pidUsuarioTest)
+  test "subastas_ofertadas", %{pidUsuarioTest: pidUsuarioTest} do
+    Usuario.subastas_ofertadas(pidUsuarioTest)
   end
 
   test "crear_subasta", %{pidUsuarioTest: pidUsuarioTest} do
