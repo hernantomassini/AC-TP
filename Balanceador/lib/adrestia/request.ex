@@ -46,15 +46,16 @@ defmodule Adrestia.Request do
 
     replicacion(request, request_extras)
 
-    if request.verb == :post and request.path =="buyers" do
+    if request.verb == :get and request.path =="replicar" do
       endpoints = GlobalContext.get_endpoints()
 
       if !is_nil(endpoints) do
         endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
         endpointFirst = hd(endpointsFiltered)
         IO.inspect(endpointFirst, label: "First")
-
-
+        urlServer = endpointFirst.host  <> "/"  <> request.path
+        responseServer = HTTPotion.request(request.verb, urlServer, request_extras)
+        IO.inspect(responseServer, label: "responseServer TEST")
       end
     end
 
