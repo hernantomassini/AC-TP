@@ -77,7 +77,9 @@ defmodule Usuario do
     Return: Subastas de interés
   """
   def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
-    body = Poison.encode!(Usuario.state(pidUsuario))
+    estado_usuario=Usuario.state(pidUsuario)
+    estado_usuario= %Modelo.Usuario{estado_usuario | pid_estrategia: nil} #No se debe evinar el objetivo #PID
+    body = Poison.encode!(estado_usuario)
     response = Usuario.post("/buyers", body)
     IO.inspect(response, label: "registrar_usuario")
   end
@@ -122,7 +124,9 @@ defmodule Usuario do
 
 
   def get_response_body(response) do
-    Poison.decode!(response.body, as: %Response{})
+    {:ok,httpPoinson}=response
+#    IO.inspect(httpPoinson.body, label: "sarasra")#
+    Poison.decode!(httpPoinson.body, as: %Response{})
   end
 
 

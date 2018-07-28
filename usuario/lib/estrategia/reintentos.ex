@@ -32,20 +32,21 @@ defmodule Estrategia.Reintentos do
 
   end
 
-    def set_estado(pidStrategia, estado = %Modelo.Estrategia{}) do
-      GenServer.call(pidStrategia, {:set_estado, estado})
+  def set_estado(pidStrategia, estado) do
+#    IO.inspect(estado, label: "Modelo.Reintentos.set_estado")
+    GenServer.call(pidStrategia, {:set_estado, estado})
     end
 
-    def get_estado(pidStrategia) do
+  def get_estado(pidStrategia) do
       GenServer.call(pidStrategia, {:get_estado})
     end
 
-  def handle_call({:set_estado, estado = %Modelo.Estrategia{}}, _from, usuarios) do
+  def handle_call({:set_estado, estado}, _from, estado_actual) do
     {:reply,estado, estado}
   end
 
-    def handle_call({:get_estado}, _from, estado) do
-      {:reply,estado, estado}
+    def handle_call({:get_estado}, _from, estado_actual) do
+      {:reply,estado_actual, estado_actual}
     end
 
 end

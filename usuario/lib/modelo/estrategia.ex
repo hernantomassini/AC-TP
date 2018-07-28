@@ -1,5 +1,5 @@
 defmodule Modelo.Estrategia do
-
+  @derive [Poison.Encoder]
   defstruct [:cant_reintentos,:sumar_al_precio,:no_mayor_a,:soy_reintentos,:soy_ofertar_hasta]
 
   @doc """

@@ -45,7 +45,7 @@ defmodule Server.Router do
     {:ok, body, conn} = read_body(conn)
     # body = Poison.decode!(body, as: %Modelo.Usuario{})
     # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 201, "")
+    send_resp(conn, 201,Response.new("","Oferta realizada con exito"))
   end
 
   delete "/bids/:idUsuario/:idSubasta" do

@@ -17,7 +17,7 @@ defmodule Modelo.Usuario do
 
   def get_estrategia(estrategia_oferta)do
     if(estrategia_oferta.soy_reintentos) do
-      pid_estrategia= Estrategia.Reintentos.start_link([])
+      {:ok, pid_estrategia}= Estrategia.Reintentos.start_link([])
       # def set_estado(pidStrategia, estado = %Modelo.Estrategia{}) do
       Estrategia.Reintentos.set_estado(pid_estrategia, estrategia_oferta)
       pid_estrategia
