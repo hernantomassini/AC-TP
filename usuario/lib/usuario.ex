@@ -1,5 +1,3 @@
-
-
 defmodule Usuario do
   @moduledoc false
   use HTTPoison.Base
@@ -27,6 +25,7 @@ defmodule Usuario do
   @doc """
     Registra al usuario en el Servidor. El usuario estará interesado en las subastas que tengan al menos 1 tag del usuario.
     POST /buyers
+    Return: Subastas de interés
   """
   def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
     body = Poison.encode!(Usuario.state(pidUsuario))
@@ -40,23 +39,41 @@ defmodule Usuario do
   end
 
   @doc """
-    Muestra subastas a las cuales el usuario ha ofertado.
-    GET /buyers/:idUsuario
+    Muestra subastas que el usuario encontrará de interes.
+    GET /buyers/interests/:idUsuario
+    Return: Subastas de interés
   """
-  def consultar_subastas_ofertadas(pidUsuario) when is_pid(pidUsuario) do
+  def subastas_de_interes(pidUsuario) when is_pid(pidUsuario) do
     usuario = Usuario.state(pidUsuario)
-    response = Usuario.get("/buyers/#{usuario.id}")
-    IO.inspect(response, label: "consultar_subastas_ofertadas")
+    response = Usuario.get("/buyers/interests/#{usuario.id}")
+    IO.inspect(response, label: "subastas_de_interes")
   end
 
-  def consultar_subastas_ofertadas(idUsuario) when is_bitstring(idUsuario) do
+  def subastas_de_interes(idUsuario) when is_bitstring(idUsuario) do
     pid = get_pid_usuario(idUsuario)
-    consultar_subastas_ofertadas(pid)
+    subastas_de_interes(pid)
   end
 
   @doc """
-    TODO: METER ALGO INTELIGENTE AAAAAAAAAAAAAA
+    Muestra subastas a las cuales el usuario ha ofertado. TODO: ¿¿Importa si fué superado??
+    GET /buyers/owns/:idUsuario
+    Return: Subastas las cuales el usuario ofertó.
+  """
+  def subastas_ofertadas(pidUsuario) when is_pid(pidUsuario) do
+    usuario = Usuario.state(pidUsuario)
+    response = Usuario.get("/buyers/owns/#{usuario.id}")
+    IO.inspect(response, label: "subastas_ofertadas")
+  end
+
+  def subastas_ofertadas(idUsuario) when is_bitstring(idUsuario) do
+    pid = get_pid_usuario(idUsuario)
+    subastas_ofertadas(pid)
+  end
+
+  @doc """
+    El usuario comienza una subasta de un artículo
     POST /bids
+    Return: ID de la subasta
   """
   def crear_subasta(pidUser, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
@@ -71,24 +88,36 @@ defmodule Usuario do
   end
 
   @doc """
-    TODO: METER ALGO INTELIGENTE AAAAAAAAAAAAAA
+    El usuario oferta en una subasta
     PUT /bids
+    Return: 200 si la oferta fue aceptada. Caso contrario 500.
   """
-  def ofertar_subasta(instance, idSubasta, precioOfertado) do
-    usuario = Usuario.state(instance)
+  def ofertar_subasta(pidUser, idSubasta, precioOfertado) when is_pid(pidUser) do
+    usuario = Usuario.state(pidUser)
     oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, precioOfertado)
     body = Poison.encode!(oferta)
     Usuario.put("/bids", body)
   end
 
+  def ofertar_subasta(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
+    pid = get_pid_usuario(idUser)
+    ofertar_subasta(pid, idSubasta, precioOfertado)
+  end
+
 
   @doc """
-    TODO: METER ALGO INTELIGENTE AAAAAAAAAAAAAA
+    El usuario cancela una subasta QUE HAYA SIDO GENERADA POR ÉL.
     DELETE /bids/:idUsuario/:idSubasta
+    Return: 200 si la subasta fue cancelada. Caso contrario 500.
   """
-  def cancelar_subasta(instance,idSubasta) do
-    usuario = Usuario.state(instance)
+  def cancelar_subasta(pidUser ,idSubasta) when is_pid(pidUser) do
+    usuario = Usuario.state(pidUser)
     Usuario.delete("/bids/#{usuario.id}/#{idSubasta}")
+  end
+
+  def cancelar_subasta(idUser, idSubasta) when is_bitstring(idUser) do
+    pid = get_pid_usuario(idUser)
+    cancelar_subasta(pid, idSubasta)
   end
 
 end
