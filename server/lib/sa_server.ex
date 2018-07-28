@@ -36,7 +36,7 @@ defmodule SaServer do
     send_subastas_de_interes(tags)
   end
 
-  def delete_subasta(idUsuario,idSubsata) do
+  def delete_subasta(idUsuario, idSubsata) do
     mensaje="Se elimina la sbasta id: #{idSubsata} del usuario: #{idUsuario}"
     IO.puts(mensaje)
     Response.new(%{idUsuario: idUsuario, idSubsata: idSubsata}, mensaje)

@@ -1,6 +1,5 @@
 defmodule Response do
   @moduledoc false
-
   defstruct [:data,:error,:mensaje]
 
   def new(data,mensaje) do
