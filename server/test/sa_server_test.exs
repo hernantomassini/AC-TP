@@ -1,8 +1,8 @@
-defmodule SaServerTest do
+defmodule ServerTest do
   use ExUnit.Case
-  doctest SaServer
+  doctest Server
 
   test "greets the world" do
-    assert SaServer.hello() == :world
+    assert Server.hello() == :world
   end
 end

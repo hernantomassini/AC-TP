@@ -15,7 +15,7 @@ defmodule SubastaAutomatica.MixProject do
   def application do
     [
       extra_applications: [:logger, :cowboy, :plug, :poison, :elixir_uuid],
-      mod: {SaServer.Application, []}
+      mod: {Server.Application, []}
     ]
   end
 

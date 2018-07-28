@@ -1,4 +1,4 @@
-defmodule SaServer do
+defmodule Server do
   @moduledoc false
   use Agent
 
@@ -37,7 +37,7 @@ defmodule SaServer do
   end
 
   def delete_subasta(idUsuario, idSubsata) do
-    mensaje="Se elimina la sbasta id: #{idSubsata} del usuario: #{idUsuario}"
+    mensaje = "Se elimina la sbasta id: #{idSubsata} del usuario: #{idUsuario}"
     IO.puts(mensaje)
     Response.new(%{idUsuario: idUsuario, idSubsata: idSubsata}, mensaje)
   end

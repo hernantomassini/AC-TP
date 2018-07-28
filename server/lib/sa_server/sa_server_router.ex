@@ -1,4 +1,4 @@
-defmodule SaServer.Router do
+defmodule Server.Router do
   use Plug.Router
   use Plug.Debugger
   require Logger
@@ -11,32 +11,36 @@ defmodule SaServer.Router do
   post "/buyers" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %Modelo.Usuario{})
-    response = SaServer.agregar_usuario(body)
+    response = Server.agregar_usuario(body)
     send_resp(conn, 201, response)
   end
 
   get "/buyers/:id" do
-    response = SaServer.get_by_buyer(id)
+    response = Server.get_by_buyer(id)
     send_resp(conn, 200, response)
   end
 
   delete "/bids/:idUsuario/:idSubsata" do
-    response = SaServer.delete_subasta(idUsuario,idSubsata)
+    response = Server.delete_subasta(idUsuario,idSubsata)
     send_resp(conn, 200, response)
   end
 
   post "/bids" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %Modelo.Subasta{})
-    response =  SaServer.crear_subasta(body)
+    response =  Server.crear_subasta(body)
     send_resp(conn, 201, response)
   end
 
   get "/bids/:id" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %SubastaById{})
-    response = SaServer.post_subasta_by(id, body)
+    response = Server.post_subasta_by(id, body)
     send_resp(conn, 200, response)
+  end
+
+  match "/" do
+    send_resp(conn, 200, "")
   end
 
   # "Default" route that will get called when no other route is matched
