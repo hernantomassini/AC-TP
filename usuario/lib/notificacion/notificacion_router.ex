@@ -9,14 +9,14 @@ defmodule Notificacion.Router do
   plug(:dispatch)
 
   #RECIBE UN Modelo.Subasta
-  post "/subasta/ganador/" do
+  post "/notificacion/ganador/" do
 #    {:ok, body, conn} = read_body(conn)
 #    body = Poison.decode!(body, as: %Modelo.Subasta{})
     send_resp(conn, 200, Response.new("","Muchas gracias por el articulo! :D"))
   end
 
   #RECIBE UN Modelo.Subasta
-  post "/subasta/interes/:idUsuario" do
+  post "/notificacion/interes/:idUsuario" do
     if(Usuario.Registry.existe_usuario(idUsuario)) do
 
     {:ok, body, conn} = read_body(conn)
@@ -26,6 +26,13 @@ defmodule Notificacion.Router do
     else
       send_resp(conn, 200, Response.new("","No poseo usuarios interesados"))
     end
+  end
+
+  post "/notificacion/perdedor/:id_usuario" do
+    {:ok, body, conn} = read_body(conn)
+    subasta = Poison.decode!(body, as: %Modelo.Subasta{})
+    IO.puts("El usuario: #{id_usuario} perdio el articulo #{subasta.articuloNombre} ante el GANADOR: #{subasta.idUsuario}}")
+    send_resp(conn, 200, Response.new("","Que pena!! sera mas suerte para proxima."))
   end
 
   #RECIBE UN Modelo.Subasta
