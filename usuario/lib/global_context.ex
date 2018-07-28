@@ -3,7 +3,7 @@ defmodule GlobalContext do
   use Agent
 
   def start_link(_opts) do
-    Agent.start_link(fn -> %{} end,name: __MODULE__)
+    Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
   @doc """
@@ -25,7 +25,7 @@ defmodule GlobalContext do
   end
 
   def set_port(port) do
-    GlobalContext.put("port",port)
+    GlobalContext.put("port", port)
   end
 
   def get_ip() do
@@ -37,7 +37,7 @@ defmodule GlobalContext do
   end
 
   def set_server_endpoint(server_endpoint) do
-    GlobalContext.put("server_endpoint",server_endpoint)
+    GlobalContext.put("server_endpoint", server_endpoint)
   end
 
   def get_server_endpoint() do

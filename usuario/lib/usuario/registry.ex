@@ -4,18 +4,10 @@ defmodule Usuario.Registry do
 
     ## Client API
 
-    @doc """
-    Starts the registry.
-    """
     def start_link(_args) do
       GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
     end
 
-    @doc """
-    Looks up the bucket pid for `usuario` stored in `server`.
-
-    Returns `{:ok, pid}` if the bucket exists, `:error` otherwise.
-    """
     def get_estado(id_usuario) do
       GenServer.call(__MODULE__, {:get_estado, id_usuario})
     end
@@ -24,10 +16,6 @@ defmodule Usuario.Registry do
       GenServer.call(__MODULE__, {:get_pid_usuario, id_usuario})
     end
 
-    @doc """
-    Ensures there is a bucket associated with the given `usuario` in `server`.
-    usuario es de tipo %Usuario.Struct{}
-    """
     def crear_usuario(usuario) do
       GenServer.cast(__MODULE__, {:create, usuario})
     end
@@ -53,7 +41,7 @@ defmodule Usuario.Registry do
     end
 
     def handle_call({:get_pid_usuario, id_usuario}, _from, usuarios) do
-      {:ok,usuario_pid}= Map.fetch(usuarios, id_usuario)
+      {:ok, usuario_pid} = Map.fetch(usuarios, id_usuario)
       {:reply, usuario_pid, usuarios}
     end
 
@@ -61,7 +49,7 @@ defmodule Usuario.Registry do
       if Map.has_key?(usuarios, usuario.id) do
         {:noreply, usuarios}
       else
-        {:ok, instance} =Usuario.start_link([])
+        {:ok, instance} = Usuario.start_link([])
        Usuario.save(instance,usuario)
         {:noreply, Map.put(usuarios, usuario.id, instance)}
       end

@@ -20,7 +20,7 @@ defmodule Usuario do
   end
 
   #------------------------------------------------------------------------------
-  #COMPORTAMIENTO DE INTERACCIÓN CON SERVIDOR
+  #Interacción con el Servidor
 
   @doc """
     Registra al usuario en el Servidor. El usuario estará interesado en las subastas que tengan al menos 1 tag del usuario.
@@ -103,7 +103,6 @@ defmodule Usuario do
     pid = get_pid_usuario(idUser)
     ofertar_subasta(pid, idSubasta, precioOfertado)
   end
-
 
   @doc """
     El usuario cancela una subasta QUE HAYA SIDO GENERADA POR ÉL.

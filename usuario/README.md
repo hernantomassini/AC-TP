@@ -12,5 +12,6 @@ Usuario.registrar_usuario("hernan")
 Usuario.registrar_usuario("jorge")
 
 ## Envíar POST Subasta (/bids)
+
 Usuario.crear_subasta("jorge", ["PC", "Gamer"], 10000, 5000, "PC de escritorio", "El gabinete tiene lucesitas.")
 

@@ -1,9 +1,9 @@
 defmodule Response do
   @moduledoc false
 
-  defstruct [:data,:error,:mensaje]
+  defstruct [:data, :error, :mensaje]
 
-  def new(data,mensaje) do
+  def new(data, mensaje) do
     instance = %Response{data: data, mensaje: mensaje}
     IO.inspect(instance)
     Poison.encode!(instance)
