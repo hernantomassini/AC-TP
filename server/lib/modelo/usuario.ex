@@ -4,10 +4,10 @@ defmodule Modelo.Usuario do
 
   # tags es una List, subastas es un MapSet
   def subastas_de_interes(tags, subastas) do
-    Enum.filter(subastas, fn s -> length(capitalize_tags(tags) -- capitalize_tags(s.tags)) != length(tags) end)
+    Enum.filter(subastas, fn s -> length(downcase_tags(tags) -- downcase_tags(s.tags)) != length(tags) end)
   end
 
-  defp capitalize_tags(tags) do
-    Enum.map(tags, fn t -> String.capitalize(t) end)
+  defp downcase_tags(tags) do
+    Enum.map(tags, fn t -> String.downcase(t) end)
   end
 end

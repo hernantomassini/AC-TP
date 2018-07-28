@@ -17,7 +17,6 @@ defmodule SaServer do
 
   #-------------------------
 
-
   def crear_subasta(subasta = %Modelo.Subasta{}) do
     put(:subastas, subasta)
     IO.inspect(get(:subastas), label: "Lista de usuarios")
@@ -30,19 +29,17 @@ defmodule SaServer do
     "Oferta aplicada."
   end
 
-
   def agregar_usuario(usuario = %Modelo.Usuario{tags: tags}) do
     # TODO: Validar si el usuario ya existía o no?
     put(:usuarios, usuario)
     IO.inspect(get(:usuarios), label: "Lista de usuarios")
     send_subastas_de_interes(tags)
-    end
-
+  end
 
   def delete_subasta(idUsuario,idSubsata) do
     mensaje="Se elimina la sbasta id: #{idSubsata} del usuario: #{idUsuario}"
     IO.puts(mensaje)
-    Response.new(%{idUsuario: idUsuario, idSubsata: idSubsata},mensaje)
+    Response.new(%{idUsuario: idUsuario, idSubsata: idSubsata}, mensaje)
   end
 
   def get_by_buyer(id) do
