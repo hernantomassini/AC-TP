@@ -44,7 +44,7 @@ defmodule Adrestia.Request do
     IO.puts "Se envia un request #{request.verb} al: #{url}"
 
 
-    replicacion(request, request_extras)
+    broadcast(request, request_extras)
 
     if request.verb == :get and request.path =="replicar" do
       endpoints = GlobalContext.get_endpoints()
@@ -55,16 +55,17 @@ defmodule Adrestia.Request do
         IO.inspect(endpointFirst, label: "First")
         urlServer = endpointFirst.host  <> "/"  <> request.path
         responseServer = HTTPotion.request(request.verb, urlServer, request_extras)
-        IO.inspect(responseServer, label: "responseServer TEST")
+        put_response(request, responseServer)
+        #IO.inspect(responseServer, label: "responseServer TEST")
       end
+    else
+      response = HTTPotion.request(request.verb, url, request_extras)
+      put_response(request, response)
     end
-
-    response = HTTPotion.request(request.verb, url, request_extras)
-    put_response(request, response)
   end
 
 
-  def replicacion(request, request_extras) do
+  def broadcast(request, request_extras) do
     endpoints = GlobalContext.get_endpoints()
     #IO.inspect(endpoints, label: "Endpoints Activos")
 
