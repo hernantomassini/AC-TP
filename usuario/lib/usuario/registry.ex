@@ -7,7 +7,7 @@ defmodule Usuario.Registry do
     @doc """
     Starts the registry.
     """
-    def start(_type, _args) do
+    def start_link(_args) do
       GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
     end
 

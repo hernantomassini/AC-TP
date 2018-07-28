@@ -1,18 +1,12 @@
-defmodule Modelo.Usuario do
-  @moduledoc false
-  @derive [Poison.Encoder]
-  defstruct [:id,:ip,:puerto,:tags]
-end
+
 
 defmodule Usuario do
   @moduledoc false
   use HTTPoison.Base
   import Usuario.Registry, only: [get_pid_usuario: 1]
 
-  @endpoint "http://127.0.0.1:8085"
-
   def process_url(url) do
-    @endpoint <> url
+    GlobalContext.get_server_endpoint() <> url
   end
 
   def start_link(_opts) do
@@ -41,7 +35,7 @@ defmodule Usuario do
   def registrar_usuario(usuario) when is_pid(usuario) do
     body=Poison.encode!(Usuario.state(usuario))
     response=Usuario.post("/buyers",body)
-    IO.inspect(response)
+    IO.inspect(response.body,label: "registrar_usuario")
   end
 
   def registrar_usuario(usuario) when is_bitstring(usuario) do
@@ -53,7 +47,7 @@ defmodule Usuario do
   def consultar_usuario(instance) do
     usuario=Usuario.state(instance)
     response=Usuario.get("/buyers/#{usuario.id}"  )
-    IO.inspect(response,label: "consultar_usuario")
+    IO.inspect(response.body,label: "consultar_usuario")
   end
 
   def crear_usuario(usuario) when is_bitstring(usuario) do
@@ -64,14 +58,14 @@ defmodule Usuario do
   def crear_usuario(usuario) when is_pid(usuario) do
     body=Poison.encode!(Usuario.get(usuario))
     response=Usuario.post("/bids",body)
-    IO.inspect(response)
+    IO.inspect(response.body, label: "crear_usuario")
   end
 
 
   def obtener_subasta(usuario) when is_pid(usuario) do
     body=Poison.encode!(Usuario.get(usuario))
     {:ok,Usuario.post("/buyers",body)}
-    IO.puts("ejecutado post")
+    IO.puts("Se ejecuto: obtener_subasta")
   end
 
   def obtener_subasta(usuario) when is_bitstring(usuario) do
@@ -84,19 +78,25 @@ defmodule Usuario do
     usuario=Usuario.state(instance)
     subasta= Modelo.Subasta.new(usuario.id, tags,precioBase,tiempoFinalizacion,articuloNombre,articuloDescripcion)
     body=Poison.encode!(subasta)
-    Usuario.post("/bids",body)
+    response=Usuario.post("/bids",body)
+    IO.inspect(response.body, label: "crear_subasta")
+
   end
 
   def ofertar_subasta(instance,idSubasta,precioOfertado) do
     usuario=Usuario.state(instance)
     oferta= Modelo.OfertarSubasta.new(idSubasta,usuario.id,precioOfertado)
     body=Poison.encode!(oferta)
-    Usuario.put("/bids",body)
+    response=Usuario.put("/bids",body)
+    IO.inspect(response.body, label: "ofertar_subasta")
+
   end
 
   def cancelar_subasta(instance,idSubasta) do
     usuario=Usuario.state(instance)
-    Usuario.delete("/bids/#{usuario.id}/#{idSubasta}")
+    response=Usuario.delete("/bids/#{usuario.id}/#{idSubasta}")
+    IO.inspect(response.body, label: "cancelar_subasta")
+
   end
 
 end

@@ -14,14 +14,16 @@ defmodule Usuario.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :httpoison, :poison, :elixir_uuid],
-      mod: {Usuario.Registry, []}
+      extra_applications: [:logger,:cowboy, :plug, :poison, :elixir_uuid, :httpoison],
+      mod: {Notificacion.Application, []}
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:cowboy, "~> 1.0.0"},
+      {:plug, "~> 1.5"},
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
        { :elixir_uuid, "~> 1.2" }
