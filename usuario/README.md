@@ -2,8 +2,8 @@
 
 ## Envíar POST Usuario (/buyers)
 
-u1 = %Modelo.Usuario{ id: "hernan", ip: "191.24.1.5", puerto: 2020, tags: ["PC", "gamer", "consola"] }
-u2 = %Modelo.Usuario{ id: "jorge", ip: "1.1.1.1", puerto: 90, tags: ["Elixir"] }
+u1 = %Modelo.Usuario{ id: "hernan", ip: "127.0.0.1", puerto: 2020, tags: ["PC", "gamer", "consola"] }
+u2 = %Modelo.Usuario{ id: "jorge", ip: "127.0.0.1", puerto: 90, tags: ["Elixir"] }
 
 Usuario.Registry.crear_usuario(u1)
 Usuario.Registry.crear_usuario(u2)

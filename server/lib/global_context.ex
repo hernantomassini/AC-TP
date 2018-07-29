@@ -3,7 +3,7 @@ defmodule GlobalContext do
   use Agent
 
   def start_link(_opts) do
-    Agent.start_link(fn -> [subastas: MapSet.new(), usuarios: MapSet.new()] end, name: __MODULE__)
+    Agent.start_link(fn -> [subastas: [], usuarios: []] end, name: __MODULE__)
   end
 
   # type es un átomo :subastas o :usuarios
@@ -16,11 +16,11 @@ defmodule GlobalContext do
   end
 
   defp put(type, value) when is_atom(type) do
-    Agent.update(__MODULE__, fn data -> put_in(data[type], MapSet.put(data[type], value)) end)
+    Agent.update(__MODULE__, fn data -> put_in(data[type], [ value | data[type] ]) end)
   end
 
   defp update(type, value) when is_atom(type) do
-    Agent.update(__MODULE__, fn data -> put_in(data[type], Enum.reject(data[type], fn x -> x.id === value.id end) |> MapSet.put(value)) end)
+    Agent.update(__MODULE__, fn data -> put_in(data[type], [ value | Enum.reject(data[type], fn x -> x.id === value.id end) ]) end)
   end
 
   #---------------------------------------
