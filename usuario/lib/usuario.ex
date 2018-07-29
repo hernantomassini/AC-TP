@@ -103,7 +103,7 @@ defmodule Usuario do
 
   def ofertar_subasta(idUser, id_subasta, valor_ofertado) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    ofertar_subasta(pid, id_subasta, valor_ofertado)
+    get_response_body(ofertar_subasta(pid, id_subasta, valor_ofertado))
   end
 
   @doc """
