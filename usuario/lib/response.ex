@@ -18,4 +18,11 @@ defmodule Response do
     IO.inspect(instance)
     Poison.encode!(instance)
   end
+
+  def decode(input) do
+    {:ok,httpPoinson}=input
+    #    IO.inspect(httpPoinson.body, label: "sarasra")#
+    Poison.decode!(httpPoinson.body, as: %Response{})
+  end
+
 end

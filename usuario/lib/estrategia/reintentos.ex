@@ -26,13 +26,14 @@ defmodule Estrategia.Reintentos do
       valor_ofertado=obtener_precio_a_ofertar(subasta, datos.sumar_al_precio)
       IO.inspect(valor_ofertado,label: "valor_ofertado")
       response=Usuario.ofertar_subasta(id_usuario, subasta.id, valor_ofertado)
-      IO.inspect(response, label: "PRUEBA")
       if(!response.error) do
         #aumentar cantida de reintentos de la subaasta
         estado_actual=%{estado_actual | ofertasRealizadas: Map.put(mapa_ofertados, subasta.id, cant_reinttos_realizados_subasta+1)}
         estado_actual.ofertasRealizadas
         {:noreply, estado_actual}
-      end
+        else
+        {:noreply, estado_actual}
+        end
       else
         IO.puts("Usuario: #{id_usuario}. Realizo maximo de reintentos para subatas.id= #{subasta.id}. Producto: #{subasta.articulo_nombre}}")
         {:noreply, estado_actual}

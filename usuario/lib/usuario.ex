@@ -103,7 +103,7 @@ defmodule Usuario do
 
   def ofertar_subasta(idUser, id_subasta, valor_ofertado) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    get_response_body(ofertar_subasta(pid, id_subasta, valor_ofertado))
+    Response.decode(ofertar_subasta(pid, id_subasta, valor_ofertado))
   end
 
   @doc """
@@ -119,13 +119,6 @@ defmodule Usuario do
   def cancelar_subasta(idUser, id_subasta) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
     cancelar_subasta(pid, id_subasta)
-  end
-
-  # TODO: Esto no podría borrarse?
-  def get_response_body(response) do
-    {:ok,httpPoinson}=response
-#    IO.inspect(httpPoinson.body, label: "sarasra")#
-    Poison.decode!(httpPoinson.body, as: %Response{})
   end
 
   def ejecutar_estrategia(idUser, subasta) when is_bitstring(idUser) do
