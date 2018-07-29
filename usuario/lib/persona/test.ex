@@ -8,6 +8,6 @@ defmodule Persona.Test do
     estrategia_oferta_reintentos= Modelo.Estrategia.reintentos(3,20)
     usaurio= Modelo.Usuario.new("usuarioTest", ["cosa1","cosa2"], estrategia_oferta_reintentos)
     Usuario.Registry.crear_usuario(usaurio)
-    pidUsuario = Usuario.Registry.get_pid_usuario(usaurio.id)
+    pid_usuario = Usuario.Registry.get_pid_usuario(usaurio.id)
   end
 end
