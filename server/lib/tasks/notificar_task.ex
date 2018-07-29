@@ -37,10 +37,20 @@ defmodule NotificarTask do
   end
 
   def nueva_subasta(subasta) do
+    body = Poison.encode!(subasta)
+
+    usuarios = GlobalContext.get_usuarios()
     kill_task()
   end
 
   def nueva_oferta(subasta) do
+    body = Poison.encode!(subasta)
+
+    Enum.map(subasta.participantes, fn id_usuario ->
+      url = get_url(id_usuario) <> "/notificacion"
+      NotificarTask.post(url <> "/oferta/#{id_usuario}", body)
+    end)
+
     kill_task()
   end
 
