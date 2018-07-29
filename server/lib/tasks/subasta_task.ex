@@ -4,7 +4,7 @@ defmodule SubastaTask do
     :timer.sleep(1000)
     subasta = GlobalContext.get_subasta(id_subasta)
 
-    IO.inspect(subasta.tiempoFinalizacion, label: "Duracion de subasta: ")
+    # IO.inspect(subasta.tiempoFinalizacion, label: "Duracion de subasta: ")
 
     if subasta.estado == :cancelada do
       cancelar_subasta(subasta)

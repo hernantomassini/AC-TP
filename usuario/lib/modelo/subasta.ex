@@ -9,9 +9,9 @@ end
 
 defmodule Modelo.OfertarSubasta do
   @derive [Poison.Encoder]
-  defstruct [:idSubasta, :idUsuario, :precioOfertado]
+  defstruct [:idSubasta, :idUsuario, :valorOfertado]
 
-  def new(idSubasta, idUsuario, precioOfertado) do
-    %Modelo.OfertarSubasta{idSubasta: idSubasta, idUsuario: idUsuario, precioOfertado: precioOfertado}
+  def new(idSubasta, idUsuario, valorOfertado) do
+    %Modelo.OfertarSubasta{idSubasta: idSubasta, idUsuario: idUsuario, valorOfertado: valorOfertado}
   end
 end

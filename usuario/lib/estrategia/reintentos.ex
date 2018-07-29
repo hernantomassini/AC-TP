@@ -18,9 +18,8 @@ defmodule Estrategia.Reintentos do
   end
 
   def handle_cast({:ejecutar_estrategia_ganar, idUsuario, subasta}, estado) do
-    # TODO: Hernán paso por aca y te cambió el codigo. Revisar que no te haya roto nada.
-    precioOfertado = subasta.precio + 1
-    Usuario.ofertar_subasta(idUsuario, subasta.id, precioOfertado)
+    # TODO: Hernán paso por aca y te cambió el código. Revisar que no te haya roto nada.
+    Usuario.ofertar_subasta(idUsuario, subasta.id, subasta.precio + 1)
   end
 
   def set_estado(pidStrategia, estado) do

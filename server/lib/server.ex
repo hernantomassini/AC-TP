@@ -28,28 +28,21 @@ defmodule Server do
   end
 
   def ofertar(%Modelo.Oferta{idSubasta: idSubasta, idUsuario: idUsuario, valorOfertado: valorOfertado}) do
-    # TODO: Eliminar el get_usuario, parece que está al pedo.
     subasta = GlobalContext.get_subasta(idSubasta)
-    usuario = GlobalContext.get_usuario(idUsuario)
 
     cond do
       !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{idSubasta}")}
-      !usuario -> {404, Response.error(true, "El ID del usuario no existe. Método ofertar con id #{idUsuario}")}
-      subasta && usuario ->
-        if valorOfertado > subasta.precio do
-          subasta = subasta
-            |> Map.put(:precio, valorOfertado)
-            |> Map.put(:idGanador, idUsuario)
-            |> Map.put(:participantes, MapSet.put(subasta.participantes, idUsuario))
+      String.downcase(subasta.idUsuario) === String.downcase(idUsuario) -> {500, "No podes ofertar en una subasta creada por vos mismo."}
+      valorOfertado <= subasta.precio -> {500, "El valor ofertado es demasiado bajo."}
+      true ->
+        subasta = Map.put(subasta, :precio, valorOfertado)
+          |> Map.put(:idGanador, idUsuario)
+          |> Map.put(:participantes, [ idUsuario | subasta.participantes] |> Enum.uniq())
 
-          GlobalContext.modificar_subasta(subasta)
-          Task.async(OfertaTask, :notificar_oferta, [subasta])
+        GlobalContext.modificar_subasta(subasta)
+        Task.async(OfertaTask, :notificar_oferta, [subasta])
 
-          # TODO: Correr TASK que notifique a toda la gente que participa en esta subasta que alguien ganó.
-          {200, "La oferta ha sido aceptada."}
-        else
-          {500, "El valor ofertado es demasiado bajo."}
-        end
+        {200, "La oferta ha sido aceptada."}
     end
   end
 

@@ -94,17 +94,17 @@ defmodule Usuario do
     PUT /bids
     Return: 200 si la oferta fue aceptada. Caso contrario 500.
   """
-  def ofertar_subasta(pidUser, idSubasta, precioOfertado) when is_pid(pidUser) do
+  def ofertar_subasta(pidUser, idSubasta, valorOfertado) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
-    oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, precioOfertado)
+    oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, valorOfertado)
     body = Poison.encode!(oferta)
     Usuario.put("/bids", body)
     # IO.inspect(response, label: "ofertar_subasta")
   end
 
-  def ofertar_subasta(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
+  def ofertar_subasta(idUser, idSubasta, valorOfertado) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    ofertar_subasta(pid, idSubasta, precioOfertado)
+    ofertar_subasta(pid, idSubasta, valorOfertado)
   end
 
   @doc """
@@ -122,8 +122,8 @@ defmodule Usuario do
     cancelar_subasta(pid, idSubasta)
   end
 
-  def ejecutar_estrategia(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
+  def ejecutar_estrategia(idUser, idSubasta, valorOfertado) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    ofertar_subasta(pid, idSubasta, precioOfertado)
+    ofertar_subasta(pid, idSubasta, valorOfertado)
   end
 end
