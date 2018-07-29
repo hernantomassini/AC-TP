@@ -51,8 +51,8 @@ defmodule Notificacion.Router do
 
   #RECIBE UN Modelo.Subasta
   post "/subasta/cancelacion/:id_usuario" do
-#    {:ok, body, conn} = read_body(conn)
-#    body = Poison.decode!(body, as: %Modelo.Subasta{})
+    {:ok, body, conn} = read_body(conn)
+    subasta = Poison.decode!(body, as: %Modelo.Subasta{})
     IO.puts("Se cancela la con subasta.id: #{subasta.id}  El usuario: #{id_usuario} se le notifica que la subasta del producto: #{subasta.articulo_nombre} ")
     send_resp(conn, 200, Response.new("","UFA!! una pena! :...( yo queria un #{subasta.articulo_nombre}"))
   end
