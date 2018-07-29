@@ -45,7 +45,7 @@ defmodule Notificacion.Router do
   post "/notificacion/perdedor/:id_usuario" do
     {:ok, body, conn} = read_body(conn)
     subasta = Poison.decode!(body, as: %Modelo.Subasta{})
-    IO.puts("El usuario: #{id_usuario} perdio el articulo #{subasta.articulo_nombre} ante el GANADOR: #{subasta.id_usuario}}")
+    IO.puts("El usuario: #{id_usuario} perdio el articulo #{subasta.articulo_nombre} ante el GANADOR: #{subasta.id_usuario}")
     send_resp(conn, 200, Response.new("","Que pena!! sera mas suerte para proxima."))
   end
 
@@ -53,12 +53,13 @@ defmodule Notificacion.Router do
   post "/subasta/cancelacion/:id_usuario" do
 #    {:ok, body, conn} = read_body(conn)
 #    body = Poison.decode!(body, as: %Modelo.Subasta{})
-    send_resp(conn, 200, Response.new("","Muchas gracias por el articulo! :D"))
+    IO.puts("Se cancela la con subasta.id: #{subasta.id}  El usuario: #{id_usuario} se le notifica que la subasta del producto: #{subasta.articulo_nombre} ")
+    send_resp(conn, 200, Response.new("","UFA!! una pena! :...( yo queria un #{subasta.articulo_nombre}"))
   end
 
   # "Default" route that will get called when no other route is matched
   match _ do
-    send_resp(conn, 404, "not found")
+    send_resp(conn, 404, "No es una peticion valida....")
   end
 
 end
