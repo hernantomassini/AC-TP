@@ -18,12 +18,13 @@ defmodule Estrategia.Ofertar_hasta do
     #  end
 
     def handle_cast({:ejecutar, id_usuario,subasta}, estado_actual) do
+      IO.puts("Ejecutando estrategia de ofertar hasta, usuario: #{id_usuario}")
       datos=estado_actual.datos
       #  defstruct [:cant_reintentos,:sumar_al_precio,:no_mayor_a,:soy_reintentos,:soy_ofertar_hasta]
       if(subasta.precio < datos.no_mayor_a) do
         valor_ofertado=obtener_precio_a_ofertar(subasta, datos.sumar_al_precio)
         IO.puts("USUAROI: #{id_usuario} Estrategia_Oferta_Hasta: #{datos.no_mayor_a} Precio Ofertado: #{valor_ofertado} para subasta: #{subasta.id}")
-        response=Usuario.ofertar_subasta(id_usuario, subasta.id, valor_ofertado)
+        Usuario.ofertar_subasta(id_usuario, subasta.id, valor_ofertado)
         else
           IO.puts("Usuario: #{id_usuario}. No tiene interes en subastas de precio mayor a #{datos.no_mayor_a} se rechaza subatas.id= #{subasta.id}. Producto: #{subasta.articulo_nombre}}")
         end
