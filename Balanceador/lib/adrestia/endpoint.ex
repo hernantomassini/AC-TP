@@ -14,19 +14,27 @@ defmodule Adrestia.Endpoint do
   end
 
   defp pipeline(%Request{} = request, :error) do
-
-
+   #IO.inspect(request, label: "JORGEEEE request")
     if request.verb == :post and request.path =="inicializar" do
-      IO.puts "Soy un STRING #{request.body}"
-      IO.puts "Soy un string #{is_bitstring(request.body)}"
+      #IO.puts "Soy un STRING #{request.body}"
+      #IO.puts "Soy un string #{is_bitstring(request.body)}"
 
       my_body = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
 
       IO.inspect(my_body, label: "BODYYY 2")
       endpointsNew = GlobalContext.get_endpoints()
-      endpointsNew2 = endpointsNew ++ [my_body]
-      GlobalContext.set_endpoints(endpointsNew2)
-      send_resp(request.conn, :service_unavailable, "Servers Configurado #{request.body} ")
+
+      if !Enum.member?(endpointsNew, my_body) do
+        IO.puts " Elemento nuevo a la lista endpointsNew"
+        endpointsNew2 = endpointsNew ++ [my_body]
+        GlobalContext.set_endpoints(endpointsNew2)
+        send_resp(request.conn, :service_unavailable, "Servers Configurado #{request.body} ")
+      else
+        send_resp(request.conn, :service_unavailable, "Servers Configurado previamente #{request.body} ")
+      end
+
+
+
 
     else
       send_resp(request.conn, :service_unavailable, "There are no servers available")
