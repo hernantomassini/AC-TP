@@ -24,8 +24,9 @@ defmodule SubastaAutomatica.MixProject do
     [
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 1.5"},
+      {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
-      { :elixir_uuid, "~> 1.2" }
+      {:elixir_uuid, "~> 1.2" }
     ]
   end
 end

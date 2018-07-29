@@ -7,7 +7,8 @@ defmodule SubastaTask do
     IO.inspect(subasta.tiempo_finalizacion, label: "Duracion de subasta")
 
     if subasta.estado == :cancelada do
-      notificar_subasta_cancelada(subasta)
+      Task.async(NotificarTask, :subasta_cancelada, [subasta])
+      kill_task()
     end
 
     if subasta.tiempo_finalizacion != 0 do
@@ -20,14 +21,8 @@ defmodule SubastaTask do
     end
   end
 
-  def notificar_subasta_cancelada(subasta) do
-    # TODO: Notificarles a todos los que participaron que la subasta se canceló.
-    kill_task()
-  end
-
   defp terminar_subasta(subasta) do
-    # TODO: Notificarles a todos los que particiaron si ganaron o perdieron.
-    IO.inspect(subasta, label: "Subasta finalizada")
+    Task.async(NotificarTask, :subasta_terminada, [subasta])
     kill_task()
   end
 
