@@ -6,7 +6,7 @@ defmodule Server.Application do
     # List all child processes to be supervised
     children = [
       Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: Server.Router, options: [port: 8085]),
-      Server
+      GlobalContext
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)

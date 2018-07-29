@@ -13,7 +13,7 @@ defmodule Adrestia do
     port = Application.get_env(app(), :port, 1234)
     ttl = Application.get_env(app(), :cache_ttl, 5000)
     check_time = Application.get_env(app(), :active_check_time, 3) |> :timer.seconds
-    endpoints = Application.fetch_env!(app(), :endpoints)
+    #endpoints = Application.fetch_env!(app(), :endpoints)
     balance_strategy = Application.get_env(app(), :strategy, Adrestia.RoundRobin)
 
     HTTPotion.start
@@ -21,7 +21,8 @@ defmodule Adrestia do
     import Supervisor.Spec
 
     GlobalContext.start_link([])
-
+    GlobalContext.set_endpoints([])
+    endpoints = GlobalContext.get_endpoints()
     children = [
       worker(Adrestia.Balancer, [endpoints, balance_strategy]),
       worker(Cachex, [Adrestia.Cache, [default_ttl: ttl]]),

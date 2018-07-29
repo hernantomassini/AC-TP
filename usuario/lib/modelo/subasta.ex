@@ -1,19 +1,17 @@
 defmodule Modelo.Subasta do
   @derive [Poison.Encoder]
-  defstruct [:id, :idUsuario, :tags, :precioBase, :tiempoFinalizacion, :precioActual, :idGanador, :articuloNombre, :articuloDescripcion]
+  defstruct [:id, :id_usuario, :tags, :precio, :tiempo_finalizacion, :id_ganador, :articulo_nombre, :articulo_descripcion]
 
-  def new(idUsuario, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) do
-    instance = %Modelo.Subasta{idUsuario: idUsuario, tags: tags, precioBase: precioBase, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion}
-    instance
+  def new(id_usuario, tags, precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion) do
+    %Modelo.Subasta{id_usuario: id_usuario, tags: tags, precio: precio, tiempo_finalizacion: tiempo_finalizacion, articulo_nombre: articulo_nombre, articulo_descripcion: articulo_descripcion}
   end
 end
 
 defmodule Modelo.OfertarSubasta do
   @derive [Poison.Encoder]
-  defstruct [:idSubasta, :idUsuario, :precioOfertado]
+  defstruct [:id_subasta, :id_usuario, :valor_ofertado]
 
-  def new(idSubasta, idUsuario, precioOfertado) do
-    instance = %Modelo.OfertarSubasta{idSubasta: idSubasta, idUsuario: idUsuario, precioOfertado: precioOfertado}
-    instance
+  def new(id_subasta, id_usuario, valor_ofertado) do
+    %Modelo.OfertarSubasta{id_subasta: id_subasta, id_usuario: id_usuario, valor_ofertado: valor_ofertado}
   end
 end

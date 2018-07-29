@@ -8,23 +8,23 @@ defmodule Server.Router do
   plug(:match)
   plug(:dispatch)
 
-  get "/buyers/interests/:idUsuario" do
-    {httpCode , response} = Server.obtener_subastas_de_interes(idUsuario)
+  get "/bids/:id_subasta" do
+    {httpCode, response} = Server.obtener_subasta(id_subasta)
     send_resp(conn, httpCode, response)
   end
 
-  get "/buyers/owns/:idUsuario" do
-    # {:ok, body, conn} = read_body(conn)
-    # body = Poison.decode!(body, as: %SubastaById{})
-    # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "")
+  get "/buyers/interests/:id_usuario" do
+    response = Server.obtener_subastas_de_interes(id_usuario)
+    send_resp(conn, 200, response)
+  end
+
+  get "/buyers/owns/:id_usuario" do
+    {httpCode, response} = Server.obtener_subastas_ofertadas(id_usuario)
+    send_resp(conn, httpCode, response)
   end
 
   get "/replicar" do
-    # {:ok, body, conn} = read_body(conn)
-    # body = Poison.decode!(body)
-    # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "")
+    send_resp(conn, 200, GlobalContext.get_estado())
   end
 
   post "/bids" do
@@ -43,14 +43,14 @@ defmodule Server.Router do
 
   put "/bids" do
     {:ok, body, conn} = read_body(conn)
-    # body = Poison.decode!(body, as: %Modelo.Usuario{})
-    # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 201, "")
+    body = Poison.decode!(body, as: %Modelo.Oferta{})
+    {httpCode, response} = Server.ofertar(body)
+    send_resp(conn, httpCode, response)
   end
 
-  delete "/bids/:idUsuario/:idSubasta" do
-    # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "")
+  delete "/bids/:id_usuario/:id_subasta" do
+    {httpCode, response} = Server.cancelar_subasta(id_usuario, id_subasta)
+    send_resp(conn, httpCode, response)
   end
 
   match "/" do
