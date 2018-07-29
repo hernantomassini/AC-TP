@@ -24,7 +24,7 @@ Usuario.ofertar_subasta("hernan", "5f187660-92fd-11e8-b9f5-88d7f67f5947", 700)
 
 ## Cancelar una subasta - DELETE (/bids)
 
-Usuario.cancelar_subasta("jorge", "15676510-9304-11e8-89f8-88d7f67f5947")
+Usuario.cancelar_subasta("jorge", "e6cb6d90-936d-11e8-a5b1-88d7f67f5947")
 
 ## Ver subastas ofertadas - GET (/buyers/owns)
 
