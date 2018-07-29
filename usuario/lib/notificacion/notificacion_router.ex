@@ -18,15 +18,29 @@ defmodule Notificacion.Router do
   #RECIBE UN Modelo.Subasta
   post "/notificacion/interes/:id_usuario" do
     if(Usuario.Registry.existe_usuario(id_usuario)) do
-
-    {:ok, body, conn} = read_body(conn)
-    subasta = Poison.decode!(body, as: %Modelo.Subasta{})
-    Usuario.ejecutar_estrategia(id_usuario,subasta)
-    send_resp(conn, 200, Response.new("","Me puede interesar"))
+      {:ok, body, conn} = read_body(conn)
+      subasta = Poison.decode!(body, as: %Modelo.Subasta{})
+      Usuario.ejecutar_estrategia(id_usuario,subasta)
+      send_resp(conn, 200, Response.new("","Me puede interesar"))
     else
       send_resp(conn, 200, Response.new("","No poseo usuarios interesados"))
     end
   end
+
+  post "/notificacion/finalizada/:id_usuario" do
+#    if(Usuario.Registry.existe_usuario(id_usuario)) do
+      {:ok, body, conn} = read_body(conn)
+      subasta = Poison.decode!(body, as: %Modelo.Subasta{})
+      IO.puts("Usuario: #{id_usuario} se finalizo la subasta.id: #{subasta.id} del producto #{subasta.articulo_nombre}")
+      send_resp(conn, 200, Response.new("","Mensaje de finalizacion subasta.id: #{subasta.id} del producto #{subasta.articulo_nombre}"))
+#    else
+#      mensaje= "Usuario: #{id_usuario} invalido para este server."
+#      IO.puts(mensaje)
+#      send_resp(conn, 200, Response.new("",mensaje))
+#    end
+
+  end
+
 
   post "/notificacion/perdedor/:id_usuario" do
     {:ok, body, conn} = read_body(conn)
