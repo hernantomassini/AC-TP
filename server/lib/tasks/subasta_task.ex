@@ -14,7 +14,9 @@ defmodule SubastaTask do
       Map.put(subasta, :tiempo_finalizacion, subasta.tiempo_finalizacion - 1) |> GlobalContext.modificar_subasta()
       monitorear_subasta(id_subasta)
     else
-      Map.put(subasta, :estado, :terminada) |> GlobalContext.modificar_subasta() |> terminar_subasta()
+      subasta_terminada = Map.put(subasta, :estado, :terminada)
+      GlobalContext.modificar_subasta(subasta_terminada)
+      terminar_subasta(subasta_terminada)
     end
   end
 
