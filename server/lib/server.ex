@@ -17,27 +17,27 @@ defmodule Server do
     send_subastas_de_interes(tags, "El usuario fue agregado con éxito.")
   end
 
-  def obtener_subastas_de_interes(idUsuario) do
-    user = GlobalContext.get_usuario(idUsuario)
+  def obtener_subastas_de_interes(id_usuario) do
+    user = GlobalContext.get_usuario(id_usuario)
 
     if user do
       {200, send_subastas_de_interes(user.tags, "Subastas de interes.")}
     else
-      {404, Response.error(true, "El ID provisto no existe. Método obtener_subastas_de_interes con id #{idUsuario}")}
+      {404, Response.error(true, "El ID provisto no existe. Método obtener_subastas_de_interes con id #{id_usuario}")}
     end
   end
 
-  def ofertar(%Modelo.Oferta{idSubasta: idSubasta, idUsuario: idUsuario, valorOfertado: valorOfertado}) do
-    subasta = GlobalContext.get_subasta(idSubasta)
+  def ofertar(%Modelo.Oferta{id_subasta: id_subasta, id_usuario: id_usuario, valor_ofertado: valor_ofertado}) do
+    subasta = GlobalContext.get_subasta(id_subasta)
 
     cond do
-      !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{idSubasta}")}
-      String.downcase(subasta.idUsuario) === String.downcase(idUsuario) -> {500, "No podes ofertar en una subasta creada por vos mismo."}
-      valorOfertado <= subasta.precio -> {500, "El valor ofertado es demasiado bajo."}
+      !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
+      String.downcase(subasta.id_usuario) === String.downcase(id_usuario) -> {500, "No podes ofertar en una subasta creada por vos mismo."}
+      valor_ofertado <= subasta.precio -> {500, "El valor ofertado es demasiado bajo."}
       true ->
-        subasta = Map.put(subasta, :precio, valorOfertado)
-          |> Map.put(:idGanador, idUsuario)
-          |> Map.put(:participantes, [ idUsuario | subasta.participantes] |> Enum.uniq())
+        subasta = Map.put(subasta, :precio, valor_ofertado)
+          |> Map.put(:id_ganador, id_usuario)
+          |> Map.put(:participantes, [ id_usuario | subasta.participantes] |> Enum.uniq())
 
         GlobalContext.modificar_subasta(subasta)
         Task.async(OfertaTask, :notificar_oferta, [subasta])
@@ -46,12 +46,12 @@ defmodule Server do
     end
   end
 
-  def cancelar_subasta(idUsuario, idSubasta) do
-    subasta = GlobalContext.get_subasta(idSubasta)
+  def cancelar_subasta(id_usuario, id_subasta) do
+    subasta = GlobalContext.get_subasta(id_subasta)
 
     cond do
-      !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{idSubasta}")}
-      String.downcase(subasta.idUsuario) !== String.downcase(idUsuario) -> {500, Response.error(true, "No podes cancelar la subasta si no sos el creador de la misma.")}
+      !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
+      String.downcase(subasta.id_usuario) !== String.downcase(id_usuario) -> {500, Response.error(true, "No podes cancelar la subasta si no sos el creador de la misma.")}
       true ->
         subasta = Map.put(subasta, :estado, :cancelada)
         GlobalContext.modificar_subasta(subasta)

@@ -8,9 +8,9 @@ defmodule Persona.Miguel do
     estrategia_oferta_reintentos= Modelo.Estrategia.reintentos(3,20)
     usaurio= Modelo.Usuario.new("miguel", ["computacion","perritos"], estrategia_oferta_reintentos)
     Usuario.Registry.crear_usuario(usaurio)
-    pidUsuario = Usuario.Registry.get_pid_usuario(usaurio.id)
+    pid_usuario = Usuario.Registry.get_pid_usuario(usaurio.id)
     #Se registra
-    Usuario.registrar_usuario(pidUsuario)
-    pidUsuario
+    Usuario.registrar_usuario(pid_usuario)
+    pid_usuario
   end
 end

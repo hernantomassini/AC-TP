@@ -8,16 +8,16 @@ defmodule Server.Router do
   plug(:match)
   plug(:dispatch)
 
-  get "/buyers/interests/:idUsuario" do
-    {httpCode, response} = Server.obtener_subastas_de_interes(idUsuario)
+  get "/buyers/interests/:id_usuario" do
+    {httpCode, response} = Server.obtener_subastas_de_interes(id_usuario)
     send_resp(conn, httpCode, response)
   end
 
-  get "/buyers/owns/:id_usuarioa" do
+  get "/buyers/owns/:id_usuario" do
     # {:ok, body, conn} = read_body(conn)
     # body = Poison.decode!(body, as: %SubastaById{})
     # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "Se consultas las subastas propias #{id_usuarioa}")
+    send_resp(conn, 200, "Se consultas las subastas propias #{id_usuario}")
   end
 
   get "/replicar" do
@@ -48,9 +48,9 @@ defmodule Server.Router do
     send_resp(conn, httpCode, response)
   end
 
-  delete "/bids/:idUsuario/:idSubasta" do
-    response = Server.cancelar_subasta(idUsuario, idSubasta)
-    send_resp(conn, 200, "")
+  delete "/bids/:id_usuario/:id_subasta" do
+    response = Server.cancelar_subasta(id_usuario, id_subasta)
+    send_resp(conn, 200, response)
   end
 
   match "/" do

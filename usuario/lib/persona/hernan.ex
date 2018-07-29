@@ -8,9 +8,9 @@ defmodule Persona.Hernan do
     estrategia_oferta= Modelo.Estrategia.oferta_hasta(300,100)
     usaurio= Modelo.Usuario.new("hernan", ["computacion","perritos"], estrategia_oferta)
     Usuario.Registry.crear_usuario(usaurio)
-    pidUsuario = Usuario.Registry.get_pid_usuario(usaurio.id)
+    pid_usuario = Usuario.Registry.get_pid_usuario(usaurio.id)
     #Se registra
-    Usuario.registrar_usuario(pidUsuario)
-    pidUsuario
+    Usuario.registrar_usuario(pid_usuario)
+    pid_usuario
   end
 end

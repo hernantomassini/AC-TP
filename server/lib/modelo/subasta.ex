@@ -1,21 +1,21 @@
 defmodule Modelo.Subasta do
   @derive [Poison.Encoder]
-  defstruct [:id, :idUsuario, :tags, :precio, :tiempoFinalizacion, :idGanador, :articuloNombre, :articuloDescripcion, :estado, :participantes]
+  defstruct [:id, :id_usuario, :tags, :precio, :tiempo_finalizacion, :id_ganador, :articulo_nombre, :articulo_descripcion, :estado, :participantes]
 
   @doc """
     Estados de una subasta: :activa - :cancelada - :terminada
   """
-  def new(%Modelo.Subasta{idUsuario: idUsuario, tags: tags, precio: precio, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion}) do
-    %Modelo.Subasta{id: UUID.uuid1(), idUsuario: idUsuario, tags: tags, precio: precio, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion, estado: :activa, participantes: []}
+  def new(%Modelo.Subasta{id_usuario: id_usuario, tags: tags, precio: precio, tiempo_finalizacion: tiempo_finalizacion, articulo_nombre: articulo_nombre, articulo_descripcion: articulo_descripcion}) do
+    %Modelo.Subasta{id: UUID.uuid1(), id_usuario: id_usuario, tags: tags, precio: precio, tiempo_finalizacion: tiempo_finalizacion, articulo_nombre: articulo_nombre, articulo_descripcion: articulo_descripcion, estado: :activa, participantes: []}
   end
 
-  def new(idUsuario, tags, precio, tiempoFinalizacion, articuloNombre, articuloDescripcion) do
-    %Modelo.Subasta{id: UUID.uuid1(), idUsuario: idUsuario, tags: tags, precio: precio, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion, estado: :activa, participantes: []}
+  def new(id_usuario, tags, precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion) do
+    %Modelo.Subasta{id: UUID.uuid1(), id_usuario: id_usuario, tags: tags, precio: precio, tiempo_finalizacion: tiempo_finalizacion, articulo_nombre: articulo_nombre, articulo_descripcion: articulo_descripcion, estado: :activa, participantes: []}
   end
 
 end
 
 defmodule SubastaById do
   @derive [Poison.Encoder]
-  defstruct [:id, :precioOfertado]
+  defstruct [:id, :valor_ofertado]
 end

@@ -4,14 +4,14 @@ defmodule SubastaTask do
     :timer.sleep(1000)
     subasta = GlobalContext.get_subasta(id_subasta)
 
-    IO.inspect(subasta.tiempoFinalizacion, label: "Duracion de subasta")
+    IO.inspect(subasta.tiempo_finalizacion, label: "Duracion de subasta")
 
     if subasta.estado == :cancelada do
       notificar_subasta_cancelada(subasta)
     end
 
-    if subasta.tiempoFinalizacion != 0 do
-      Map.put(subasta, :tiempoFinalizacion, subasta.tiempoFinalizacion - 1) |> GlobalContext.modificar_subasta()
+    if subasta.tiempo_finalizacion != 0 do
+      Map.put(subasta, :tiempo_finalizacion, subasta.tiempo_finalizacion - 1) |> GlobalContext.modificar_subasta()
       monitorear_subasta(id_subasta)
     else
       Map.put(subasta, :estado, :terminada) |> GlobalContext.modificar_subasta() |> terminar_subasta()
