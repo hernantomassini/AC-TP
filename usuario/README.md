@@ -4,17 +4,19 @@
 
 u1 = %Modelo.Usuario{ id: "hernan", ip: "127.0.0.1", puerto: 8005, tags: ["PC", "gamer", "consola"] }
 u2 = %Modelo.Usuario{ id: "jorge", ip: "127.0.0.1", puerto: 8005, tags: ["Elixir"] }
+u3 = %Modelo.Usuario{ id: "subastador", ip: "127.0.0.1", puerto: 8005, tags: ["Subastar"] }
 
 Usuario.Registry.crear_usuario(u1)
 Usuario.Registry.crear_usuario(u2)
+Usuario.Registry.crear_usuario(u3)
 
 Usuario.registrar_usuario("jorge")
 Usuario.registrar_usuario("hernan")
+Usuario.registrar_usuario("subastador")
 
 ## Crear Subasta - POST (/bids)
 
-Usuario.crear_subasta("jorge", ["PC", "Gamer"], 0, 120, "PC de escritorio", "El gabinete tiene lucesitas.")
-Usuario.crear_subasta("hernan", ["PC", "Gamer"], 0, 120, "PC de escritorio", "El gabinete tiene lucesitas.")
+Usuario.crear_subasta("subastador", ["PC", "Gamer", "Elixir"], 10, 120, "PC de escritorio", "El gabinete tiene lucesitas.")
 
 ## Ofertar en una subasta - PUT (/bids)
 

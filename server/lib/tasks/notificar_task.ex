@@ -38,7 +38,7 @@ defmodule NotificarTask do
 
     Enum.filter(usuarios, fn u -> length(Modelo.Usuario.subastas_de_interes(u.tags, [subasta])) > 0 end) |>
     Enum.map(fn u ->
-      url = get_url(u.id_usuario) <> "/notificacion/interes/#{u.id_usuario}"
+      url = get_url(u.id) <> "/notificacion/interes/#{u.id}"
       NotificarTask.post(url, body)
     end)
 
