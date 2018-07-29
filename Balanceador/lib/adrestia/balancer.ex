@@ -27,17 +27,22 @@ defmodule Adrestia.Balancer do
   end
 
   def handle_cast({:server_down, host}, {ups, downs, strategy}) do
-    server = find_by_host(host, ups ++ downs)
+    endpoints= GlobalContext.get_endpoints()
+    #server = find_by_host(host, ups ++ downs)
+    server = find_by_host(host, endpoints)
+
     rest = List.delete(ups, server)
     {:noreply, {rest, as_set([server | downs]), strategy}}
   end
 
   def handle_cast({:server_up, host}, {ups, downs, strategy}) do
-    server = find_by_host(host, downs ++ ups)
+    endpoints= GlobalContext.get_endpoints()
+    #server = find_by_host(host, downs ++ ups)
+    server = find_by_host(host, endpoints)
     rest = List.delete(downs, server)
     endpoints = as_set([server | ups])
     # Se guardan los endpoints activos cada cierto intervalo de tiempo
-    GlobalContext.set_endpoints(endpoints)
+    GlobalContext.set_endpoints_activos(endpoints)
     {:noreply, { endpoints , rest, strategy}}
   end
 

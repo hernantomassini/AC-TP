@@ -20,14 +20,14 @@ defmodule Adrestia.Endpoint do
       IO.puts "Soy un STRING #{request.body}"
       IO.puts "Soy un string #{is_bitstring(request.body)}"
 
-      my_body = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
-
-      IO.inspect(my_body, label: "BODYYY 2")
+      servidor_a_agregar = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
+      IO.inspect(servidor_a_agregar, label: "BODYYY 2")
       endpointsNew = GlobalContext.get_endpoints()
-      endpointsNew2 = endpointsNew ++ [my_body]
-      GlobalContext.set_endpoints(endpointsNew2)
+      if !Enum.member?(endpointsNew, servidor_a_agregar) do
+        endpointsNew2 = endpointsNew ++ [servidor_a_agregar]
+        GlobalContext.set_endpoints(endpointsNew2)
+      end
       send_resp(request.conn, :service_unavailable, "Servers Configurado #{request.body} ")
-
     else
       send_resp(request.conn, :service_unavailable, "There are no servers available")
     end
@@ -35,6 +35,18 @@ defmodule Adrestia.Endpoint do
   end
 
   defp pipeline(request, address) do
+    IO.inspect(request, label: "PIEPLIONE  ")
+    if request.verb == :post and request.path =="inicializar" do
+      servidor_a_agregar = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
+      endpointsNew = GlobalContext.get_endpoints()
+      if !Enum.member?(endpointsNew, servidor_a_agregar) do
+        endpointsNew2 = endpointsNew ++ [servidor_a_agregar]
+        GlobalContext.set_endpoints(endpointsNew2)
+      end
+      IO.inspect( GlobalContext.get_endpoints(), label: "pipeline_request_endpoint")
+#      send_resp(request.conn, :service_unavailable, "Servers Configurado #{request.body} ")
+    end
+
     request
       |> Request.put_endpoint(address)
       |> read_cache
