@@ -1,12 +1,13 @@
 defmodule Server do
   @moduledoc false
 
-  def crear_subasta(subasta) do
+  def crear_subasta(subasta = %Modelo.Subasta{id: id}) do
     subasta = Modelo.Subasta.initialize(subasta)
-    IO.inspect(subasta, label: "Subasta inicializada.")
-
     GlobalContext.crear_subasta(subasta)
-    Task.async(SubastaTask, :monitorear_subasta, [10])
+
+    Task.async(SubastaTask, :monitorear_subasta, [id])
+    # TODO: Mandar a los usuarios que le interesen la subasta la notificación!!
+
     Response.new(subasta, "Se a creado una subasta correctamente.")
   end
 

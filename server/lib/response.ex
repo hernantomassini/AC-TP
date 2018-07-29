@@ -4,13 +4,11 @@ defmodule Response do
 
   def new(data,mensaje) do
     instance = %Response{data: data, mensaje: mensaje}
-    IO.inspect(instance)
     Poison.encode!(instance)
   end
 
   def error(error, mensaje) do
     instance = %Response{error: error, mensaje: mensaje}
-    IO.inspect(instance)
     Poison.encode!(instance)
   end
 end

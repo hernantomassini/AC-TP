@@ -8,11 +8,19 @@ defmodule GlobalContext do
 
   # type es un átomo :subastas o :usuarios
   defp get(type) when is_atom(type) do
-    Agent.get(__MODULE__, fn list -> Keyword.get(list, type) end)
+    Agent.get(__MODULE__, fn data -> data[type] end)
+  end
+
+  defp get(type, id) when is_atom(type) do
+    Agent.get(__MODULE__, fn data -> Enum.find(data[type], fn x -> x.id === id end) end)
   end
 
   defp put(type, value) when is_atom(type) do
-    Agent.update(__MODULE__, fn list -> put_in(list[type], MapSet.put(list[type], value)) end)
+    Agent.update(__MODULE__, fn data -> put_in(data[type], MapSet.put(data[type], value)) end)
+  end
+
+  defp update(type, value) when is_atom(type) do
+    Agent.update(__MODULE__, fn data -> put_in(data[type], Enum.reject(data[type], fn x -> x.id === value.id end) |> MapSet.put(value)) end)
   end
 
   #---------------------------------------
@@ -25,12 +33,20 @@ defmodule GlobalContext do
     get(:subastas)
   end
 
+  def get_subasta(id) do
+    get(:subastas, id)
+  end
+
   def registrar_usuario(usuario) do
     put(:usuarios, usuario)
   end
 
   def crear_subasta(subasta) do
     put(:subastas, subasta)
+  end
+
+  def modificar_subasta(subasta) do
+    update(:subastas, subasta)
   end
 
 end
