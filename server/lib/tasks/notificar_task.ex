@@ -18,7 +18,6 @@ defmodule NotificarTask do
 
     end)
 
-    IO.puts("kill_task Subasta terminada")
     kill_task()
   end
 
@@ -30,16 +29,19 @@ defmodule NotificarTask do
       NotificarTask.post(url, body)
     end)
 
-    IO.puts("kill_task Subasta cancelada")
     kill_task()
   end
 
   def nueva_subasta(subasta) do
     body = Poison.encode!(subasta)
-
     usuarios = GlobalContext.get_usuarios()
 
-    IO.puts("kill_task Nueva subasta")
+    Enum.filter(usuarios, fn u -> length(Modelo.Usuario.subastas_de_interes(u.tags, [subasta])) > 0 end) |>
+    Enum.map(fn u ->
+      url = get_url(u.id_usuario) <> "/notificacion/interes/#{u.id_usuario}"
+      NotificarTask.post(url, body)
+    end)
+
     kill_task()
   end
 
@@ -51,7 +53,6 @@ defmodule NotificarTask do
       NotificarTask.post(url <> "/oferta/#{id_usuario}", body)
     end)
 
-    IO.puts("kill_task Nueva oferta")
     kill_task()
   end
 
