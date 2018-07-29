@@ -15,7 +15,7 @@ defmodule Adrestia.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [extra_applications: [:logger],
+    [extra_applications: [:logger, :poison],
      mod: {Adrestia, []}]
   end
 
@@ -27,6 +27,7 @@ defmodule Adrestia.Mixfile do
     [{:cachex, "~> 2.1"},
      {:cowboy, "~> 1.0.0"},
      {:plug, "~> 1.0"},
-     {:httpotion, "~> 3.0.2"}]
+     {:httpotion, "~> 3.0.2"},
+     {:poison, "~> 3.1"}]
   end
 end

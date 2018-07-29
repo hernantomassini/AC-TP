@@ -21,7 +21,21 @@ defmodule GlobalContext do
   end
 
   def set_endpoints(endpoints) do
+    if endpoints == nil do
+      GlobalContext.put("endpoints",[])
+    end
     GlobalContext.put("endpoints",endpoints)
+  end
+
+  def get_endpoints_activos() do
+    GlobalContext.get("endpoints_activos")
+  end
+
+  def set_endpoints_activos(endpoints) do
+    if endpoints == nil do
+      GlobalContext.put("endpoints_activos",[])
+    end
+    GlobalContext.put("endpoints_activos",endpoints)
   end
 
   def get_endpoints() do

@@ -1,7 +1,9 @@
 defmodule Adrestia.ActiveCheck do
 
   def health_check(endpoints) do
-    Enum.each(endpoints, fn(%{:host => host}) ->
+    endpointsGlobal = GlobalContext.get_endpoints()
+    #IO.inspect(endpointsGlobal, label: "ActiveCheck: endpointsGlobal")
+    Enum.each(endpointsGlobal, fn(%{:host => host}) ->
       GenServer.cast(Adrestia.Balancer, {server_status(host), host})
     end)
     GenServer.cast(Adrestia.Balancer, :status)
