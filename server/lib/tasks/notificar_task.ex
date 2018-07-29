@@ -1,10 +1,6 @@
 defmodule NotificarTask do
   use HTTPoison.Base
 
-  def process_url(url) do
-    url
-  end
-
   def subasta_terminada(subasta) do
     body = Poison.encode!(subasta)
 
@@ -22,17 +18,19 @@ defmodule NotificarTask do
 
     end)
 
+    IO.puts("kill_task Subasta terminada")
     kill_task()
   end
 
   def subasta_cancelada(subasta) do
     body = Poison.encode!(subasta)
 
-    Enum.map(subasta.participantes, fn id_usuario ->
+    Enum.map([subasta.id_usuario | subasta.participantes], fn id_usuario ->
       url = get_url(id_usuario) <> "/subasta/cancelacion/#{id_usuario}"
       NotificarTask.post(url, body)
     end)
 
+    IO.puts("kill_task Subasta cancelada")
     kill_task()
   end
 
@@ -40,6 +38,8 @@ defmodule NotificarTask do
     body = Poison.encode!(subasta)
 
     usuarios = GlobalContext.get_usuarios()
+
+    IO.puts("kill_task Nueva subasta")
     kill_task()
   end
 
@@ -51,6 +51,7 @@ defmodule NotificarTask do
       NotificarTask.post(url <> "/oferta/#{id_usuario}", body)
     end)
 
+    IO.puts("kill_task Nueva oferta")
     kill_task()
   end
 
@@ -60,7 +61,6 @@ defmodule NotificarTask do
   end
 
   defp kill_task() do
-    IO.puts("NotificarTask - kill_task RIP")
     Process.exit(self(), :normal)
   end
 

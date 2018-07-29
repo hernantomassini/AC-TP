@@ -69,7 +69,7 @@ defmodule Server do
         subasta = Map.put(subasta, :estado, :cancelada)
         GlobalContext.modificar_subasta(subasta)
 
-        Task.async(SubastaTask, :notificar_subasta_cancelada, [subasta])
+        Task.async(NotificarTask, :subasta_cancelada, [subasta])
         {200, Response.new("La subasta ha sido cancelada.")}
     end
 
