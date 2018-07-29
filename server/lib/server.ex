@@ -26,7 +26,7 @@ defmodule Server do
     end
   end
 
-  def ofertar(idSubasta, idUsuario, valorOfertado) do
+  def ofertar(%Modelo.Oferta{idSubasta: idSubasta, idUsuario: idUsuario, valorOfertado: valorOfertado}) do
     subasta = GlobalContext.get_subasta(idSubasta)
     usuario = GlobalContext.get_usuario(idUsuario)
 
@@ -37,6 +37,7 @@ defmodule Server do
         if valorOfertado > subasta.precio do
           subasta = put_in(subasta.precio, valorOfertado)
           GlobalContext.modificar_subasta(subasta)
+          # TODO: Correr TASK que notifique a toda la gente que participa en esta subasta que alguien ganó.
           {200, "La oferta ha sido aceptada."}
         else
           {500, "El valor ofertado es demasiado bajo."}

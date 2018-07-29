@@ -11,6 +11,8 @@ Usuario.Registry.crear_usuario(u2)
 Usuario.registrar_usuario("jorge")
 Usuario.registrar_usuario("hernan")
 
-## Envíar POST Subasta (/bids)
+## Crear Subasta - POST (/bids)
+Usuario.crear_subasta("jorge", ["PC", "Gamer"], 0, 120, "PC de escritorio", "El gabinete tiene lucesitas.")
 
-Usuario.crear_subasta("jorge", ["PC", "Gamer"], 10000, 5000, "PC de escritorio", "El gabinete tiene lucesitas.")
+## Ofertar en una subasta - PUT (/bids)
+Usuario.ofertar_subasta("hernan", ???, 500)

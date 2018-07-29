@@ -2,8 +2,9 @@ defmodule SubastaTask do
 
   def monitorear_subasta(id_subasta) do
     :timer.sleep(1000)
-
     subasta = GlobalContext.get_subasta(id_subasta)
+
+    IO.inspect(subasta.tiempoFinalizacion, label: "Duracion de subasta: ")
 
     if subasta.estado == :cancelada do
       notificar_cancelacion(subasta)
@@ -19,17 +20,17 @@ defmodule SubastaTask do
     end
   end
 
-  def notificar_terminacion(subasta) do
+  defp notificar_terminacion(subasta) do
     # TODO: Notificarles a todos los que particiaron si ganaron o perdieron.
     kill_task()
   end
 
-  def notificar_cancelacion(subasta) do
+  defp notificar_cancelacion(subasta) do
     # TODO: Notificarles a todos los que participaron que la subasta se canceló.
     kill_task()
   end
 
-  def kill_task() do
+  defp kill_task() do
     Process.exit(self(), :normal)
   end
 
