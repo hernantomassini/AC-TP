@@ -17,6 +17,15 @@ defmodule Server do
     send_subastas_de_interes(tags, "El usuario fue agregado con éxito.")
   end
 
+  def obtener_subasta(id_subasta) do
+    subasta = GlobalContext.get_subasta(id_subasta)
+
+    if subasta
+      do {200, Response.new(subasta, "Subasta encontrada.")}
+      else {404, Response.error("No existe una subasta con el ID provisto.")}
+    end
+  end
+
   def obtener_subastas_ofertadas(id_usuario) do
     subastas = GlobalContext.get_subastas() |> Enum.filter(fn x -> Enum.member?(Enum.map(x.participantes, fn y -> String.downcase(y) end), String.downcase(id_usuario)) end)
     Response.new(subastas, "Subastas de interes")
@@ -25,10 +34,9 @@ defmodule Server do
   def obtener_subastas_de_interes(id_usuario) do
     user = GlobalContext.get_usuario(id_usuario)
 
-    if user do
-      {200, send_subastas_de_interes(user.tags, "Subastas de interes.")}
-    else
-      {404, Response.error("El ID provisto no existe. Método obtener_subastas_de_interes con id #{id_usuario}")}
+    if user
+      do {200, send_subastas_de_interes(user.tags, "Subastas de interes.")}
+      else {404, Response.error("El ID provisto no existe. Método obtener_subastas_de_interes con id #{id_usuario}")}
     end
   end
 

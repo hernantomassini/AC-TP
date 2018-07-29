@@ -7,6 +7,11 @@ defmodule GlobalContext do
   end
 
   # type es un átomo :subastas o :usuarios
+  defp get() do
+    Agent.get(__MODULE__, fn data -> data end)
+  end
+
+  # type es un átomo :subastas o :usuarios
   defp get(type) when is_atom(type) do
     Agent.get(__MODULE__, fn data -> data[type] end)
   end
@@ -24,6 +29,10 @@ defmodule GlobalContext do
   end
 
   #---------------------------------------
+
+  def get_estado() do
+    get()
+  end
 
   def get_usuarios() do
     get(:usuarios)

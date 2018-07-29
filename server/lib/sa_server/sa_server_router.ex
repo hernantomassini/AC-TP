@@ -8,6 +8,11 @@ defmodule Server.Router do
   plug(:match)
   plug(:dispatch)
 
+  get "/bids/:id_subasta" do
+    {httpCode, response} = Server.obtener_subasta(id_subasta)
+    send_resp(conn, httpCode, response)
+  end
+
   get "/buyers/interests/:id_usuario" do
     response = Server.obtener_subastas_de_interes(id_usuario)
     send_resp(conn, 200, response)
@@ -19,10 +24,7 @@ defmodule Server.Router do
   end
 
   get "/replicar" do
-    # {:ok, body, conn} = read_body(conn)
-    # body = Poison.decode!(body)
-    # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "Se realizo la replicacion")
+    send_resp(conn, 200, GlobalContext.get_estado())
   end
 
   post "/bids" do

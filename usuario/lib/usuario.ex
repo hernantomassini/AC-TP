@@ -23,6 +23,16 @@ defmodule Usuario do
   #Interacción con el Servidor
 
   @doc """
+    Retorna el estado de una subasta
+    GET /bids/:id_subasta
+    Return: Subasta
+  """
+  def obtener_subasta(id_subasta) do
+    response = Usuario.get("/bids/#{id_subasta}")
+    IO.inspect(response, label: "subastas_de_interes")
+  end
+
+  @doc """
     Muestra subastas que el usuario encontrará de interes.
     GET /buyers/interests/:id_usuario
     Return: Subastas de interés
