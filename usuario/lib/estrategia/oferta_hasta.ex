@@ -21,33 +21,18 @@ defmodule Estrategia.Ofertar_hasta do
 
     def handle_cast({:ejecutar, id_usuario,subasta}, estado_actual) do
       datos=estado_actual.datos
-      mapa_ofertados=estado_actual.ofertasRealizadas
-      cant_reinttos_realizados_subasta=Estrategia.Reintentos.obtener_cantidad_reintentos_subasta(mapa_ofertados,subasta.id)
-      if(cant_reinttos_realizados_subasta < datos.cant_reintentos) do
-        IO.puts("USUAROI: #{id_usuario} Estrategia_Reintentos_num: #{cant_reinttos_realizados_subasta} para subasta: #{subasta.id}")
+      #  defstruct [:cant_reintentos,:sumar_al_precio,:no_mayor_a,:soy_reintentos,:soy_ofertar_hasta]
+      if((subasta.precioBase <datos.no_mayor_a && subasta.precioActual ==nil) || (subasta.precioActual !=nil && subasta.precioActual< datos.no_mayor_a)) do
         precio_ofertado=obtener_precio_a_ofertar(subasta, datos.sumar_al_precio)
-        IO.inspect(precio_ofertado,label: "precio_ofertado")
+        IO.puts("USUAROI: #{id_usuario} Estrategia_Oferta_Hasta: #{datos.no_mayor_a} Precio Ofertado: #{precio_ofertado} para subasta: #{subasta.id}")
         response=Usuario.ofertar_subasta(id_usuario, subasta.id, precio_ofertado)
-        if(!response.error) do
-          #aumentar cantida de reintentos de la subaasta
-          estado_actual=%{estado_actual | ofertasRealizadas: Map.put(mapa_ofertados, subasta.id, cant_reinttos_realizados_subasta+1)}
-          estado_actual.ofertasRealizadas
-          {:noreply, estado_actual}
+        else
+          IO.puts("Usuario: #{id_usuario}. No tiene interes en subastas de precio mayor a #{datos.no_mayor_a} se rechaza subatas.id= #{subasta.id}. Producto: #{subasta.articuloNombre}}")
         end
-      else
-        IO.puts("Usuario: #{id_usuario}. Realizo maximo de reintentos para subatas.id= #{subasta.id}. Producto: #{subasta.articuloNombre}}")
-        {:noreply, estado_actual}
-      end
+      {:noreply, estado_actual}
     end
 
-    def obtener_cantidad_reintentos_subasta(mapa, id_subasta) do
-      if Map.has_key?(mapa, id_subasta) do
-        {:ok,cant_reintentos_realizados}= Map.fetch(mapa, id_subasta)
-        cant_reintentos_realizados
-      else
-        0
-      end
-    end
+
 
     def obtener_precio_a_ofertar(subasta, aumentar_precio) do
       IO.inspect(subasta.precioActual,label: "precio_aqctual")
