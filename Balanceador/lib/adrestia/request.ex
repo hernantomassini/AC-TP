@@ -60,7 +60,7 @@ defmodule Adrestia.Request do
 
 
         if length(endpointsFiltered) == 0 do
-          send_resp(request.conn, 223, ["No existen servidores donde se pueda hacer la replica"])
+          send_resp(request.conn, 418, ["No existen servidores donde se pueda hacer la replica"])
           #put_response(request, responseServer)
         else
           endpointFirst = hd(endpointsFiltered)
