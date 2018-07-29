@@ -8,6 +8,11 @@ defmodule Response do
     Poison.encode!(instance)
   end
 
+  def new(mensaje) do
+      new(nil,mensaje)
+  end
+
+
   def error(mensaje) do
     instance = %Response{error: true, mensaje: mensaje}
     IO.inspect(instance)
