@@ -19,10 +19,15 @@ defmodule Modelo.Usuario do
     if(estrategia_oferta.soy_reintentos) do
       {:ok, pid_estrategia}= Estrategia.Reintentos.start_link([])
       # def set_estado(pidStrategia, estado = %Modelo.Estrategia{}) do
-      Estrategia.Reintentos.set_estado(pid_estrategia, estrategia_oferta)
+      Estrategia.Reintentos.set_datos_estrategia(pid_estrategia, estrategia_oferta)
       pid_estrategia
     else
-      nil
+      if(estrategia_oferta.soy_ofertar_hasta) do
+        {:ok, pid_estrategia}= Estrategia.Ofertar_hasta.start_link([])
+        # def set_estado(pidStrategia, estado = %Modelo.Estrategia{}) do
+        Estrategia.Ofertar_hasta.set_datos_estrategia(pid_estrategia, estrategia_oferta)
+        pid_estrategia
+        end
     end
   end
 

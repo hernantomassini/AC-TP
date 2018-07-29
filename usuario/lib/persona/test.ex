@@ -1,4 +1,4 @@
-defmodule Personas.Test do
+defmodule Persona.Test do
   @moduledoc false
 
 

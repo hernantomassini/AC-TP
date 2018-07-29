@@ -42,12 +42,41 @@ defmodule Adrestia.Request do
       |> put_in_extras(:body, request.body)
 
     IO.puts "Se envia un request #{request.verb} al: #{url}"
-    response = HTTPotion.request(request.verb, url, request_extras)
 
+
+    broadcast(request, request_extras)
+
+    if request.verb == :get and request.path =="replicar" do
+      endpoints = GlobalContext.get_endpoints()
+
+      if !is_nil(endpoints) do
+        endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
+        endpointFirst = hd(endpointsFiltered)
+        IO.inspect(endpointFirst, label: "First")
+        urlServer = endpointFirst.host  <> "/"  <> request.path
+        responseServer = HTTPotion.request(request.verb, urlServer, request_extras)
+        put_response(request, responseServer)
+        #IO.inspect(responseServer, label: "responseServer TEST")
+      end
+    else
+      response = HTTPotion.request(request.verb, url, request_extras)
+      put_response(request, response)
+    end
+  end
+
+
+  def broadcast(request, request_extras) do
     endpoints = GlobalContext.get_endpoints()
-    IO.inspect(endpoints, label: "Endpoints Activos:")
+    #IO.inspect(endpoints, label: "Endpoints Activos")
 
-    put_response(request, response)
+    if request.verb != :get and !is_nil(endpoints) do
+      endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
+      #IO.inspect(endpointsFiltered, label: "Endpoints para replicacion")
+      Enum.map(endpointsFiltered, fn endpoint ->
+        urlPost = endpoint.host  <> "/"  <> request.path
+        HTTPotion.request(request.verb, urlPost, request_extras)
+      end)
+    end
   end
 
   defp put_in_extras(extras, _, nil), do: extras

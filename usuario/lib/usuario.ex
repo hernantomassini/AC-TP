@@ -121,8 +121,16 @@ defmodule Usuario do
     cancelar_subasta(pid, idSubasta)
   end
 
-  def ejecutar_estrategia(idUser, idSubasta, valorOfertado) when is_bitstring(idUser) do
-    pid = get_pid_usuario(idUser)
-    ofertar_subasta(pid, idSubasta, valorOfertado)
+  # TODO: Esto no podría borrarse?
+  def get_response_body(response) do
+    {:ok,httpPoinson}=response
+#    IO.inspect(httpPoinson.body, label: "sarasra")#
+    Poison.decode!(httpPoinson.body, as: %Response{})
+  end
+
+  def ejecutar_estrategia(idUser, subasta) when is_bitstring(idUser) do
+    pidUser = get_pid_usuario(idUser)
+    usuario = Usuario.state(pidUser)
+    GenServer.cast(usuario.pid_estrategia, {:ejecutar, idUser,subasta})
   end
 end

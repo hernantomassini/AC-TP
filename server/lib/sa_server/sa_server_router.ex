@@ -13,18 +13,18 @@ defmodule Server.Router do
     send_resp(conn, httpCode, response)
   end
 
-  get "/buyers/owns/:idUsuario" do
+  get "/buyers/owns/:id_usuarioa" do
     # {:ok, body, conn} = read_body(conn)
     # body = Poison.decode!(body, as: %SubastaById{})
     # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "")
+    send_resp(conn, 200, "Se consultas las subastas propias #{id_usuarioa}")
   end
 
   get "/replicar" do
     # {:ok, body, conn} = read_body(conn)
     # body = Poison.decode!(body)
     # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "")
+    send_resp(conn, 200, "Se realizo la replicacion")
   end
 
   post "/bids" do
