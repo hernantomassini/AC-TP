@@ -16,3 +16,5 @@ Usuario.crear_subasta("jorge", ["PC", "Gamer"], 0, 120, "PC de escritorio", "El 
 
 ## Ofertar en una subasta - PUT (/bids)
 Usuario.ofertar_subasta("hernan", ???, 500)
+Usuario.ofertar_subasta("hernan", "9fa2f8d0-92f9-11e8-a87c-88d7f67f5947", 500)
+
