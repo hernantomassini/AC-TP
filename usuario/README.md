@@ -36,4 +36,4 @@ Usuario.subastas_de_interes("jorge")
 
 ## Obtener una subasta - GET (/bids)
 
-Usuario.obtener_subasta("15676510-9304-11e8-89f8-88d7f67f5947")
+Usuario.obtener_subasta("8cd41bc0-935e-11e8-8638-88d7f67f5947")
