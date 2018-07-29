@@ -1,10 +1,9 @@
 defmodule Modelo.Subasta do
   @derive [Poison.Encoder]
-  defstruct [:id, :idUsuario, :tags, :precioBase,  :tiempoFinalizacion, :precioActual, :idGanador, :articuloNombre, :articuloDescripcion]
+  defstruct [:id, :idUsuario, :tags, :precio, :tiempoFinalizacion, :idGanador, :articuloNombre, :articuloDescripcion]
 
-  def new(idUsuario, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) do
-    instance = %Modelo.Subasta{idUsuario: idUsuario, tags: tags, precioBase: precioBase, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion}
-    instance
+  def new(idUsuario, tags, precio, tiempoFinalizacion, articuloNombre, articuloDescripcion) do
+    %Modelo.Subasta{idUsuario: idUsuario, tags: tags, precio: precio, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion}
   end
 end
 
@@ -13,7 +12,6 @@ defmodule Modelo.OfertarSubasta do
   defstruct [:idSubasta, :idUsuario, :precioOfertado]
 
   def new(idSubasta, idUsuario, precioOfertado) do
-    instance = %Modelo.OfertarSubasta{idSubasta: idSubasta, idUsuario: idUsuario, precioOfertado: precioOfertado}
-    instance
+    %Modelo.OfertarSubasta{idSubasta: idSubasta, idUsuario: idUsuario, precioOfertado: precioOfertado}
   end
 end

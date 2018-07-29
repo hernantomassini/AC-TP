@@ -9,7 +9,7 @@ defmodule Server.Router do
   plug(:dispatch)
 
   get "/buyers/interests/:idUsuario" do
-    {httpCode , response} = Server.obtener_subastas_de_interes(idUsuario)
+    {httpCode, response} = Server.obtener_subastas_de_interes(idUsuario)
     send_resp(conn, httpCode, response)
   end
 
@@ -43,9 +43,9 @@ defmodule Server.Router do
 
   put "/bids" do
     {:ok, body, conn} = read_body(conn)
-    # body = Poison.decode!(body, as: %Modelo.Usuario{})
-    # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 201,Response.new("","Oferta realizada con exito"))
+    body = Poison.decode!(body, as: %Modelo.Oferta{})
+    {httpCode, response} = Server.ofertar(body)
+    send_resp(conn, httpCode, response)
   end
 
   delete "/bids/:idUsuario/:idSubasta" do

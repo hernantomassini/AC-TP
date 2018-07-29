@@ -1,13 +1,16 @@
 defmodule Modelo.Subasta do
   @derive [Poison.Encoder]
-  defstruct [:id, :idUsuario, :tags, :precioBase, :tiempoFinalizacion, :precioActual, :idGanador, :articuloNombre, :articuloDescripcion]
+  defstruct [:id, :idUsuario, :tags, :precio, :tiempoFinalizacion, :idGanador, :articuloNombre, :articuloDescripcion, :estado]
 
-  def new(idUsuario, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) do
-    %Modelo.Subasta{id: UUID.uuid1(), idUsuario: idUsuario, tags: tags, precioBase: precioBase, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion}
+  @doc """
+    Estados de una subasta: :activo - :cancelada - :terminada
+  """
+  def new(%Modelo.Subasta{idUsuario: idUsuario, tags: tags, precio: precio, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion}) do
+    %Modelo.Subasta{id: UUID.uuid1(), idUsuario: idUsuario, tags: tags, precio: precio, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion, estado: :activo}
   end
 
-  def initialize(subasta) do
-    put_in(subasta.id, UUID.uuid1())
+  def new(idUsuario, tags, precio, tiempoFinalizacion, articuloNombre, articuloDescripcion) do
+    %Modelo.Subasta{id: UUID.uuid1(), idUsuario: idUsuario, tags: tags, precio: precio, tiempoFinalizacion: tiempoFinalizacion, articuloNombre: articuloNombre, articuloDescripcion: articuloDescripcion, estado: :activo}
   end
 end
 

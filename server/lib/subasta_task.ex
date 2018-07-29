@@ -4,30 +4,29 @@ defmodule SubastaTask do
     :timer.sleep(1000)
 
     subasta = GlobalContext.get_subasta(id_subasta)
-    # TODO: Analizar que su estado sea Activo. Si posee estado Cancelado tirar notificar_cancelacion.
-    x = 1
-    if x != 1 do
-      notificar_cancelacion()
-      kill_task()
+
+    if subasta.estado == :cancelada do
+      notificar_cancelacion(subasta)
     end
 
-    time = 0
-    # TODO: Modificar el time de la subasta del GlobalContext
-    if time != 0 do
-      monitorear_subasta(time - 1)
+    if subasta.tiempoFinalizacion != 0 do
+      time = subasta.tiempoFinalizacion - 1
+      newSubasta = put_in(subasta.tiempoFinalizacion, time)
+      GlobalContext.modificar_subasta(newSubasta)
+      monitorear_subasta(time)
     else
-      notificar_terminacion()
-      kill_task()
+      notificar_terminacion(subasta)
     end
-
   end
 
-  def notificar_terminacion() do
-
+  def notificar_terminacion(subasta) do
+    # TODO: Notificarles a todos los que particiaron si ganaron o perdieron.
+    kill_task()
   end
 
-  def notificar_cancelacion() do
-
+  def notificar_cancelacion(subasta) do
+    # TODO: Notificarles a todos los que participaron que la subasta se canceló.
+    kill_task()
   end
 
   def kill_task() do

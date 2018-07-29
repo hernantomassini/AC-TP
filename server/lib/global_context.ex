@@ -12,7 +12,7 @@ defmodule GlobalContext do
   end
 
   defp get(type, id) when is_atom(type) do
-    Agent.get(__MODULE__, fn data -> Enum.find(data[type], fn x -> x.id === id end) end)
+    Agent.get(__MODULE__, fn data -> Enum.find(data[type], fn x -> String.downcase(x.id) === String.downcase(id) end) end)
   end
 
   defp put(type, value) when is_atom(type) do
@@ -31,6 +31,10 @@ defmodule GlobalContext do
 
   def get_subastas() do
     get(:subastas)
+  end
+
+  def get_usuario(id) do
+    get(:usuarios, id)
   end
 
   def get_subasta(id) do

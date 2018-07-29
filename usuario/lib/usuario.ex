@@ -39,7 +39,7 @@ defmodule Usuario do
   end
 
   @doc """
-    Muestra subastas a las cuales el usuario ha ofertado. TODO: ¿¿Importa si fué superado??
+    Muestra subastas a las cuales el usuario ha ofertado.
     GET /buyers/owns/:idUsuario
     Return: Subastas las cuales el usuario ofertó.
   """
@@ -59,16 +59,16 @@ defmodule Usuario do
     POST /bids
     Return: ID de la subasta
   """
-  def crear_subasta(pidUser, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_pid(pidUser) do
+  def crear_subasta(pidUser, tags, precio, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
-    subasta = Modelo.Subasta.new(usuario.id, tags,precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion)
+    subasta = Modelo.Subasta.new(usuario.id, tags,precio, tiempoFinalizacion, articuloNombre, articuloDescripcion)
     body = Poison.encode!(subasta)
     Usuario.post("/bids", body)
   end
 
-  def crear_subasta(idUser, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_bitstring(idUser) do
+  def crear_subasta(idUser, tags, precio, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    crear_subasta(pid, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion)
+    crear_subasta(pid, tags, precio, tiempoFinalizacion, articuloNombre, articuloDescripcion)
   end
 
   @doc """
