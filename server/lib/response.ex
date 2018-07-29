@@ -13,7 +13,7 @@ defmodule Response do
   end
 
   def new(mensaje) do
-    new(nil,mensaje)
+    new(nil, mensaje)
   end
 
 end

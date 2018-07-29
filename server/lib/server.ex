@@ -28,7 +28,7 @@ defmodule Server do
     if user do
       {200, send_subastas_de_interes(user.tags, "Subastas de interes.")}
     else
-      {404, Response.error(true, "El ID provisto no existe. Método obtener_subastas_de_interes con id #{id_usuario}")}
+      {404, Response.error("El ID provisto no existe. Método obtener_subastas_de_interes con id #{id_usuario}")}
     end
   end
 
@@ -36,9 +36,9 @@ defmodule Server do
     subasta = GlobalContext.get_subasta(id_subasta)
 
     cond do
-      !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
-      String.downcase(subasta.id_usuario) === String.downcase(id_usuario) -> {500, Response.error(true, "No podes ofertar en una subasta creada por vos mismo.")}
-      valor_ofertado <= subasta.precio -> {500, Response.error(true, "El valor ofertado es demasiado bajo.")}
+      !subasta -> {404, Response.error("El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
+      String.downcase(subasta.id_usuario) === String.downcase(id_usuario) -> {500, Response.error("No podes ofertar en una subasta creada por vos mismo.")}
+      valor_ofertado <= subasta.precio -> {500, Response.error("El valor ofertado es demasiado bajo.")}
       true ->
         subasta = Map.put(subasta, :precio, valor_ofertado)
           |> Map.put(:id_ganador, id_usuario)
@@ -47,7 +47,7 @@ defmodule Server do
         GlobalContext.modificar_subasta(subasta)
         Task.async(OfertaTask, :notificar_oferta, [subasta])
 
-        {200, Response.new(nil, "La oferta ha sido aceptada.")}
+        {200, Response.new("La oferta ha sido aceptada.")}
     end
   end
 
@@ -55,14 +55,14 @@ defmodule Server do
     subasta = GlobalContext.get_subasta(id_subasta)
 
     cond do
-      !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
-      String.downcase(subasta.id_usuario) !== String.downcase(id_usuario) -> {500, Response.error(true, "No podes cancelar la subasta si no sos el creador de la misma.")}
+      !subasta -> {404, Response.error("El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
+      String.downcase(subasta.id_usuario) !== String.downcase(id_usuario) -> {500, Response.error("No podes cancelar la subasta si no sos el creador de la misma.")}
       true ->
         subasta = Map.put(subasta, :estado, :cancelada)
         GlobalContext.modificar_subasta(subasta)
 
         Task.async(SubastaTask, :notificar_subasta_cancelada, [subasta])
-        {200, Response.new(nil, "La subasta ha sido cancelada.")}
+        {200, Response.new("La subasta ha sido cancelada.")}
     end
 
   end
