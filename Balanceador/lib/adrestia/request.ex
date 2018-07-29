@@ -72,7 +72,7 @@ defmodule Adrestia.Request do
 
 
   def broadcast(request, request_extras) do
-    endpoints = GlobalContext.get_endpoints()
+    endpoints = GlobalContext.get_endpoints_activos()
     #IO.inspect(endpoints, label: "Endpoints Activos")
 
     if request.verb != :get and !is_nil(endpoints) do
