@@ -25,11 +25,7 @@ defmodule SubastaTask do
 
   defp terminar_subasta(subasta) do
     # TODO: Notificarles a todos los que particiaron si ganaron o perdieron.
-    IO.inspect(subasta.id, label: "Resultados de la subasta")
-    IO.inspect(subasta.idGanador, label: "El ganador es")
-    IO.inspect(subasta.precio, label: "con un valor a pagar de")
-    IO.inspect(subasta.participantes, label: "Estos usuarios participaron de la subasta")
-
+    IO.inspect(subasta, label: "Subasta finalizada")
     kill_task()
   end
 

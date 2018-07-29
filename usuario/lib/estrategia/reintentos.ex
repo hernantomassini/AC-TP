@@ -48,15 +48,10 @@ defmodule Estrategia.Reintentos do
   end
 
   def obtener_precio_a_ofertar(subasta, aumentar_precio) do
-    IO.inspect(subasta.precioActual,label: "precio_aqctual")
-    IO.inspect(subasta.precioBase,label: "subasta.precio_base")
+    IO.inspect(subasta.precio,label: "subasta.precio")
     IO.inspect(aumentar_precio,label: "aumentar_precio")
-    if(subasta.precioActual !=nil) do
-      subasta.precioActual+aumentar_precio
-    else
-      subasta.precioBase+aumentar_precio
-    end
 
+    subasta.precio + aumentar_precio
   end
 
 

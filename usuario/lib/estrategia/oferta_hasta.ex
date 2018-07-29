@@ -22,7 +22,7 @@ defmodule Estrategia.Ofertar_hasta do
     def handle_cast({:ejecutar, id_usuario,subasta}, estado_actual) do
       datos=estado_actual.datos
       #  defstruct [:cant_reintentos,:sumar_al_precio,:no_mayor_a,:soy_reintentos,:soy_ofertar_hasta]
-      if((subasta.precioBase <datos.no_mayor_a && subasta.precioActual ==nil) || (subasta.precioActual !=nil && subasta.precioActual< datos.no_mayor_a)) do
+      if(subasta.precio < datos.no_mayor_a) do
         precio_ofertado=obtener_precio_a_ofertar(subasta, datos.sumar_al_precio)
         IO.puts("USUAROI: #{id_usuario} Estrategia_Oferta_Hasta: #{datos.no_mayor_a} Precio Ofertado: #{precio_ofertado} para subasta: #{subasta.id}")
         response=Usuario.ofertar_subasta(id_usuario, subasta.id, precio_ofertado)
@@ -32,20 +32,12 @@ defmodule Estrategia.Ofertar_hasta do
       {:noreply, estado_actual}
     end
 
-
-
     def obtener_precio_a_ofertar(subasta, aumentar_precio) do
-      IO.inspect(subasta.precioActual,label: "precio_aqctual")
-      IO.inspect(subasta.precioBase,label: "subasta.precio_base")
+      IO.inspect(subasta.precio, label: "subasta.precio")
       IO.inspect(aumentar_precio,label: "aumentar_precio")
-      if(subasta.precioActual !=nil) do
-        subasta.precioActual+aumentar_precio
-      else
-        subasta.precioBase+aumentar_precio
-      end
 
+      subasta.precio + aumentar_precio
     end
-
 
     def set_datos_estrategia(pidStrategia, datos) do
       set_estado(pidStrategia,%{datos: datos, ofertasRealizadas: MapSet.new()})
