@@ -37,8 +37,8 @@ defmodule Server do
 
     cond do
       !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
-      String.downcase(subasta.id_usuario) === String.downcase(id_usuario) -> {500, "No podes ofertar en una subasta creada por vos mismo."}
-      valor_ofertado <= subasta.precio -> {500, "El valor ofertado es demasiado bajo."}
+      String.downcase(subasta.id_usuario) === String.downcase(id_usuario) -> {500, Response.error(true, "No podes ofertar en una subasta creada por vos mismo.")}
+      valor_ofertado <= subasta.precio -> {500, Response.error(true, "El valor ofertado es demasiado bajo.")}
       true ->
         subasta = Map.put(subasta, :precio, valor_ofertado)
           |> Map.put(:id_ganador, id_usuario)
@@ -47,7 +47,7 @@ defmodule Server do
         GlobalContext.modificar_subasta(subasta)
         Task.async(OfertaTask, :notificar_oferta, [subasta])
 
-        {200, "La oferta ha sido aceptada."}
+        {200, Response.new(nil, "La oferta ha sido aceptada.")}
     end
   end
 
@@ -62,7 +62,7 @@ defmodule Server do
         GlobalContext.modificar_subasta(subasta)
 
         Task.async(SubastaTask, :notificar_subasta_cancelada, [subasta])
-        {200, "La subasta ha sido cancelada."}
+        {200, Response.new(nil, "La subasta ha sido cancelada.")}
     end
 
   end
