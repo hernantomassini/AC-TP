@@ -9,15 +9,13 @@ defmodule Server.Router do
   plug(:dispatch)
 
   get "/buyers/interests/:id_usuario" do
-    {httpCode, response} = Server.obtener_subastas_de_interes(id_usuario)
-    send_resp(conn, httpCode, response)
+    response = Server.obtener_subastas_de_interes(id_usuario)
+    send_resp(conn, 200, response)
   end
 
   get "/buyers/owns/:id_usuario" do
-    # {:ok, body, conn} = read_body(conn)
-    # body = Poison.decode!(body, as: %SubastaById{})
-    # response = Server.todo_function_not_implemented(id, body)
-    send_resp(conn, 200, "Se consultas las subastas propias #{id_usuario}")
+    {httpCode, response} = Server.obtener_subastas_ofertadas(id_usuario)
+    send_resp(conn, httpCode, response)
   end
 
   get "/replicar" do

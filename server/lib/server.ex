@@ -17,6 +17,11 @@ defmodule Server do
     send_subastas_de_interes(tags, "El usuario fue agregado con éxito.")
   end
 
+  def obtener_subastas_ofertadas(id_usuario) do
+    subastas = GlobalContext.get_subastas() |> Enum.filter(fn x -> Enum.member?(Enum.map(x.participantes, fn y -> String.downcase(y) end), String.downcase(id_usuario)) end)
+    Response.new(subastas, "Subastas de interes")
+  end
+
   def obtener_subastas_de_interes(id_usuario) do
     user = GlobalContext.get_usuario(id_usuario)
 

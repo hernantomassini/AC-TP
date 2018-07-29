@@ -14,13 +14,22 @@ Usuario.registrar_usuario("hernan")
 ## Crear Subasta - POST (/bids)
 
 Usuario.crear_subasta("jorge", ["PC", "Gamer"], 0, 120, "PC de escritorio", "El gabinete tiene lucesitas.")
+Usuario.crear_subasta("hernan", ["PC", "Gamer"], 0, 120, "PC de escritorio", "El gabinete tiene lucesitas.")
 
 ## Ofertar en una subasta - PUT (/bids)
 
 Usuario.ofertar_subasta("hernan", "5f187660-92fd-11e8-b9f5-88d7f67f5947", 500)
-Usuario.ofertar_subasta("jorge", "5f187660-92fd-11e8-b9f5-88d7f67f5947", 600)
+Usuario.ofertar_subasta("jorge", "e42a8260-9309-11e8-bcb4-88d7f67f5947", 600)
 Usuario.ofertar_subasta("hernan", "5f187660-92fd-11e8-b9f5-88d7f67f5947", 700)
 
 ## Cancelar una subasta - DELETE (/bids)
 
 Usuario.cancelar_subasta("jorge", "15676510-9304-11e8-89f8-88d7f67f5947")
+
+## Ver subastas ofertadas - GET (/buyers/owns)
+
+Usuario.subastas_ofertadas("jorge")
+
+## Ver subastas de interés - GET (/buyers/interests)
+
+Usuario.subastas_de_interes("jorge")
