@@ -43,6 +43,12 @@ defmodule Adrestia.Request do
 
     IO.puts "Se envia un request #{request.verb} al: #{url}"
 
+    #if request.verb == :post and request.path =="inicializar" do
+    #  IO.puts "=)"
+      #endpointsNew = GlobalContext.get_endpoints()
+      #endpointsNew2 = endpointsNew ++ [%{name: "server1", host: "localhost:8085", weight: 3}]
+      #GlobalContext.set_endpoints(endpointsNew2)
+    #end
 
     broadcast(request, request_extras)
 

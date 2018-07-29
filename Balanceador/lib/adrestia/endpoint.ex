@@ -5,14 +5,33 @@ defmodule Adrestia.Endpoint do
 
   import Plug.Conn
 
+  defstruct [:name, :host, :weight]
+
   def call(conn, _) do
     conn
       |> Request.from_conn
       |> pipeline(server_address())
   end
 
-  defp pipeline(request, :error) do
-    send_resp(request.conn, :service_unavailable, "There are no servers available")
+  defp pipeline(%Request{} = request, :error) do
+
+
+    if request.verb == :post and request.path =="inicializar" do
+      IO.puts "Soy un STRING #{request.body}"
+      IO.puts "Soy un string #{is_bitstring(request.body)}"
+
+      my_body = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
+
+      IO.inspect(my_body, label: "BODYYY 2")
+      endpointsNew = GlobalContext.get_endpoints()
+      endpointsNew2 = endpointsNew ++ [my_body]
+      GlobalContext.set_endpoints(endpointsNew2)
+      send_resp(request.conn, :service_unavailable, "Servers Configurado #{request.body} ")
+
+    else
+      send_resp(request.conn, :service_unavailable, "There are no servers available")
+    end
+
   end
 
   defp pipeline(request, address) do

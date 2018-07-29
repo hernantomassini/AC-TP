@@ -21,6 +21,9 @@ defmodule GlobalContext do
   end
 
   def set_endpoints(endpoints) do
+    if endpoints == nil do
+      GlobalContext.put("endpoints",[])
+    end
     GlobalContext.put("endpoints",endpoints)
   end
 

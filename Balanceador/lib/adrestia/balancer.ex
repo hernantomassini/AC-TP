@@ -2,11 +2,13 @@ defmodule Adrestia.Balancer do
   use GenServer
 
   def start_link(endpoints, strategy) do
-    GenServer.start_link(__MODULE__, {endpoints, [], strategy}, name: __MODULE__)
+    endpointsGlobal = GlobalContext.get_endpoints()
+    GenServer.start_link(__MODULE__, {endpointsGlobal, [], strategy}, name: __MODULE__)
   end
 
   def init({endpoints, _, strategy}) do
-    servers = Enum.map(endpoints, fn(server) ->
+    endpointsGlobal = GlobalContext.get_endpoints()
+    servers = Enum.map(endpointsGlobal, fn(server) ->
       weight = Map.get(server, :weight, 1)
       server
         |> Map.put(:weight, weight)
@@ -45,8 +47,9 @@ defmodule Adrestia.Balancer do
   end
 
   defp find_by_host(host, endpoints) do
+    endpointsGlobal = GlobalContext.get_endpoints()
     same_host = fn(%{:host => sv_host}) -> sv_host == host end
-    Enum.find(endpoints, same_host)
+    Enum.find(endpointsGlobal, same_host)
   end
 
   defp as_set(list), do: list |> MapSet.new |> MapSet.to_list
