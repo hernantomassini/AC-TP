@@ -53,16 +53,23 @@ defmodule Adrestia.Request do
     broadcast(request, request_extras)
 
     if request.verb == :get and request.path =="replicar" do
-      endpoints = GlobalContext.get_endpoints()
+      endpointsActivos = GlobalContext.get_endpoints_activos()
 
-      if !is_nil(endpoints) do
-        endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
-        endpointFirst = hd(endpointsFiltered)
-        IO.inspect(endpointFirst, label: "First")
-        urlServer = endpointFirst.host  <> "/"  <> request.path
-        responseServer = HTTPotion.request(request.verb, urlServer, request_extras)
-        put_response(request, responseServer)
-        #IO.inspect(responseServer, label: "responseServer TEST")
+      if !is_nil(endpointsActivos) do
+        endpointsFiltered = Enum.filter(endpointsActivos, fn x -> x.host != request.endpoint.host end)
+
+
+        if length(endpointsFiltered) == 0 do
+          send_resp(request.conn, 223, ["No existen servidores donde se pueda hacer la replica"])
+          #put_response(request, responseServer)
+        else
+          endpointFirst = hd(endpointsFiltered)
+          IO.inspect(endpointFirst, label: "First")
+          urlServer = endpointFirst.host  <> "/"  <> request.path
+          responseServer = HTTPotion.request(request.verb, urlServer, request_extras)
+          put_response(request, responseServer)
+          #IO.inspect(responseServer, label: "responseServer TEST")
+        end
       end
     else
       response = HTTPotion.request(request.verb, url, request_extras)

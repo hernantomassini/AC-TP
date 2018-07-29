@@ -14,11 +14,10 @@ defmodule Adrestia.Endpoint do
   end
 
   defp pipeline(%Request{} = request, :error) do
-
-
+   #IO.inspect(request, label: "JORGEEEE request")
     if request.verb == :post and request.path =="inicializar" do
-      IO.puts "Soy un STRING #{request.body}"
-      IO.puts "Soy un string #{is_bitstring(request.body)}"
+      #IO.puts "Soy un STRING #{request.body}"
+      #IO.puts "Soy un string #{is_bitstring(request.body)}"
 
       servidor_a_agregar = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
       IO.inspect(servidor_a_agregar, label: "BODYYY 2")
