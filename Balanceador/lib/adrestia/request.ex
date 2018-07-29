@@ -43,22 +43,15 @@ defmodule Adrestia.Request do
 
     IO.puts "Se envia un request #{request.verb} al: #{url}"
 
-    #if request.verb == :post and request.path =="inicializar" do
-    #  IO.puts "=)"
-      #endpointsNew = GlobalContext.get_endpoints()
-      #endpointsNew2 = endpointsNew ++ [%{name: "server1", host: "localhost:8085", weight: 3}]
-      #GlobalContext.set_endpoints(endpointsNew2)
-    #end
-
     broadcast(request, request_extras)
 
-    if request.verb == :get and request.path =="replicar" do
+    if request.verb == :post and request.path =="replicar" do
       endpointsActivos = GlobalContext.get_endpoints_activos()
+      servidor_origen = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
+      IO.inspect(request.endpoint.host, label: "REPLICA_host")
 
       if !is_nil(endpointsActivos) do
-        endpointsFiltered = Enum.filter(endpointsActivos, fn x -> x.host != request.endpoint.host end)
-
-
+        endpointsFiltered = Enum.filter(endpointsActivos, fn x -> x.host != servidor_origen.host end)
         if length(endpointsFiltered) == 0 do
           send_resp(request.conn, 418, ["No existen servidores donde se pueda hacer la replica"])
           #put_response(request, responseServer)
@@ -82,7 +75,7 @@ defmodule Adrestia.Request do
     endpoints = GlobalContext.get_endpoints_activos()
     #IO.inspect(endpoints, label: "Endpoints Activos")
 
-    if request.verb != :get and !is_nil(endpoints) do
+    if request.verb != :get and request.path !="replicar" and !is_nil(endpoints) do
       endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
       #IO.inspect(endpointsFiltered, label: "Endpoints para replicacion")
       Enum.map(endpointsFiltered, fn endpoint ->
