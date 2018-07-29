@@ -9,7 +9,7 @@ defmodule Notificacion.Router do
   plug(:dispatch)
 
   #RECIBE UN Modelo.Subasta
-  post "/notificacion/ganador/" do
+  post "/notificacion/ganador/:id_usuario" do
 #    {:ok, body, conn} = read_body(conn)
 #    body = Poison.decode!(body, as: %Modelo.Subasta{})
     send_resp(conn, 200, Response.new("","Muchas gracias por el articulo! :D"))

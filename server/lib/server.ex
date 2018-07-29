@@ -7,7 +7,7 @@ defmodule Server do
 
     IO.inspect(subasta.id, label: "subasta creada")
     Task.async(SubastaTask, :monitorear_subasta, [subasta.id])
-    # TODO: Mandar a los usuarios que le interesen la subasta la notificación!!
+    Task.async(NotificarTask, :nueva_subasta, [subasta])
 
     Response.new(subasta, "Se a creado una subasta correctamente.")
   end
@@ -53,7 +53,7 @@ defmodule Server do
           |> Map.put(:participantes, [ id_usuario | subasta.participantes] |> Enum.uniq())
 
         GlobalContext.modificar_subasta(subasta)
-        Task.async(OfertaTask, :notificar_oferta, [subasta])
+        Task.async(NotificarTask, :nueva_oferta, [subasta])
 
         {200, Response.new("La oferta ha sido aceptada.")}
     end
