@@ -4,7 +4,7 @@ defmodule SubastaTask do
     :timer.sleep(1000)
     subasta = GlobalContext.get_subasta(id_subasta)
 
-    # IO.inspect(subasta.tiempoFinalizacion, label: "Duracion de subasta: ")
+    IO.inspect(subasta.tiempoFinalizacion, label: "Duracion de subasta")
 
     if subasta.estado == :cancelada do
       cancelar_subasta(subasta)
@@ -22,9 +22,10 @@ defmodule SubastaTask do
 
   defp terminar_subasta(subasta) do
     # TODO: Notificarles a todos los que particiaron si ganaron o perdieron.
+    IO.inspect(subasta.id, label: "Resultados de la subasta")
     IO.inspect(subasta.idGanador, label: "El ganador es")
-    IO.inspect(subasta.precio, label: "El valor de la subasta es de")
-    IO.inspect(subasta.participantes, label: "Participantes")
+    IO.inspect(subasta.precio, label: "con un valor a pagar de")
+    IO.inspect(subasta.participantes, label: "Estos usuarios participaron de la subasta")
     kill_task()
   end
 

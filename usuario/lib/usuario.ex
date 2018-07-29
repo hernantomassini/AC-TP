@@ -92,7 +92,7 @@ defmodule Usuario do
   @doc """
     El usuario oferta en una subasta
     PUT /bids
-    Return: 200 si la oferta fue aceptada. Caso contrario 500.
+    Return: 200 si la oferta fue aceptada. 404 si el ID no existe. Caso contrario 500.
   """
   def ofertar_subasta(pidUser, idSubasta, valorOfertado) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
