@@ -47,8 +47,8 @@ defmodule Server.Router do
   end
 
   delete "/bids/:id_usuario/:id_subasta" do
-    response = Server.cancelar_subasta(id_usuario, id_subasta)
-    send_resp(conn, 200, response)
+    {httpCode, response} = Server.cancelar_subasta(id_usuario, id_subasta)
+    send_resp(conn, httpCode, response)
   end
 
   match "/" do
