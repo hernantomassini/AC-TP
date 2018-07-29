@@ -1,4 +1,4 @@
 #!/bin/bash
 
-mix local.hex --force --root
-sudo iex -S mix >> cacaguate.txt
+mix deps.get
+iex -S mix >> cacaguate.txt
