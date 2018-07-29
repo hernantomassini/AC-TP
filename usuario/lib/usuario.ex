@@ -23,34 +23,44 @@ defmodule Usuario do
   #Interacción con el Servidor
 
   @doc """
+    Retorna el estado de una subasta
+    GET /bids/:id_subasta
+    Return: Subasta
+  """
+  def obtener_subasta(id_subasta) do
+    response = Usuario.get("/bids/#{id_subasta}")
+    IO.inspect(response, label: "subastas_de_interes")
+  end
+
+  @doc """
     Muestra subastas que el usuario encontrará de interes.
-    GET /buyers/interests/:idUsuario
+    GET /buyers/interests/:id_usuario
     Return: Subastas de interés
   """
-  def subastas_de_interes(pidUsuario) when is_pid(pidUsuario) do
-    usuario = Usuario.state(pidUsuario)
+  def subastas_de_interes(pid_usuario) when is_pid(pid_usuario) do
+    usuario = Usuario.state(pid_usuario)
     response = Usuario.get("/buyers/interests/#{usuario.id}")
     IO.inspect(response, label: "subastas_de_interes")
   end
 
-  def subastas_de_interes(idUsuario) when is_bitstring(idUsuario) do
-    pid = get_pid_usuario(idUsuario)
+  def subastas_de_interes(id_usuario) when is_bitstring(id_usuario) do
+    pid = get_pid_usuario(id_usuario)
     subastas_de_interes(pid)
   end
 
   @doc """
-    Muestra subastas a las cuales el usuario ha ofertado. TODO: ¿¿Importa si fué superado??
-    GET /buyers/owns/:idUsuario
+    Muestra subastas a las cuales el usuario ha ofertado.
+    GET /buyers/owns/:id_usuario
     Return: Subastas las cuales el usuario ofertó.
   """
-  def subastas_ofertadas(pidUsuario) when is_pid(pidUsuario) do
-    usuario = Usuario.state(pidUsuario)
+  def subastas_ofertadas(pid_usuario) when is_pid(pid_usuario) do
+    usuario = Usuario.state(pid_usuario)
     response = Usuario.get("/buyers/owns/#{usuario.id}")
     IO.inspect(response, label: "subastas_ofertadas")
   end
 
-  def subastas_ofertadas(idUsuario) when is_bitstring(idUsuario) do
-    pid = get_pid_usuario(idUsuario)
+  def subastas_ofertadas(id_usuario) when is_bitstring(id_usuario) do
+    pid = get_pid_usuario(id_usuario)
     subastas_ofertadas(pid)
   end
 
@@ -59,16 +69,16 @@ defmodule Usuario do
     POST /bids
     Return: ID de la subasta
   """
-  def crear_subasta(pidUser, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_pid(pidUser) do
+  def crear_subasta(pidUser, tags, precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
-    subasta = Modelo.Subasta.new(usuario.id, tags,precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion)
+    subasta = Modelo.Subasta.new(usuario.id, tags,precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion)
     body = Poison.encode!(subasta)
     Usuario.post("/bids", body)
   end
 
-  def crear_subasta(idUser, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion) when is_bitstring(idUser) do
+  def crear_subasta(idUser, tags, precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    crear_subasta(pid, tags, precioBase, tiempoFinalizacion, articuloNombre, articuloDescripcion)
+    crear_subasta(pid, tags, precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion)
   end
 
   @doc """
@@ -76,59 +86,57 @@ defmodule Usuario do
     POST /buyers
     Return: Subastas de interés
   """
-  def registrar_usuario(pidUsuario) when is_pid(pidUsuario) do
-    estado_usuario=Usuario.state(pidUsuario)
+  def registrar_usuario(pid_usuario) when is_pid(pid_usuario) do
+    estado_usuario=Usuario.state(pid_usuario)
     estado_usuario= %Modelo.Usuario{estado_usuario | pid_estrategia: nil} #No se debe evinar el objetivo #PID
     body = Poison.encode!(estado_usuario)
-    response = Usuario.post("/buyers", body)
-    IO.inspect(response, label: "registrar_usuario")
+    response = Response.decode(Usuario.post("/buyers", body))
+    if(!response.error) do
+      IO.inspect(response, label: "Usuario registrado con exito:")
+      lista_subastas_de_interes=  Enum.map(response.data, fn x -> struct(%Modelo.Subasta{},x) end)
+      Enum.map(lista_subastas_de_interes, fn subasta -> Usuario.ejecutar_estrategia(estado_usuario.id, subasta) end)
+#      IO.inspect(lista_subastas_de_interes, label: "lista_subastas_interes")
+
+    end
+
   end
 
-  def registrar_usuario(idUsuario) when is_bitstring(idUsuario) do
-    pid = get_pid_usuario(idUsuario)
+  def registrar_usuario(id_usuario) when is_bitstring(id_usuario) do
+    pid = get_pid_usuario(id_usuario)
     registrar_usuario(pid)
   end
 
   @doc """
     El usuario oferta en una subasta
     PUT /bids
-    Return: 200 si la oferta fue aceptada. Caso contrario 500.
+    Return: 200 si la oferta fue aceptada. 404 si el ID no existe. Caso contrario 500.
   """
-  def ofertar_subasta(pidUser, idSubasta, precioOfertado) when is_pid(pidUser) do
+  def ofertar_subasta(pidUser, id_subasta, valor_ofertado) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
-    oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, precioOfertado)
+    oferta = Modelo.OfertarSubasta.new(id_subasta, usuario.id, valor_ofertado)
     body = Poison.encode!(oferta)
-    response=Usuario.put("/bids", body)
-    get_response_body(response)
+    Usuario.put("/bids", body)
   end
 
-  def ofertar_subasta(idUser, idSubasta, precioOfertado) when is_bitstring(idUser) do
+  def ofertar_subasta(idUser, id_subasta, valor_ofertado) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    ofertar_subasta(pid, idSubasta, precioOfertado)
+    Response.decode(ofertar_subasta(pid, id_subasta, valor_ofertado))
   end
 
   @doc """
     El usuario cancela una subasta QUE HAYA SIDO GENERADA POR ÉL.
-    DELETE /bids/:idUsuario/:idSubasta
+    DELETE /bids/:id_usuario/:id_subasta
     Return: 200 si la subasta fue cancelada. Caso contrario 500.
   """
-  def cancelar_subasta(pidUser ,idSubasta) when is_pid(pidUser) do
+  def cancelar_subasta(pidUser ,id_subasta) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
-    Usuario.delete("/bids/#{usuario.id}/#{idSubasta}")
+    Usuario.delete("/bids/#{usuario.id}/#{id_subasta}")
   end
 
-  def cancelar_subasta(idUser, idSubasta) when is_bitstring(idUser) do
+  def cancelar_subasta(idUser, id_subasta) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    cancelar_subasta(pid, idSubasta)
+    cancelar_subasta(pid, id_subasta)
   end
-
-
-  def get_response_body(response) do
-    {:ok,httpPoinson}=response
-#    IO.inspect(httpPoinson.body, label: "sarasra")#
-    Poison.decode!(httpPoinson.body, as: %Response{})
-  end
-
 
   def ejecutar_estrategia(idUser, subasta) when is_bitstring(idUser) do
     pidUser = get_pid_usuario(idUser)

@@ -1,12 +1,12 @@
-defmodule Persona.Miguel do
+defmodule Persona.Hernan do
   @moduledoc false
 
 
   def start() do
     #Se instancia
     #reintentos(cant_reintentos,sumar_al_precio)
-    estrategia_oferta_reintentos= Modelo.Estrategia.reintentos(3,20)
-    usaurio= Modelo.Usuario.new("miguel", ["computacion","perritos"], estrategia_oferta_reintentos)
+    estrategia_oferta= Modelo.Estrategia.oferta_hasta(300,100)
+    usaurio= Modelo.Usuario.new("hernan", ["computacion","perritos"], estrategia_oferta)
     Usuario.Registry.crear_usuario(usaurio)
     pid_usuario = Usuario.Registry.get_pid_usuario(usaurio.id)
     #Se registra
