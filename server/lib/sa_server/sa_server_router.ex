@@ -49,7 +49,7 @@ defmodule Server.Router do
   end
 
   delete "/bids/:idUsuario/:idSubasta" do
-    # response = Server.todo_function_not_implemented(id, body)
+    response = Server.cancelar_subasta(idUsuario, idSubasta)
     send_resp(conn, 200, "")
   end
 

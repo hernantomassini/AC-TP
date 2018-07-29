@@ -46,6 +46,22 @@ defmodule Server do
     end
   end
 
+  def cancelar_subasta(idUsuario, idSubasta) do
+    subasta = GlobalContext.get_subasta(idSubasta)
+
+    cond do
+      !subasta -> {404, Response.error(true, "El ID de la subasta no existe. Método ofertar con id #{idSubasta}")}
+      String.downcase(subasta.idUsuario) !== String.downcase(idUsuario) -> {500, Response.error(true, "No podes cancelar la subasta si no sos el creador de la misma.")}
+      true ->
+        subasta = Map.put(subasta, :estado, :cancelada)
+        GlobalContext.modificar_subasta(subasta)
+
+        Task.async(SubastaTask, :notificar_subasta_cancelada, [subasta])
+        {200, "La subasta ha sido cancelada."}
+    end
+
+  end
+
   defp send_subastas_de_interes(tags, msg) do
     subastas = GlobalContext.get_subastas()
     subastas_de_interes = Modelo.Usuario.subastas_de_interes(tags, subastas)

@@ -7,17 +7,20 @@ defmodule SubastaTask do
     IO.inspect(subasta.tiempoFinalizacion, label: "Duracion de subasta")
 
     if subasta.estado == :cancelada do
-      cancelar_subasta(subasta)
+      notificar_subasta_cancelada(subasta)
     end
 
     if subasta.tiempoFinalizacion != 0 do
-      time = subasta.tiempoFinalizacion - 1
-      newSubasta = put_in(subasta.tiempoFinalizacion, time)
-      GlobalContext.modificar_subasta(newSubasta)
+      Map.put(subasta, :tiempoFinalizacion, subasta.tiempoFinalizacion - 1) |> GlobalContext.modificar_subasta()
       monitorear_subasta(id_subasta)
     else
-      terminar_subasta(subasta)
+      Map.put(subasta, :estado, :terminada) |> GlobalContext.modificar_subasta() |> terminar_subasta()
     end
+  end
+
+  def notificar_subasta_cancelada(subasta) do
+    # TODO: Notificarles a todos los que participaron que la subasta se canceló.
+    kill_task()
   end
 
   defp terminar_subasta(subasta) do
@@ -26,11 +29,7 @@ defmodule SubastaTask do
     IO.inspect(subasta.idGanador, label: "El ganador es")
     IO.inspect(subasta.precio, label: "con un valor a pagar de")
     IO.inspect(subasta.participantes, label: "Estos usuarios participaron de la subasta")
-    kill_task()
-  end
 
-  defp cancelar_subasta(subasta) do
-    # TODO: Notificarles a todos los que participaron que la subasta se canceló.
     kill_task()
   end
 

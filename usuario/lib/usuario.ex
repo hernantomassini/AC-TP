@@ -99,7 +99,6 @@ defmodule Usuario do
     oferta = Modelo.OfertarSubasta.new(idSubasta, usuario.id, valorOfertado)
     body = Poison.encode!(oferta)
     Usuario.put("/bids", body)
-    # IO.inspect(response, label: "ofertar_subasta")
   end
 
   def ofertar_subasta(idUser, idSubasta, valorOfertado) when is_bitstring(idUser) do
