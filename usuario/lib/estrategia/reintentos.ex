@@ -18,6 +18,7 @@ defmodule Estrategia.Reintentos do
 #  end
 
   def handle_cast({:ejecutar, id_usuario,subasta}, estado_actual) do
+    IO.puts("Ejecutando estrategia de Reintentos, usuario: #{id_usuario}")
     datos=estado_actual.datos
     mapa_ofertados=estado_actual.ofertasRealizadas
     cant_reinttos_realizados_subasta=Estrategia.Reintentos.obtener_cantidad_reintentos_subasta(mapa_ofertados,subasta.id)

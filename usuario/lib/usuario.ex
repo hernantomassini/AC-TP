@@ -90,8 +90,15 @@ defmodule Usuario do
     estado_usuario=Usuario.state(pid_usuario)
     estado_usuario= %Modelo.Usuario{estado_usuario | pid_estrategia: nil} #No se debe evinar el objetivo #PID
     body = Poison.encode!(estado_usuario)
-    response = Usuario.post("/buyers", body)
-    IO.inspect(response, label: "registrar_usuario")
+    response = Response.decode(Usuario.post("/buyers", body))
+    if(!response.error) do
+      IO.inspect(response, label: "Usuario registrado con exito:")
+      lista_subastas_de_interes=  Enum.map(response.data, fn x -> struct(%Modelo.Subasta{},x) end)
+      Enum.map(lista_subastas_de_interes, fn subasta -> Usuario.ejecutar_estrategia(estado_usuario.id, subasta) end)
+#      IO.inspect(lista_subastas_de_interes, label: "lista_subastas_interes")
+
+    end
+
   end
 
   def registrar_usuario(id_usuario) when is_bitstring(id_usuario) do
