@@ -20,7 +20,7 @@ defmodule GlobalContext do
   end
 
   defp put(state) do
-    Agent.get(__MODULE__, fn data -> state end)
+    Agent.update(__MODULE__, fn _ -> state end)
   end
 
   defp put(type, value) when is_atom(type) do
@@ -35,6 +35,10 @@ defmodule GlobalContext do
 
   def get_estado() do
     get()
+  end
+
+  def set_estado(estado) do
+    put(estado)
   end
 
   def get_usuarios() do
