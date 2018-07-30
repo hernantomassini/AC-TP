@@ -20,4 +20,4 @@ RUN apt-get install -y systemd
 
 RUN systemctl enable IASC.service
 
-CMD name=server1 ip="127.0.0.1" port=8085 ip_admin="127.0.0.1" port_admin=1234 iex -S mix
+CMD mix adrestia.balance

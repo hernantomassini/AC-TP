@@ -1,0 +1,12 @@
+[Unit]
+Description=Un servicio para la gente
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/app/
+ExecStart=/bin/bash /app/ejecutable
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
