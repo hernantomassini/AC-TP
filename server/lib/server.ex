@@ -5,7 +5,8 @@ defmodule Server do
     subasta = Modelo.Subasta.new(subasta_no_inicializada)
     GlobalContext.crear_subasta(subasta)
 
-    IO.inspect(subasta.id, label: "subasta creada")
+    IO.inspect(subasta.id, label: "ID subasta creada")
+    IO.inspect(subasta, label: "subasta creada")
     Task.async(SubastaTask, :monitorear_subasta, [subasta.id])
     Task.async(NotificarTask, :nueva_subasta, [subasta])
 
@@ -28,7 +29,7 @@ defmodule Server do
 
   def obtener_subastas_ofertadas(id_usuario) do
     subastas = GlobalContext.get_subastas() |> Enum.filter(fn x -> Enum.member?(Enum.map(x.participantes, fn y -> String.downcase(y) end), String.downcase(id_usuario)) end)
-    Response.new(subastas, "Subastas de interes")
+    {200,Response.new(subastas, "Subastas de interes")}
   end
 
   def obtener_subastas_de_interes(id_usuario) do

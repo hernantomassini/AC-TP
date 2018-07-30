@@ -10,4 +10,6 @@ defmodule Persona.Test do
     Usuario.Registry.crear_usuario(usaurio)
     pid_usuario = Usuario.Registry.get_pid_usuario(usaurio.id)
   end
+
+
 end

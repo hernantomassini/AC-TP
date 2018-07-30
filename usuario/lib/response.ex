@@ -25,4 +25,12 @@ defmodule Response do
     Poison.decode!(httpPoinson.body, as: %Response{})
   end
 
+  def data_to_model(data,model_map)do
+    Util.struct_from_map(data, as: model_map)
+  end
+
+  def data_to_subasta(data)do
+    data_to_model(data,%Modelo.Subasta{})
+  end
+
 end

@@ -29,7 +29,8 @@ defmodule Usuario do
   """
   def obtener_subasta(id_subasta) do
     response = Usuario.get("/bids/#{id_subasta}")
-    IO.inspect(response, label: "subastas_de_interes")
+#    IO.inspect(response, label: "subastas_de_interes")
+    Response.decode(response)
   end
 
   @doc """
@@ -40,7 +41,9 @@ defmodule Usuario do
   def subastas_de_interes(pid_usuario) when is_pid(pid_usuario) do
     usuario = Usuario.state(pid_usuario)
     response = Usuario.get("/buyers/interests/#{usuario.id}")
-    IO.inspect(response, label: "subastas_de_interes")
+#    IO.inspect(response, label: "subastas_de_interes")
+
+    Response.decode(response)
   end
 
   def subastas_de_interes(id_usuario) when is_bitstring(id_usuario) do
@@ -57,6 +60,7 @@ defmodule Usuario do
     usuario = Usuario.state(pid_usuario)
     response = Usuario.get("/buyers/owns/#{usuario.id}")
     IO.inspect(response, label: "subastas_ofertadas")
+    Response.decode(response)
   end
 
   def subastas_ofertadas(id_usuario) when is_bitstring(id_usuario) do
@@ -73,7 +77,7 @@ defmodule Usuario do
     usuario = Usuario.state(pidUser)
     subasta = Modelo.Subasta.new(usuario.id, tags,precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion)
     body = Poison.encode!(subasta)
-    Usuario.post("/bids", body)
+    Response.decode(Usuario.post("/bids", body))
   end
 
   def crear_subasta(idUser, tags, precio, tiempo_finalizacion, articulo_nombre, articulo_descripcion) when is_bitstring(idUser) do
@@ -98,7 +102,7 @@ defmodule Usuario do
 #      IO.inspect(lista_subastas_de_interes, label: "lista_subastas_interes")
 
     end
-
+    response
   end
 
   def registrar_usuario(id_usuario) when is_bitstring(id_usuario) do
@@ -115,12 +119,12 @@ defmodule Usuario do
     usuario = Usuario.state(pidUser)
     oferta = Modelo.OfertarSubasta.new(id_subasta, usuario.id, valor_ofertado)
     body = Poison.encode!(oferta)
-    Usuario.put("/bids", body)
+    Response.decode(Usuario.put("/bids", body))
   end
 
   def ofertar_subasta(idUser, id_subasta, valor_ofertado) when is_bitstring(idUser) do
     pid = get_pid_usuario(idUser)
-    Response.decode(ofertar_subasta(pid, id_subasta, valor_ofertado))
+    ofertar_subasta(pid, id_subasta, valor_ofertado)
   end
 
   @doc """
@@ -130,7 +134,7 @@ defmodule Usuario do
   """
   def cancelar_subasta(pidUser ,id_subasta) when is_pid(pidUser) do
     usuario = Usuario.state(pidUser)
-    Usuario.delete("/bids/#{usuario.id}/#{id_subasta}")
+    Response.decode(Usuario.delete("/bids/#{usuario.id}/#{id_subasta}"))
   end
 
   def cancelar_subasta(idUser, id_subasta) when is_bitstring(idUser) do

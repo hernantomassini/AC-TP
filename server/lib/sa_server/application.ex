@@ -14,6 +14,7 @@ defmodule Server.Application do
       Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: Server.Router, options: [port: String.to_integer(port)]),
       GlobalContext,
       { Task, fn -> AdministradorTask.inicializar(name, ip, port, ip_admin, port_admin) end }
+
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)
