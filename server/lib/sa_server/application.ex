@@ -3,11 +3,11 @@ defmodule Server.Application do
   use Application
 
   def start(_type, _args) do
-    name = System.get_env("name") || raise "Missing $name environment variable."
-    ip = System.get_env("ip") || raise "Missing $ip environment variable."
-    port = System.get_env("port") || raise "Missing $port environment variable."
-    ip_admin = System.get_env("ip_admin") || raise "Missing $ip_admin environment variable."
-    port_admin = System.get_env("port_admin") || raise "Missing $PORT environment variable."
+    name="server1"
+    ip="127.0.0.1"
+    port="8085"
+    ip_admin="127.0.0.1"
+    port_admin="1234"
 
     # List all child processes to be supervised
     children = [
