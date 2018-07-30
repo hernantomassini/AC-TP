@@ -19,17 +19,27 @@ defmodule Notificacion.Router do
   post "/notificacion/interes/:id_usuario" do
     if(Usuario.Registry.existe_usuario(id_usuario)) do
       {:ok, body, conn} = read_body(conn)
-#      lista_subastas_de_interes = Poison.decode!(body, as: %Modelo.Subasta{})
-      body = Poison.decode!(body, as: [])
-
-      IO.inspect(body, label: "NOTIFICACION_INTERESA: ")
-      lista_subastas_de_interes=  Enum.map(body, fn x -> struct(%Modelo.Subasta{},x) end)
-      Enum.map(lista_subastas_de_interes, fn subasta -> Usuario.ejecutar_estrategia(id_usuario, subasta) end)
+      subasta = Poison.decode!(body, as: %Modelo.Subasta{})
+      IO.inspect(subasta, label: "/notificacion/interes/ - subasta")
+      Usuario.ejecutar_estrategia(id_usuario, subasta)
       send_resp(conn, 200, Response.new("","Me puede interesar"))
     else
       send_resp(conn, 200, Response.new("","No poseo usuarios interesados"))
     end
   end
+
+  post "/notificacion/oferta/:id_usuario" do
+    if(Usuario.Registry.existe_usuario(id_usuario)) do
+      {:ok, body, conn} = read_body(conn)
+      subasta = Poison.decode!(body, as: %Modelo.Subasta{})
+      IO.inspect(subasta, label: "/notificacion/oferta/ - subasta")
+      Usuario.ejecutar_estrategia(id_usuario, subasta)
+      send_resp(conn, 200, Response.new("","Me puede interesar"))
+    else
+      send_resp(conn, 200, Response.new("","No poseo usuarios interesados"))
+    end
+  end
+
 
   post "/notificacion/finalizada/:id_usuario" do
 #    if(Usuario.Registry.existe_usuario(id_usuario)) do

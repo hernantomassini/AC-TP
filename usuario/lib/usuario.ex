@@ -96,8 +96,9 @@ defmodule Usuario do
     body = Poison.encode!(estado_usuario)
     response = Response.decode(Usuario.post("/buyers", body))
     if(!response.error) do
-      IO.inspect(response, label: "Usuario registrado con exito:")
-      lista_subastas_de_interes=  Enum.map(response.data, fn x -> struct(%Modelo.Subasta{},x) end)
+      lista_subastas_de_interes=  Enum.map(response.data, fn x -> Util.struct_from_map(x, as: %Modelo.Subasta{}) end)
+      IO.inspect(lista_subastas_de_interes, label: "registrar_usuario - lista_interes")
+
       Enum.map(lista_subastas_de_interes, fn subasta -> Usuario.ejecutar_estrategia(estado_usuario.id, subasta) end)
 #      IO.inspect(lista_subastas_de_interes, label: "lista_subastas_interes")
 

@@ -31,7 +31,6 @@ defmodule Server.Router do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %Modelo.Subasta{})
     response = Server.crear_subasta(body)
-    IO.inspect(response,label: "SUBASTA_CREAR_RESPONSE")
     send_resp(conn, 201, response)
   end
 
