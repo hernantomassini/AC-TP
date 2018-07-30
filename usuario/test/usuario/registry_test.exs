@@ -16,7 +16,7 @@ defmodule Usuario.RegistryTest do
 #    assert usuario2 = Usuario.Registry.get_estado("id_usuario2")
     Persona.Miguel.start()
     assert usuarioMiguel = Usuario.Registry.get_estado("miguel")
-  end
+end
 
   test "registrar_usuario", %{pid_usuarioTest: pid_usuarioTest} do
     Usuario.registrar_usuario(pid_usuarioTest)
