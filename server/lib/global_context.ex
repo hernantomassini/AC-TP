@@ -6,7 +6,6 @@ defmodule GlobalContext do
     Agent.start_link(fn -> [subastas: [], usuarios: []] end, name: __MODULE__)
   end
 
-  # type es un átomo :subastas o :usuarios
   defp get() do
     Agent.get(__MODULE__, fn data -> data end)
   end
@@ -18,6 +17,10 @@ defmodule GlobalContext do
 
   defp get(type, id) when is_atom(type) do
     Agent.get(__MODULE__, fn data -> Enum.find(data[type], fn x -> String.downcase(x.id) === String.downcase(id) end) end)
+  end
+
+  defp put(state) do
+    Agent.get(__MODULE__, fn data -> state end)
   end
 
   defp put(type, value) when is_atom(type) do
