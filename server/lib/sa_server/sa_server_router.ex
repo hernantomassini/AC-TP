@@ -34,6 +34,12 @@ defmodule Server.Router do
     send_resp(conn, 201, response)
   end
 
+  get "/bids" do
+    {:ok, _, conn} = read_body(conn)
+    response=Response.new(GlobalContext.get_subastas(),"Todas las subastas del server")
+    send_resp(conn, 201, response)
+  end
+
   post "/buyers" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %Modelo.Usuario{})
