@@ -44,7 +44,7 @@ defmodule Adrestia.Balancer do
     # Se guardan los endpoints activos cada cierto intervalo de tiempo
     GlobalContext.set_endpoints_activos(endpoints)
     GlobalContext.obtener_endpoint_maestro() #Vuelve a identiifcar si posee al maestro correcto
-    Util.persistir_contexto_servidor()
+    Util.persistir_contexto_servidor(endpoints)
     {:noreply, { endpoints , rest, strategy}}
   end
 

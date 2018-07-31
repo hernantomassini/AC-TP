@@ -2,23 +2,22 @@ defmodule FileFormat do
   defstruct [:server_maestro, :servers_activos]
 
   def new(server_maestro, servers_activos) do
-    %FileFormat{server_maestro: Map.from_struct(server_maestro), servers_activos:  Enum.map(servers_activos, fn x -> Map.from_struct(x)end)}
+    %FileFormat{server_maestro: server_maestro, servers_activos: servers_activos}
   end
 
-  def get_struct_endpoints(servers_activos) do
-    Enum.map(servers_activos, fn x -> Util.struct_from_map(x, as: %Adrestia.Endpoint{}) end)
-  end
+
 end
 
 defmodule Util do
   @moduledoc false
 
 
-  def persistir_contexto_servidor() do
+  def persistir_contexto_servidor(endpoints) do
     {:ok, file} = File.open "servers_activos.txt", [:write]
-    data=FileFormat.new(GlobalContext.get_endpoint_maestro(),GlobalContext.get_endpoints_activos())
+    data_a_guardar = Enum.map(endpoints, fn x -> %Adrestia.Endpoint{host: x.host, name: x.name, weight: x.weight} end)
+    data=FileFormat.new(GlobalContext.get_endpoint_maestro(),data_a_guardar)
 
-    IO.binwrite file, inspect(Map.from_struct(data))
+    IO.binwrite file, Poison.encode!(data)
     File.close file
   end
 
@@ -26,12 +25,16 @@ defmodule Util do
     response = File.read "servers_activos.txt"
 
     case response do
-      {:ok, data } -> file_struct=Poison.decode(data, as: %FileFormat{})
-                      server_maestro=Poison.decode(file_struct.server_maestro, as: %{})
-                      servers_activos=Enum.map(file_struct.servers_activos, fn x -> Poison.decode(x, %{})end)
+      {:ok, data } ->
 
-          GlobalContext.set_endpoint_maestro(  Util.struct_from_map(server_maestro, as: %Adrestia.Endpoint{}))
-          GlobalContext.set_endpoints( FileFormat.get_struct_endpoints(servers_activos))
+                      file_struct=Poison.decode!(data, as: %FileFormat{})
+                      IO.inspect(file_struct, label: "DATA_REUCPERADA")
+                      server_maestro=Util.struct_from_map(file_struct.server_maestro, as: %Adrestia.Endpoint{})
+                      IO.inspect(server_maestro, label: "server_maestro")
+                      servers_activos=Enum.map(file_struct.servers_activos, fn x -> Util.struct_from_map(x, as: %Adrestia.Endpoint{})end)
+                      IO.inspect(servers_activos, label: "servers_activos")
+                      GlobalContext.set_endpoint_maestro( server_maestro)
+                       GlobalContext.set_endpoints( servers_activos)
 
       {:error, _} ->
         GlobalContext.set_endpoint_maestro(nil)
