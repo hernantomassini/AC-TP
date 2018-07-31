@@ -2,8 +2,11 @@ defmodule GlobalContext do
   @moduledoc false
   use Agent
 
+  @derive [Poison.Encoder]
+  defstruct [:subastas, :usuarios, :active]
+
   def start_link(_opts) do
-    Agent.start_link(fn -> [subastas: [], usuarios: []] end, name: __MODULE__)
+    Agent.start_link(fn -> [subastas: [], usuarios: [], active: false] end, name: __MODULE__)
   end
 
   defp get() do
@@ -37,8 +40,13 @@ defmodule GlobalContext do
     get()
   end
 
+  def export_estado() do
+    estado = get_estado()
+    %GlobalContext{subastas: estado[:subastas], usuarios: estado[:usuarios], active: estado[:active]}
+  end
+
   def set_estado(estado) do
-    put(estado)
+    put(put_in(estado[:active], true))
   end
 
   def get_usuarios() do
@@ -67,6 +75,10 @@ defmodule GlobalContext do
 
   def modificar_subasta(subasta) do
     update(:subastas, subasta)
+  end
+
+  def is_active() do
+    get(:active)
   end
 
 end
