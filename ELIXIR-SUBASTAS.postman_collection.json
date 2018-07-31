@@ -1,0 +1,524 @@
+{
+	"info": {
+		"name": "ELIXIR-SUBASTAS",
+		"_postman_id": "e1499a18-f447-4c15-b3c6-088fa52a1587",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Notificaciones",
+			"description": "",
+			"item": [
+				{
+					"name": "notificar subastas de interes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"articuloDescripcion\": \"Compralo que esta buenisimo\",\r\n      \"articuloNombre\": \"Articulo1\",\r\n      \"id\": \"fe3d8b00-92a7-11e8-be74-94de806bb22b\",\r\n      \"idUsuario\": \"usuarioTest\",\r\n      \"precioBase\": 45,\r\n      \"tags\": [\"perritos\", \"videjuegos\"],\r\n      \"tiempoFinalizacion\": 33\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8005/notificacion/interes/:idUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"notificacion",
+								"interes",
+								":idUsuario"
+							],
+							"variable": [
+								{
+									"key": "idUsuario",
+									"value": "miguel"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Subasta finalizada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"articulo_descripcion\": \"Compralo que esta buenisimo\",\r\n      \"articulo_nombre\": \"Articulo1\",\r\n      \"id\": \"fe3d8b00-92a7-11e8-be74-94de806bb22b\",\r\n      \"id_usuario\": \"usuarioTest\",\r\n      \"precio\": 45,\r\n      \"tags\": [\"perritos\", \"videjuegos\"],\r\n      \"tiempo_finalizacion\": 33\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8005/notificacion/finalizada/:idUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"notificacion",
+								"finalizada",
+								":idUsuario"
+							],
+							"variable": [
+								{
+									"key": "idUsuario",
+									"value": "miguel"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Server",
+			"description": "",
+			"item": [
+				{
+					"name": "Registrar USUARIO_1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": \"usuario_1\", \"tags\": [\"tags\"], \"ip\": \"127.0.0.1\", \"puerto\": \"8005\" }"
+						},
+						"url": {
+							"raw": "http://localhost:8085/buyers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"buyers"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Ofertar_Subasta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": \"usuario_1\", \"tags\": [\"tags\"], \"ip\": \"127.0.0.1\", \"puerto\": \"8005\" }"
+						},
+						"url": {
+							"raw": "http://localhost:8085/buyers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"buyers"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crear subasta de cosa_1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": \"usuario_1\", \"tags\": [\"tags\"], \"ip\": \"127.0.0.1\", \"puerto\": \"8005\" }"
+						},
+						"url": {
+							"raw": "http://localhost:8085/buyers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"buyers"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar subasta",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":\"UUID-SUBASTA\", \"idUsuario\": \"idUsuario\", \"tags\": [\"computacion\",\"perritos\"], \"precioBase\": 2, \"tiempoFinalizacion\": 44, \"articuloNombre\": \"AMD RAZEN\", \"articuloDescripcion\": \"procesadeor AMD de ultma generacion\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8085/bids/:id_subasta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"bids",
+								":id_subasta"
+							],
+							"variable": [
+								{
+									"key": "id_subasta",
+									"value": "fe3d8b00-92a7-11e8-be74-94de806bb22b"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar TODAS subastas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":\"UUID-SUBASTA\", \"idUsuario\": \"idUsuario\", \"tags\": [\"computacion\",\"perritos\"], \"precioBase\": 2, \"tiempoFinalizacion\": 44, \"articuloNombre\": \"AMD RAZEN\", \"articuloDescripcion\": \"procesadeor AMD de ultma generacion\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8085/bids/:id_subasta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"bids",
+								":id_subasta"
+							],
+							"variable": [
+								{
+									"key": "id_subasta",
+									"value": "fe3d8b00-92a7-11e8-be74-94de806bb22b"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar TODAS subastas 8085",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":\"UUID-SUBASTA\", \"idUsuario\": \"idUsuario\", \"tags\": [\"computacion\",\"perritos\"], \"precioBase\": 2, \"tiempoFinalizacion\": 44, \"articuloNombre\": \"AMD RAZEN\", \"articuloDescripcion\": \"procesadeor AMD de ultma generacion\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8085/bids/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"bids",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar TODAS subastas 8086",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":\"UUID-SUBASTA\", \"idUsuario\": \"idUsuario\", \"tags\": [\"computacion\",\"perritos\"], \"precioBase\": 2, \"tiempoFinalizacion\": 44, \"articuloNombre\": \"AMD RAZEN\", \"articuloDescripcion\": \"procesadeor AMD de ultma generacion\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8086/bids/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8086",
+							"path": [
+								"bids",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Balanceador",
+			"description": "",
+			"item": [
+				{
+					"name": "Agregar servidor 8085",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"server1\", \"host\": \"localhost:8085\", \"weight\": 3}"
+						},
+						"url": {
+							"raw": "http://localhost:1234/inicializar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"inicializar"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar servidor 8086",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"server2\", \"host\": \"127.0.0.1:8086\", \"weight\": 3}"
+						},
+						"url": {
+							"raw": "http://localhost:1234/inicializar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"inicializar"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar servidor 8087",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"server3\", \"host\": \"127.0.0.1:8087\", \"weight\": 3}"
+						},
+						"url": {
+							"raw": "http://localhost:1234/inicializar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"inicializar"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "REPLICAR data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"server1\", \"host\": \"localhost:8085\", \"weight\": 3}"
+						},
+						"url": {
+							"raw": "http://localhost:1234/replicar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"replicar"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SINCRONIZAR data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"server1\", \"host\": \"localhost:8085\", \"weight\": 3}"
+						},
+						"url": {
+							"raw": "http://localhost:1234/sincronizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1234",
+							"path": [
+								"sincronizar"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Expresar-Interes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\": \"hernan\", \"ip\": \"192.168.1.101\", \"puerto\": 8090, \"tags\": [\"hola\"]}"
+				},
+				"url": {
+					"raw": "http://localhost:8085/buyers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"buyers"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Expresar-Interes Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idComprador\": \"hernan\", \"ip\": \"192.168.1.101\", \"puerto\": 8090, \"tags\": \"hola\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8085/buyers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"buyers"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
