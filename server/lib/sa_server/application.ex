@@ -5,7 +5,7 @@ defmodule Server.Application do
   def start(_type, _args) do
     name = System.get_env("name") || "server1"
     ip = System.get_env("ip") || "127.0.0.1"
-    port = System.get_env("port") || "8085"
+    port = System.get_env("port") || "8089"
     ip_admin = System.get_env("ip_admin") || "127.0.0.1"
     port_admin =  System.get_env("port_admin") || "1234"
 

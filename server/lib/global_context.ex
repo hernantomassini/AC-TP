@@ -46,9 +46,27 @@ defmodule GlobalContext do
   end
 
   def import_estado(%GlobalContext{subastas: subastas, usuarios: usuarios, active: active}) do
-    estado = [subastas: subastas, usuarios: usuarios, active: active]
+    subastas_convert=Enum.map(subastas, fn x-> struct_from_map(x,as: %Modelo.Subasta{}) end)
+    usuarios_convert=Enum.map(usuarios, fn x-> struct_from_map(x,as: %Modelo.Usuario{}) end)
+    estado = [subastas: subastas_convert, usuarios: usuarios_convert, active: active]
     set_estado(estado)
   end
+
+
+  defp struct_from_map(a_map, as: a_struct) do
+    # Find the keys within the map
+    keys = Map.keys(a_struct)
+           |> Enum.filter(fn x -> x != :__struct__ end)
+    # Process map, checking for both string / atom keys
+    processed_map =
+      for key <- keys, into: %{} do
+        value = Map.get(a_map, key) || Map.get(a_map, to_string(key))
+        {key, value}
+      end
+    a_struct = Map.merge(a_struct, processed_map)
+    a_struct
+  end
+
 
   def set_estado(estado) do
     put(put_in(estado[:active], true))

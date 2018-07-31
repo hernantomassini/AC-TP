@@ -58,32 +58,29 @@ defmodule Adrestia.Request do
         GlobalContext.set_endpoints(endpointsNew2)
       end
       send_resp(request.conn, :service_unavailable, "Servers Configurado #{request.body} ")
-#    else
-#      send_resp(request.conn, :service_unavailable, "There are no servers available")
+    else
+        if request.verb == :post and request.path =="sincronizar" do
+          IO.inspect(GlobalContext.get_endpoints_esclavos(), label: "ESCLAVOS")
+          broadcast_esclavos(request, request_extras)
+          send_resp(request.conn, :ok, "Servers #{inspect(GlobalContext.get_endpoints_esclavos())} sincronizados ")
+          else
+            #or request.path =="replicar"
+            #Todo tipo de peiticon se lo manda al maestro
+            unless request.verb == :get or is_nil(endpoint_maestro) or request.path == "sincronizar" or request.path =="inicializar" do
+              urlServer = endpoint_maestro.host <> "/" <> request.path
+              IO.puts "Se envia  request #{request.verb} hacia: #{urlServer}"
+            end
+
+            if request.path !="sincronizar"  do
+              response = HTTPotion.request(request.verb, urlServer, request_extras)
+            end
+
+            put_response(request, response)
+        end
+
+
+#    send_resp(request.conn, :service_unavailable, "There are no servers available")
     end
-
-
-    if request.verb == :post and request.path =="sincronizar" do
-      IO.inspect(GlobalContext.get_endpoints_esclavos(), label: "ESCLAVOS")
-      broadcast_esclavos(request, request_extras)
-      send_resp(request.conn, :ok, "Servers #{inspect(GlobalContext.get_endpoints_esclavos())} sincronizados ")
-    end
-
-
-    #or request.path =="replicar"
-    #Todo tipo de peiticon se lo manda al maestro
-    unless request.verb == :get or is_nil(endpoint_maestro) or request.path == "sincronizar" or request.path =="inicializar" do
-      urlServer = endpoint_maestro.host <> "/" <> request.path
-      IO.puts "Se envia  request #{request.verb} hacia: #{urlServer}"
-    end
-
-    if request.path !="sincronizar" do
-      response = HTTPotion.request(request.verb, urlServer, request_extras)
-    end
-    put_response(request, response)
-
-
-
 
 
 #    broadcast(request, request_extras)

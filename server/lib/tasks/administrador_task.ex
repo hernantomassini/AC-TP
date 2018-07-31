@@ -21,7 +21,9 @@ defmodule AdministradorTask do
 
     x =
       case replicarResponse do
-        {:ok, response} -> Poison.decode!(response.body, as: %GlobalContext{})
+        {:ok, response} ->
+          IO.inspect(response, label: "FLEMITA")
+          Poison.decode!(response.body, as: %GlobalContext{})
         {:error, _} -> inicializar(name, ip, port, ip_admin, port_admin)
       end
 

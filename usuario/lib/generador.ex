@@ -60,6 +60,11 @@ defmodule Generador do
     (1..5) |> Enum.map(fn x -> Generador.crearSubastaByUserId("usuario_oferta_#{x}", x*2,40) end)
   end
 
+  #Generador.crearUsuarioOfertarHasta("usuario_oferta_1", 5000,300)
+#  Enum.map(fn x -> Generador.crearSubastaByUserId("usuario_oferta_1", 402,40) end)
+#
+#  Generador.crearUsuarioOfertarHasta("usuario_oferta_3", 8000,10)
+#  (1..3) |> Enum.map(fn x -> Generador.crearUsuarioReintentos("usuario_reintento_#{x}", 4) end)
 #  def crearUsuarioReintentos(user_id,cant_reintentos) do
     #    aumentar_precio_usuario_test_1=20
     #    estrategia_oferta_reintentos= Modelo.Estrategia.reintentos(6,aumentar_precio_usuario_test_1)
