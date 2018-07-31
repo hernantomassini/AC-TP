@@ -41,27 +41,30 @@ defmodule Adrestia.Request do
       |> put_in_extras(:headers, request.headers)
       |> put_in_extras(:body, request.body)
 
-    IO.puts "Se envia un request #{request.verb} al: #{url}"
+    IO.puts "Recibo request #{request.verb} de: #{url}"
 
     broadcast(request, request_extras)
 
     if request.verb == :post and request.path == "replicar" do
       endpointsActivos = GlobalContext.get_endpoints_activos()
-      servidor_origen = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
+      servidor_destino = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
 
-      IO.inspect(servidor_origen, label: "servidor_origen")
-      IO.inspect(request.endpoint.host, label: "REPLICA_host")
+      # IO.inspect(servidor_destino, label: "servidor_destino")
+      # IO.inspect(request.endpoint.host, label: "REPLICA_host")
 
       if !is_nil(endpointsActivos) do
-        endpointsFiltered = Enum.filter(endpointsActivos, fn x -> x.host != servidor_origen.host end)
+        endpointsFiltered = Enum.filter(endpointsActivos, fn x -> x.host != servidor_destino.host end)
+
         if length(endpointsFiltered) == 0 do
           send_resp(request.conn, 418, ["No existen servidores donde se pueda hacer la replica"])
         else
           endpoint_a_pedir_estado = hd(endpointsFiltered)
           urlServer = endpoint_a_pedir_estado.host <> "/" <> request.path
-          IO.puts("Se envia un #{request.verb} - #{request.path} a #{request.verb}")
 
+          IO.puts("Pido el estado al server #{endpoint_a_pedir_estado.host}")
           responseServer = HTTPotion.request(request.verb, urlServer, request_extras)
+
+          IO.puts("Envio el estado al server #{request.endpoint.host}")
           send_resp(request.conn, 200, responseServer.body)
         end
       end
