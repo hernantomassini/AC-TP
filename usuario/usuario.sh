@@ -1,0 +1,1 @@
+name=server1 ip="127.0.0.1" port=8005 ip_admin="127.0.0.1" port_admin=1234 iex -S mix

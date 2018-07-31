@@ -4,16 +4,19 @@ defmodule Notificacion.Application do
 
   def start(_type, _args) do
     # List all child processes to be supervised
-    ip_notificacion="127.0.0.1"
-    port_notificacion=8005
+    ip = System.get_env("ip") || "127.0.0.1"
+    port = System.get_env("port") || "8005"
+    ip_admin = System.get_env("ip_admin") || "127.0.0.1"
+    port_admin =  System.get_env("port_admin") || "1234"
+
     GlobalContext.start_link([])
-    GlobalContext.set_ip(ip_notificacion)
-    GlobalContext.set_port(port_notificacion)
-    endpoint="http://127.0.0.1:8085"
+    GlobalContext.set_ip(ip)
+    GlobalContext.set_port(port)
+    endpoint="http://#{ip_admin}:#{port_admin}"
     GlobalContext.set_server_endpoint(endpoint)
 
     children = [
-      Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: Notificacion.Router, options: [port: port_notificacion]),
+      Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: Notificacion.Router, options: [port: port]),
       Usuario.Registry
     ]
 

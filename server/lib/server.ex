@@ -29,7 +29,7 @@ defmodule Server do
 
   def obtener_subastas_ofertadas(id_usuario) do
     subastas = GlobalContext.get_subastas() |> Enum.filter(fn x -> Enum.member?(Enum.map(x.participantes, fn y -> String.downcase(y) end), String.downcase(id_usuario)) end)
-    {200,Response.new(subastas, "Subastas de interes")}
+    {200, Response.new(subastas, "Subastas de interes")}
   end
 
   def obtener_subastas_de_interes(id_usuario) do
@@ -45,6 +45,7 @@ defmodule Server do
     subasta = GlobalContext.get_subasta(id_subasta)
 
     cond do
+      !Modelo.Subasta.activa?(subasta) -> {404, Response.error("No puede ofertarse en una subasta cancelada o terminada.")}
       !subasta -> {404, Response.error("El ID de la subasta no existe. Método ofertar con id #{id_subasta}")}
       String.downcase(subasta.id_usuario) === String.downcase(id_usuario) -> {500, Response.error("No podes ofertar en una subasta creada por vos mismo.")}
       valor_ofertado <= subasta.precio -> {500, Response.error("El valor ofertado es demasiado bajo.")}
@@ -78,7 +79,7 @@ defmodule Server do
 
   defp send_subastas_de_interes(tags, msg) do
     subastas = GlobalContext.get_subastas()
-    subastas_de_interes = Modelo.Usuario.subastas_de_interes(tags, subastas)
+    subastas_de_interes = Modelo.Usuario.subastas_de_interes(tags, subastas) |> Enum.filter(fn s -> Modelo.Subasta.activa?(s) end)
     Response.new(subastas_de_interes, msg)
   end
 end

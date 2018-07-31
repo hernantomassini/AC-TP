@@ -8,6 +8,12 @@ defmodule Server.Router do
   plug(:match)
   plug(:dispatch)
 
+  get "/bids" do
+    {:ok, _, conn} = read_body(conn)
+    response=Response.new(GlobalContext.get_subastas(), "Todas las subastas del server")
+    send_resp(conn, 201, response)
+  end
+
   get "/bids/:id_subasta" do
     {httpCode, response} = Server.obtener_subasta(id_subasta)
     send_resp(conn, httpCode, response)
@@ -24,19 +30,19 @@ defmodule Server.Router do
   end
 
   get "/replicar" do
-    send_resp(conn, 200, GlobalContext.get_estado())
+    # send_resp(conn, 200, GlobalContext.get_estado())
+    send_resp(conn, 200, "Get Soy el estado xD")
+  end
+
+  post "/replicar" do
+    # send_resp(conn, 200, GlobalContext.get_estado())
+    send_resp(conn, 200, "Post Soy el estado xD")
   end
 
   post "/bids" do
     {:ok, body, conn} = read_body(conn)
     body = Poison.decode!(body, as: %Modelo.Subasta{})
     response = Server.crear_subasta(body)
-    send_resp(conn, 201, response)
-  end
-
-  get "/bids" do
-    {:ok, _, conn} = read_body(conn)
-    response=Response.new(GlobalContext.get_subastas(),"Todas las subastas del server")
     send_resp(conn, 201, response)
   end
 
