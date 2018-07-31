@@ -48,6 +48,8 @@ defmodule Adrestia.Request do
     if request.verb == :post and request.path == "replicar" do
       endpointsActivos = GlobalContext.get_endpoints_activos()
       servidor_origen = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
+
+      IO.inspect(servidor_origen, label: "servidor_origen")
       IO.inspect(request.endpoint.host, label: "REPLICA_host")
 
       if !is_nil(endpointsActivos) do
