@@ -21,7 +21,8 @@ defmodule Adrestia do
     import Supervisor.Spec
 
     GlobalContext.start_link([])
-    GlobalContext.set_endpoints([])
+    Util.iniciar_contexto_servidor()
+#    GlobalContext.set_endpoints([])
     endpoints = GlobalContext.get_endpoints()
     children = [
       worker(Adrestia.Balancer, [endpoints, balance_strategy]),
