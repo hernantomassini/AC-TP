@@ -45,7 +45,7 @@ defmodule Adrestia.Request do
 
     broadcast(request, request_extras)
 
-    if request.verb == :post and request.path =="replicar" do
+    if request.verb == :post and request.path == "replicar" do
       endpointsActivos = GlobalContext.get_endpoints_activos()
       servidor_origen = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
       IO.inspect(request.endpoint.host, label: "REPLICA_host")
@@ -54,14 +54,13 @@ defmodule Adrestia.Request do
         endpointsFiltered = Enum.filter(endpointsActivos, fn x -> x.host != servidor_origen.host end)
         if length(endpointsFiltered) == 0 do
           send_resp(request.conn, 418, ["No existen servidores donde se pueda hacer la replica"])
-          #put_response(request, responseServer)
         else
-          endpointFirst = hd(endpointsFiltered)
-          IO.inspect(endpointFirst, label: "First")
-          urlServer = endpointFirst.host  <> "/"  <> request.path
+          endpoint_a_pedir_estado = hd(endpointsFiltered)
+          urlServer = endpoint_a_pedir_estado.host <> "/" <> request.path
+          IO.puts("Se envia un #{request.verb} - #{request.path} a #{request.verb}")
+
           responseServer = HTTPotion.request(request.verb, urlServer, request_extras)
-          put_response(request, responseServer)
-          #IO.inspect(responseServer, label: "responseServer TEST")
+          send_resp(request.conn, 200, responseServer.body)
         end
       end
     else
@@ -73,9 +72,10 @@ defmodule Adrestia.Request do
 
   def broadcast(request, request_extras) do
     endpoints = GlobalContext.get_endpoints_activos()
-    #IO.inspect(endpoints, label: "Endpoints Activos")
 
-    if request.verb != :get and request.path !="replicar" and !is_nil(endpoints) do
+    unless request.verb == :get or request.path == "replicar" or request.path == "inicializar" or is_nil(endpoints) do
+      IO.puts("Ejecuto broadcast")
+
       endpointsFiltered = Enum.filter(endpoints, fn x -> x.host != request.endpoint.host end)
       #IO.inspect(endpointsFiltered, label: "Endpoints para replicacion")
       Enum.map(endpointsFiltered, fn endpoint ->

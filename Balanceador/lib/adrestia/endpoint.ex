@@ -34,8 +34,9 @@ defmodule Adrestia.Endpoint do
   end
 
   defp pipeline(request, address) do
-    IO.inspect(request, label: "PIEPLIONE  ")
-    if request.verb == :post and request.path =="inicializar" do
+    IO.puts("En Pipeline se ejecuta un #{request.verb} - #{request.path}")
+
+    if request.verb == :post and request.path == "inicializar" do
       servidor_a_agregar = Poison.decode!(request.body, as: %Adrestia.Endpoint{})
       endpointsNew = GlobalContext.get_endpoints()
       if !Enum.member?(endpointsNew, servidor_a_agregar) do
