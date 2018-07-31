@@ -13,6 +13,8 @@ defmodule Server.Router do
       {:ok, _, conn} = read_body(conn)
       response=Response.new(GlobalContext.get_subastas(), "Todas las subastas del server")
       send_resp(conn, 201, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
@@ -20,6 +22,8 @@ defmodule Server.Router do
     if GlobalContext.is_active() do
       {httpCode, response} = Server.obtener_subasta(id_subasta)
       send_resp(conn, httpCode, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
@@ -27,6 +31,8 @@ defmodule Server.Router do
     if GlobalContext.is_active() do
       response = Server.obtener_subastas_de_interes(id_usuario)
       send_resp(conn, 200, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
@@ -34,6 +40,8 @@ defmodule Server.Router do
     if GlobalContext.is_active() do
       {httpCode, response} = Server.obtener_subastas_ofertadas(id_usuario)
       send_resp(conn, httpCode, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
@@ -54,6 +62,8 @@ defmodule Server.Router do
       body = Poison.decode!(body, as: %Modelo.Subasta{})
       response = Server.crear_subasta(body)
       send_resp(conn, 201, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
@@ -63,6 +73,8 @@ defmodule Server.Router do
       body = Poison.decode!(body, as: %Modelo.Usuario{})
       response = Server.registrar_usuario(body)
       send_resp(conn, 201, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
@@ -72,6 +84,8 @@ defmodule Server.Router do
       body = Poison.decode!(body, as: %Modelo.Oferta{})
       {httpCode, response} = Server.ofertar(body)
       send_resp(conn, httpCode, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
@@ -79,6 +93,8 @@ defmodule Server.Router do
     if GlobalContext.is_active() do
       {httpCode, response} = Server.cancelar_subasta(id_usuario, id_subasta)
       send_resp(conn, httpCode, response)
+    else
+      send_resp(conn, 500, "El servidor todavía no se sincronizo con el cliente - no acepta requests")
     end
   end
 
