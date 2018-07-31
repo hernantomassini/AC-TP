@@ -72,7 +72,7 @@ defmodule Adrestia.Request do
 
     #or request.path =="replicar"
     #Todo tipo de peiticon se lo manda al maestro
-    unless request.verb == :get or is_nil(endpoint_maestro) or request.path == "sincronizar" or request.path =="inicializar"do
+    unless request.verb == :get or is_nil(endpoint_maestro) or request.path == "sincronizar" or request.path =="inicializar" do
       urlServer = endpoint_maestro.host <> "/" <> request.path
       IO.puts "Se envia  request #{request.verb} hacia: #{urlServer}"
     end

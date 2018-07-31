@@ -41,6 +41,13 @@ defmodule Server.Router do
     send_resp(conn, 200, Poison.encode!(GlobalContext.export_estado()))
   end
 
+  post "/sincronizar" do
+    {:ok, body, conn} = read_body(conn)
+    body = Poison.decode!(body, as: %GlobalContext{})
+    GlobalContext.import_estado(body)
+    send_resp(conn, 200, "")
+  end
+
   post "/bids" do
     if GlobalContext.is_active() do
       {:ok, body, conn} = read_body(conn)

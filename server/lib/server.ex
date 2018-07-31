@@ -4,6 +4,7 @@ defmodule Server do
   def crear_subasta(subasta_no_inicializada) do
     subasta = Modelo.Subasta.new(subasta_no_inicializada)
     GlobalContext.crear_subasta(subasta)
+    Sincronizar.execute()
 
     IO.inspect(subasta.id, label: "ID subasta creada")
     IO.inspect(subasta, label: "subasta creada")
@@ -15,6 +16,8 @@ defmodule Server do
 
   def registrar_usuario(usuario = %Modelo.Usuario{tags: tags}) do
     GlobalContext.registrar_usuario(usuario)
+    Sincronizar.execute()
+
     send_subastas_de_interes(tags, "El usuario fue agregado con éxito.")
   end
 
@@ -55,6 +58,8 @@ defmodule Server do
           |> Map.put(:participantes, [ id_usuario | subasta.participantes] |> Enum.uniq())
 
         GlobalContext.modificar_subasta(subasta)
+        Sincronizar.execute()
+
         Task.async(NotificarTask, :nueva_oferta, [subasta])
 
         {200, Response.new("La oferta ha sido aceptada.")}
@@ -70,6 +75,7 @@ defmodule Server do
       true ->
         subasta = Map.put(subasta, :estado, :cancelada)
         GlobalContext.modificar_subasta(subasta)
+        Sincronizar.execute()
 
         Task.async(NotificarTask, :subasta_cancelada, [subasta])
         {200, Response.new("La subasta ha sido cancelada.")}

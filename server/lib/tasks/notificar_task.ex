@@ -18,6 +18,7 @@ defmodule NotificarTask do
 
     end)
 
+    Sincronizar.execute()
     kill_task()
   end
 

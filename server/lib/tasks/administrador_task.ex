@@ -30,6 +30,9 @@ defmodule AdministradorTask do
 
     IO.puts("Conexion establecida con el administrador.")
 
+    AdminContext.set_ip(ip_admin)
+    AdminContext.set_port(port_admin)
+
     kill_task()
   end
 

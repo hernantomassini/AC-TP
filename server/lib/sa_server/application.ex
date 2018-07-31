@@ -13,6 +13,7 @@ defmodule Server.Application do
     children = [
       Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: Server.Router, options: [port: String.to_integer(port)]),
       GlobalContext,
+      AdminContext,
       { Task, fn -> AdministradorTask.inicializar(name, ip, port, ip_admin, port_admin) end }
     ]
 

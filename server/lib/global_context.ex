@@ -45,6 +45,11 @@ defmodule GlobalContext do
     %GlobalContext{subastas: estado[:subastas], usuarios: estado[:usuarios], active: estado[:active]}
   end
 
+  def import_estado(%GlobalContext{subastas: subastas, usuarios: usuarios, active: active}) do
+    estado = [subastas: subastas, usuarios: usuarios, active: active]
+    set_estado(estado)
+  end
+
   def set_estado(estado) do
     put(put_in(estado[:active], true))
   end
