@@ -25,7 +25,7 @@ defmodule Adrestia.Endpoint do
       end
       send_resp(request.conn, :service_unavailable, "Servers Configurado #{request.body} ")
     else
-      send_resp(request.conn, :service_unavailable, "There are no servers available")
+      send_resp(request.conn, :service_unavailable, Poison.encode!(%Server.State{subastas: [], usuarios: [], active: true}))
     end
 
   end

@@ -62,11 +62,13 @@ defmodule Adrestia.Request do
 #      send_resp(request.conn, :service_unavailable, "There are no servers available")
     end
 
+
     if request.verb == :post and request.path =="sincronizar" do
       IO.inspect(GlobalContext.get_endpoints_esclavos(), label: "ESCLAVOS")
       broadcast_esclavos(request, request_extras)
       send_resp(request.conn, :ok, "Servers #{inspect(GlobalContext.get_endpoints_esclavos())} sincronizados ")
     end
+
 
     #or request.path =="replicar"
     #Todo tipo de peiticon se lo manda al maestro
