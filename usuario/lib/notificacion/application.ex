@@ -16,7 +16,7 @@ defmodule Notificacion.Application do
     GlobalContext.set_server_endpoint(endpoint)
 
     children = [
-      Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: Notificacion.Router, options: [port: port]),
+      Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: Notificacion.Router, options: [port:  String.to_integer(port)]),
       Usuario.Registry
     ]
 
